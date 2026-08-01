@@ -98,33 +98,46 @@ section[data-testid="stSidebar"] .stRadio label {
     margin: 0 !important;
 }
 
-/* Metric Cards */
+/* Metric Cards Responsive Mobile Styling */
 [data-testid="stMetric"] {
     background: #FFFFFF !important;
-    padding: 20px 22px !important;
-    border-radius: 18px !important;
+    padding: 14px 16px !important;
+    border-radius: 16px !important;
     border: 1px solid #E2E8F0 !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03) !important;
-    transition: all 0.25s ease-in-out !important;
-}
-
-[data-testid="stMetric"]:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 10px 25px rgba(37,99,235,0.10) !important;
-    border-color: #BFDBFE !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
+    min-width: 110px !important;
 }
 
 [data-testid="stMetricValue"] {
     font-weight: 800 !important;
-    font-size: 28px !important;
+    font-size: clamp(16px, 4vw, 24px) !important;
     color: #0F172A !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 [data-testid="stMetricLabel"] {
     font-weight: 600 !important;
-    font-size: 13px !important;
+    font-size: clamp(11px, 2.8vw, 13px) !important;
     color: #64748B !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    line-height: 1.2 !important;
 }
+
+/* Allow horizontal metric blocks to wrap nicely on narrow screens */
+@media (max-width: 768px) {
+    [data-testid="stHorizontalBlock"] {
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+    }
+    [data-testid="stColumn"] {
+        min-width: calc(48% - 6px) !important;
+        flex: 1 1 calc(48% - 6px) !important;
+    }
+}
+
 
 /* Buttons */
 .stButton > button, .stFormSubmitButton > button {
