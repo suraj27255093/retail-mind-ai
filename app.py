@@ -212,8 +212,8 @@ if not st.session_state["logged_in"]:
         
         with st.form("login_form"):
             st.subheader("🔐 Secure Sign In")
-            user_input = st.text_input("Username", value="admin")
-            pass_input = st.text_input("Password", type="password", value="admin123")
+            user_input = st.text_input("Username", placeholder="e.g. admin")
+            pass_input = st.text_input("Password", type="password", placeholder="••••••••")
             role_input = st.selectbox("Role", ["Admin", "Store Manager", "Staff Account"])
             
             remember_me = st.checkbox("Remember session", value=True)
