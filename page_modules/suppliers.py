@@ -89,8 +89,8 @@ st.write("")
 tab_s1, tab_s2, tab_s3 = st.tabs(["🏢 Supplier Directory", "📊 Supplier Analytics", "➕ Register New Supplier"])
 
 with tab_s1:
-    search_s = st.text_input("🔍 Search suppliers", placeholder="Search by name, category, address...")
-    status_f = st.multiselect("Filter by Status", ["Active", "Pending", "Inactive"], default=[])
+    search_s = st.text_input("🔍 Search suppliers", placeholder="Search by name, category, address...", key="sup_search_input")
+    status_f = st.multiselect("Filter by Status", ["Active", "Pending", "Inactive"], default=[], key="sup_status_filter")
 
     view_sup = sup_df.copy()
     if search_s:
