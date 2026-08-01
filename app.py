@@ -238,8 +238,14 @@ if not st.session_state["logged_in"]:
     st.stop() # Stop execution here so no app page is shown until logged in!
 
 # =====================================================
-# DATABASE UTILITIES
+# DATABASE & ROUTER UTILITIES
 # =====================================================
+
+def run_page(module_filename):
+    filepath = f"page_modules/{module_filename}"
+    with open(filepath, "r", encoding="utf-8") as f:
+        code = f.read()
+    exec(code, globals())
 
 @st.cache_data(ttl=30)
 def load_db_data():
@@ -402,62 +408,53 @@ if menu == "🏠 Executive Dashboard":
 # 2. 🤖 AI ASSISTANT
 # =====================================================
 elif menu == "🤖 AI Assistant":
-    import page_modules.ai_assistant as ai_module
-    importlib.reload(ai_module)
+    run_page("ai_assistant.py")
 
 # =====================================================
 # 3. 📦 INVENTORY MANAGER
 # =====================================================
 elif menu == "📦 Inventory Manager":
-    import page_modules.inventory as inventory_module
-    importlib.reload(inventory_module)
+    run_page("inventory.py")
 
 # =====================================================
 # 4. 🌾 MARKET RATES
 # =====================================================
 elif menu == "🌾 Market Rates":
-    import page_modules.market_rates as market_module
-    importlib.reload(market_module)
+    run_page("market_rates.py")
 
 # =====================================================
 # 5. 🏢 SUPPLIERS DIRECTORY
 # =====================================================
 elif menu == "🏢 Suppliers Directory":
-    import page_modules.suppliers as supplier_module
-    importlib.reload(supplier_module)
+    run_page("suppliers.py")
 
 # =====================================================
 # 6. 🧾 BILLING & POS
 # =====================================================
 elif menu == "🧾 Billing & POS":
-    import page_modules.billing as billing_module
-    importlib.reload(billing_module)
+    run_page("billing.py")
 
 # =====================================================
 # 7. 👥 CUSTOMERS & CRM
 # =====================================================
 elif menu == "👥 Customers & CRM":
-    import page_modules.customers as customer_module
-    importlib.reload(customer_module)
+    run_page("customers.py")
 
 # =====================================================
 # 8. 📈 BUSINESS ANALYTICS
 # =====================================================
 elif menu == "📈 Business Analytics":
-    import page_modules.analytics as analytics_module
-    importlib.reload(analytics_module)
+    run_page("analytics.py")
 
 # =====================================================
 # 9. 📄 REPORTS & EXPORT
 # =====================================================
 elif menu == "📄 Reports & Export":
-    import page_modules.reports as reports_module
-    importlib.reload(reports_module)
+    run_page("reports.py")
 
 # =====================================================
 # 10. ⚙️ SYSTEM SETTINGS
 # =====================================================
 elif menu == "⚙️ System Settings":
-    import page_modules.settings as settings_module
-    importlib.reload(settings_module)
+    run_page("settings.py")
 
