@@ -322,7 +322,8 @@ menu = st.sidebar.radio(
         "🧾 Billing & POS",
         "👥 Customers & CRM",
         "📈 Business Analytics",
-        "⚙️ System Settings"
+        "⚙️ System Settings",
+        "ℹ️ About & Developer"
     ]
 )
 
@@ -475,6 +476,12 @@ elif menu == "📄 Reports & Export":
 # =====================================================
 elif menu == "⚙️ System Settings":
     run_page("settings.py")
+
+# =====================================================
+# 11. ℹ️ ABOUT & DEVELOPER
+# =====================================================
+elif menu == "ℹ️ About & Developer":
+    run_page("about.py")
 
 # =====================================================
 # 🌐 GLOBAL MASTER FOOTER (ACROSS ALL PAGES)
