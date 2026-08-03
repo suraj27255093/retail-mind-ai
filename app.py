@@ -186,10 +186,13 @@ if "role" not in st.session_state:
 
 if not st.session_state["logged_in"]:
     st.markdown("""
-    <div style="text-align: center; margin-top: 30px;">
+    <div style="text-align: center; margin-top: 25px; margin-bottom: 20px;">
         <div style="font-size: 64px;">🛒</div>
-        <h1 style="font-weight: 800; color: #0F172A; margin-bottom: 5px;">RetailMind AI</h1>
-        <p style="color: #64748B; font-size: 16px;">Smart Enterprise Retail & Market Intelligence Portal</p>
+        <h1 style="font-weight: 900; color: #0F172A; margin-bottom: 4px; font-size: 42px;">RetailMind AI</h1>
+        <p style="color: #64748B; font-size: 16px; margin-bottom: 10px;">Smart Enterprise Retail & Market Intelligence Portal</p>
+        <div style="display: inline-block; background: linear-gradient(135deg, #2563EB, #1D4ED8); color: white; padding: 6px 18px; border-radius: 20px; font-size: 14px; font-weight: 800; box-shadow: 0 4px 12px rgba(37,99,235,0.25);">
+            💻 Developed by Suraj V. Shewale
+        </div>
     </div>
     """, unsafe_allow_html=True)
     
