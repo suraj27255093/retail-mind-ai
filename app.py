@@ -487,18 +487,13 @@ elif menu == "ℹ️ About & Developer":
 # 🌐 GLOBAL MASTER FOOTER (ACROSS ALL PAGES)
 # =====================================================
 st.write("")
-st.markdown("""
-<div style="background:#FFFFFF; border-top:1px solid #E2E8F0; padding:25px 15px 15px 15px; margin-top:50px; font-family:'Inter', sans-serif;">
-    
-    <!-- Social Media Follow Section -->
+st.markdown("""<div style="background:#FFFFFF; border-top:1px solid #E2E8F0; padding:25px 15px 15px 15px; margin-top:50px; font-family:'Inter', sans-serif;">
     <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px; flex-wrap:wrap;">
         <span style="font-size:15px; font-weight:800; color:#0F172A;">Follow Suraj V. Shewale on:</span>
         <a href="https://linkedin.com" target="_blank" style="text-decoration:none; color:#0A66C2; font-weight:700; font-size:14px;">🔗 LinkedIn</a>
         <a href="https://github.com/suraj27255093" target="_blank" style="text-decoration:none; color:#24292F; font-weight:700; font-size:14px;">💻 GitHub</a>
         <a href="https://instagram.com/surya_patil_2725" target="_blank" style="text-decoration:none; color:#E1306C; font-weight:700; font-size:14px;">📸 Instagram</a>
     </div>
-
-    <!-- Footer Policy Links -->
     <div style="display:flex; flex-wrap:wrap; gap:16px; font-size:13px; color:#334155; margin-bottom:16px;">
         <span style="font-weight:500;">Terms of Use</span>
         <span style="font-weight:500;">Privacy Policy</span>
@@ -508,13 +503,9 @@ st.markdown("""
         <span style="font-weight:500;">Documentation & API</span>
         <span style="font-weight:500;">Help & FAQs</span>
     </div>
-
-    <!-- Copyright Bar -->
     <div style="font-size:13px; color:#0F172A; font-weight:400; border-top:1px solid #F1F5F9; padding-top:14px;">
         Copyright © 2026 <b>RetailMind AI</b>. All rights reserved. Developed by <b>Suraj V. Shewale</b>.
     </div>
-
-</div>
-""", unsafe_allow_html=True)
+</div>""", unsafe_allow_html=True)
 
 
