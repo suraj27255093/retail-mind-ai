@@ -488,53 +488,30 @@ elif menu == "ℹ️ About & Developer":
 # =====================================================
 st.write("")
 st.markdown("""
-<div style="background:#FFFFFF; border-top:2px solid #E2E8F0; padding:30px 15px 15px 15px; margin-top:50px; font-family:'Inter', sans-serif; border-radius:16px; border:1px solid #E2E8F0;">
+<div style="background:#FFFFFF; border-top:1px solid #E2E8F0; padding:25px 15px 15px 15px; margin-top:50px; font-family:'Inter', sans-serif;">
     
-    <!-- Top Nav Links Bar -->
-    <div style="display:flex; flex-wrap:wrap; gap:18px; font-size:14px; font-weight:700; color:#0F172A; margin-bottom:20px; border-bottom:1px solid #F1F5F9; padding-bottom:15px;">
-        <span>Home</span>
-        <span>Dashboard</span>
-        <span>AI Assistant</span>
-        <span>Inventory</span>
-        <span>Market Rates</span>
-        <span>POS Billing</span>
-        <span>CRM Loyalty</span>
-        <span>Analytics</span>
-        <span>Reports</span>
-        <span>Settings</span>
-        <span style="color:#2563EB;">About & Contact</span>
-    </div>
-
-    <!-- Language & Region Selector -->
-    <div style="margin-bottom:25px;">
-        <div style="display:inline-block; background:#F1F5F9; border:1px solid #CBD5E1; padding:8px 16px; border-radius:8px; font-size:13px; font-weight:700; color:#334155;">
-            🌐 RetailMind Regional: <b>English (India) ▼</b>
-        </div>
-    </div>
-
     <!-- Social Media Follow Section -->
-    <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap;">
+    <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px; flex-wrap:wrap;">
         <span style="font-size:15px; font-weight:800; color:#0F172A;">Follow Suraj V. Shewale on:</span>
-        <a href="https://linkedin.com" target="_blank" style="text-decoration:none; background:#0A66C2; color:white; padding:5px 14px; border-radius:6px; font-size:13px; font-weight:700;">🔗 LinkedIn</a>
-        <a href="https://github.com/suraj27255093" target="_blank" style="text-decoration:none; background:#24292F; color:white; padding:5px 14px; border-radius:6px; font-size:13px; font-weight:700;">💻 GitHub</a>
-        <a href="https://instagram.com/surya_patil_2725" target="_blank" style="text-decoration:none; background:linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color:white; padding:5px 14px; border-radius:6px; font-size:13px; font-weight:700;">📸 Instagram</a>
+        <a href="https://linkedin.com" target="_blank" style="text-decoration:none; color:#0A66C2; font-weight:700; font-size:14px;">🔗 LinkedIn</a>
+        <a href="https://github.com/suraj27255093" target="_blank" style="text-decoration:none; color:#24292F; font-weight:700; font-size:14px;">💻 GitHub</a>
+        <a href="https://instagram.com/surya_patil_2725" target="_blank" style="text-decoration:none; color:#E1306C; font-weight:700; font-size:14px;">📸 Instagram</a>
     </div>
 
     <!-- Footer Policy Links -->
-    <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:#64748B; margin-bottom:18px;">
-        <span style="font-weight:600;">Terms of Use</span> •
-        <span style="font-weight:600;">System Privacy Policy</span> •
-        <span style="font-weight:600;">Security Guidelines</span> •
-        <span style="font-weight:600;">About Developer</span> •
-        <span style="font-weight:600;">Contact Suraj V. Shewale</span> •
-        <span style="font-weight:600;">Documentation & API</span> •
-        <span style="font-weight:600;">Help & FAQs</span>
+    <div style="display:flex; flex-wrap:wrap; gap:16px; font-size:13px; color:#334155; margin-bottom:16px;">
+        <span style="font-weight:500;">Terms of Use</span>
+        <span style="font-weight:500;">Privacy Policy</span>
+        <span style="font-weight:500;">Security Guidelines</span>
+        <span style="font-weight:500;">About Developer</span>
+        <span style="font-weight:500;">Contact Suraj V. Shewale</span>
+        <span style="font-weight:500;">Documentation & API</span>
+        <span style="font-weight:500;">Help & FAQs</span>
     </div>
 
     <!-- Copyright Bar -->
-    <div style="font-size:12px; color:#94A3B8; border-top:1px solid #F1F5F9; padding-top:14px;">
-        Copyright © 2026 <b>RetailMind AI</b>. All rights reserved. Developed by <b>Suraj V. Shewale</b>. <br>
-        <span style="font-size:11px;">RetailMind AI is not responsible for external content or third-party market data variations.</span>
+    <div style="font-size:13px; color:#0F172A; font-weight:400; border-top:1px solid #F1F5F9; padding-top:14px;">
+        Copyright © 2026 <b>RetailMind AI</b>. All rights reserved. Developed by <b>Suraj V. Shewale</b>.
     </div>
 
 </div>
