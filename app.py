@@ -325,10 +325,12 @@ menu = st.sidebar.radio(
 
 st.sidebar.divider()
 st.sidebar.markdown("""
-<div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:12px; font-size:12px; color:#94A3B8;">
+<div style="padding:12px; background:rgba(255,255,255,0.06); border-radius:14px; font-size:12px; color:#94A3B8; border: 1px solid rgba(255,255,255,0.1);">
     🟢 <b>System Status:</b> Online<br>
     💾 <b>Database:</b> Connected<br>
     🤖 <b>AI Engine:</b> Active
+    <hr style="margin:8px 0; border-color:rgba(255,255,255,0.1);">
+    <div style="font-weight:700; color:#60A5FA; text-align:center;">💻 Developed by Suraj V. Shewale</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -470,4 +472,19 @@ elif menu == "📄 Reports & Export":
 # =====================================================
 elif menu == "⚙️ System Settings":
     run_page("settings.py")
+
+# =====================================================
+# 🌐 GLOBAL MASTER FOOTER (ACROSS ALL PAGES)
+# =====================================================
+st.write("")
+st.markdown("""
+<div style="margin-top: 50px; padding: 18px 25px; background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border-radius: 16px; border: 1px solid #334155; text-align: center; color: #94A3B8; font-size: 13px;">
+    <span style="font-weight: 700; color: #F8FAFC; font-size: 14px;">🛒 RetailMind AI v2.0</span> &nbsp;|&nbsp; 
+    Smart Enterprise Retail & Market Intelligence Platform<br>
+    <div style="margin-top: 6px; font-weight: 700; color: #60A5FA; font-size: 14px;">
+        💻 Developed by <u>Suraj V. Shewale</u>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
 
