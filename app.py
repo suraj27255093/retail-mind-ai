@@ -178,76 +178,101 @@ header[data-testid="stHeader"] { background: transparent; }
 </style>
 """, unsafe_allow_html=True)
 
+# Initialize Landing Page / Login Toggle State
+if "show_login" not in st.session_state:
+    st.session_state["show_login"] = False
+
 # ── PUBLIC LANDING PAGE & LOGIN GATEWAY ───────────────
 from page_modules.landing import render_public_landing
 
 if not st.session_state["logged_in"]:
-    # Display Public Landing Showcase
-    render_public_landing()
-    
-    st.markdown("""
-    <div style="text-align:center; margin: 30px 0 20px 0;">
-        <div style="display:inline-block; background:linear-gradient(135deg, #0F172A, #1E293B); padding:10px 28px; border-radius:30px; border:1px solid #334155;">
-            <h2 style="margin:0; color:#FFFFFF; font-size:22px; font-weight:800;">🔐 RetailMind AI Portal Login</h2>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col_l1, col_l2, col_l3 = st.columns([1, 1.3, 1])
-    
-    with col_l2:
-        st.markdown("### ⚡ Quick Demo Login (One-Click)")
-        d_col1, d_col2, d_col3 = st.columns(3)
-        with d_col1:
-            if st.button("👑 Admin Demo", use_container_width=True, key="demo_admin_btn"):
-                user_info = AuthService.authenticate_user("admin", "admin123")
-                if user_info:
-                    st.session_state["logged_in"] = True
-                    st.session_state["username"] = user_info["username"]
-                    st.session_state["role"] = user_info["role"]
-                    st.toast("Welcome Admin!", icon="👑")
-                    st.rerun()
-        with d_col2:
-            if st.button("👔 Manager Demo", use_container_width=True, key="demo_mgr_btn"):
-                user_info = AuthService.authenticate_user("manager", "admin123")
-                if user_info:
-                    st.session_state["logged_in"] = True
-                    st.session_state["username"] = user_info["username"]
-                    st.session_state["role"] = user_info["role"]
-                    st.toast("Welcome Manager!", icon="👔")
-                    st.rerun()
-        with d_col3:
-            if st.button("🧑‍💼 Staff Demo", use_container_width=True, key="demo_staff_btn"):
-                user_info = AuthService.authenticate_user("staff", "admin123")
-                if user_info:
-                    st.session_state["logged_in"] = True
-                    st.session_state["username"] = user_info["username"]
-                    st.session_state["role"] = user_info["role"]
-                    st.toast("Welcome Staff!", icon="🧑‍💼")
-                    st.rerun()
-
-        st.divider()
-        st.info("💡 **Manual Credentials:** Username: `admin` | Password: `admin123`")
+    if not st.session_state["show_login"]:
+        # Render Pure Commercial Landing Page
+        render_public_landing()
         
-        with st.form("login_form"):
-            st.subheader("🔐 Secure Sign In")
-            user_input = st.text_input("Username", placeholder="e.g. admin")
-            pass_input = st.text_input("Password", type="password", placeholder="••••••••")
+        # Central Single CTA Button
+        c_l1, c_l2, c_l3 = st.columns([1, 1.2, 1])
+        with c_l2:
+            st.markdown("""
+            <div style="text-align: center; margin-top: 10px; margin-bottom: 25px;">
+                <p style="font-size: 16px; color: #64748B; font-weight: 600;">Ready to transform your retail business?</p>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button("🚀 Sign In / Enter RetailMind Portal", use_container_width=True, key="landing_signin_cta_btn"):
+                st.session_state["show_login"] = True
+                st.rerun()
+        st.stop()
+    else:
+        # Render Dedicated Login Screen
+        b_col1, b_col2 = st.columns([1, 4])
+        with b_col1:
+            if st.button("⬅️ Back to Home", key="back_to_landing_btn"):
+                st.session_state["show_login"] = False
+                st.rerun()
+                
+        st.markdown("""
+        <div style="text-align: center; margin-top: 15px; margin-bottom: 20px;">
+            <div style="font-size: 54px;">🛒</div>
+            <h1 style="font-weight: 900; color: #0F172A; margin-bottom: 4px; font-size: 38px;">RetailMind AI Portal</h1>
+            <p style="color: #64748B; font-size: 15px; margin-bottom: 10px;">Smart Enterprise Retail & Market Intelligence System</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        col_l1, col_l2, col_l3 = st.columns([1, 1.2, 1])
+        
+        with col_l2:
+            st.markdown("### ⚡ Quick Demo Login (One-Click)")
+            d_col1, d_col2, d_col3 = st.columns(3)
+            with d_col1:
+                if st.button("👑 Admin", use_container_width=True, key="demo_admin_btn"):
+                    user_info = AuthService.authenticate_user("admin", "admin123")
+                    if user_info:
+                        st.session_state["logged_in"] = True
+                        st.session_state["username"] = user_info["username"]
+                        st.session_state["role"] = user_info["role"]
+                        st.toast("Welcome Admin!", icon="👑")
+                        st.rerun()
+            with d_col2:
+                if st.button("👔 Manager", use_container_width=True, key="demo_mgr_btn"):
+                    user_info = AuthService.authenticate_user("manager", "admin123")
+                    if user_info:
+                        st.session_state["logged_in"] = True
+                        st.session_state["username"] = user_info["username"]
+                        st.session_state["role"] = user_info["role"]
+                        st.toast("Welcome Manager!", icon="👔")
+                        st.rerun()
+            with d_col3:
+                if st.button("🧑‍💼 Staff", use_container_width=True, key="demo_staff_btn"):
+                    user_info = AuthService.authenticate_user("staff", "admin123")
+                    if user_info:
+                        st.session_state["logged_in"] = True
+                        st.session_state["username"] = user_info["username"]
+                        st.session_state["role"] = user_info["role"]
+                        st.toast("Welcome Staff!", icon="🧑‍💼")
+                        st.rerun()
+
+            st.divider()
+            st.info("💡 **Manual Credentials:** Username: `admin` | Password: `admin123`")
             
-            submit_login = st.form_submit_button("🚀 Sign In to RetailMind AI", use_container_width=True)
-            
-            if submit_login:
-                user_info = AuthService.authenticate_user(user_input, pass_input)
-                if user_info:
-                    st.session_state["logged_in"] = True
-                    st.session_state["username"] = user_info["username"]
-                    st.session_state["role"] = user_info["role"]
-                    st.success("✅ Login successful!")
-                    st.rerun()
-                else:
-                    st.error("Invalid username or password. Please try again.")
-                    
-    st.stop()
+            with st.form("login_form"):
+                st.subheader("🔐 Secure Sign In")
+                user_input = st.text_input("Username", placeholder="e.g. admin")
+                pass_input = st.text_input("Password", type="password", placeholder="••••••••")
+                
+                submit_login = st.form_submit_button("🚀 Sign In to RetailMind AI", use_container_width=True)
+                
+                if submit_login:
+                    user_info = AuthService.authenticate_user(user_input, pass_input)
+                    if user_info:
+                        st.session_state["logged_in"] = True
+                        st.session_state["username"] = user_info["username"]
+                        st.session_state["role"] = user_info["role"]
+                        st.success("✅ Login successful!")
+                        st.rerun()
+                    else:
+                        st.error("Invalid username or password. Please try again.")
+                        
+        st.stop()
 
 # ── ROUTER UTILITY ──────────────────────────────────
 def run_page(module_filename: str) -> None:
