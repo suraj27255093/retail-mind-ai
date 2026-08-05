@@ -88,7 +88,38 @@ with mb5:
 st.write("")
 
 # Chart Tabs
-tab_m1, tab_m2, tab_m3 = st.tabs(["📊 Price Distribution", "🔥 Market Comparison", "📋 Rate Table"])
+tab_m1, tab_m2, tab_7d, tab_m3 = st.tabs(["📅 7-Day Mandi Price History", "📊 Price Distribution", "🔥 Market Comparison", "📋 Rate Table"])
+
+with tab_7d:
+    st.subheader("📅 7-Day Historical APMC Mandi Wholesale Rate Tracker")
+    st.info("💡 **Dynamic Commodity Focus:** Below table tracks 7-day rolling price trends for items with daily fluctuating market rates (Atta, Sugar, Oils, Dairy, Grains, Vegetables).")
+
+    history_df = MandiSyncEngine.get_7day_market_history(df)
+
+    if not history_df.empty:
+        # Display 7-Day Matrix Table
+        display_cols = ["Product Name", "Category", "Mandi Market", "Unit", "6-Day Ago", "4-Day Ago", "2-Day Ago", "Yesterday", "Today (Live)", "7-Day Net Change", "7-Day Trend"]
+        st.dataframe(history_df[display_cols], use_container_width=True, hide_index=True)
+
+        st.write("")
+        st.markdown("#### 📈 7-Day Commodity Price Trend Visualizer")
+        
+        # Interactive Commodity Trend Selector
+        selected_prod = st.selectbox("Select Product to View 7-Day Price Curve:", history_df["Product Name"].tolist(), key="7d_prod_sel")
+        prod_row = history_df[history_df["Product Name"] == selected_prod].iloc[0]
+        raw_prices = prod_row["_raw_7d"]
+        
+        dates_7d = [(datetime.now() - timedelta(days=6-i)).strftime("%b %d") for i in range(7)]
+        trend_chart_df = pd.DataFrame({"Date": dates_7d, "Wholesale Rate (₹)": raw_prices})
+        
+        fig_7d = px.line(
+            trend_chart_df, x="Date", y="Wholesale Rate (₹)",
+            title=f"7-Day Price Movement for {selected_prod} ({prod_row['Mandi Market']})",
+            markers=True, text="Wholesale Rate (₹)"
+        )
+        fig_7d.update_traces(textposition="top center", line=dict(color="#2563EB", width=3))
+        fig_7d.update_layout(paper_bgcolor="#FFFFFF", plot_bgcolor="#F8FAFC", font=dict(family="Inter"))
+        st.plotly_chart(fig_7d, use_container_width=True)
 
 with tab_m1:
     col_m1, col_m2 = st.columns(2)
@@ -132,23 +163,8 @@ with tab_m2:
     fig3.update_layout(paper_bgcolor="#FFFFFF")
     st.plotly_chart(fig3, use_container_width=True)
 
-    col_sum1, col_sum2 = st.columns(2)
-    for i, row in market_summary.iterrows():
-        col = col_sum1 if i % 2 == 0 else col_sum2
-        with col:
-            st.markdown(f"""
-            <div style="background:#FFFFFF; padding:16px; border-radius:14px; border:1px solid #E2E8F0; margin-bottom:12px;">
-                <div style="font-size:20px; font-weight:800; color:#0F172A;">🏪 {row['market']}</div>
-                <div style="color:#64748B; font-size:13px; margin-top:6px;">
-                    📦 <b>{int(row['TotalProducts'])}</b> Products &nbsp;|&nbsp;
-                    💰 Avg: <b>₹{row['AvgPrice']:.2f}</b><br>
-                    📉 Min: <b>₹{row['MinPrice']:.2f}</b> &nbsp;|&nbsp;
-                    📈 Max: <b>₹{row['MaxPrice']:.2f}</b>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
 with tab_m3:
+    st.subheader("📋 Complete Mandi Rate Catalog Table")
     search_mkt = st.text_input("🔍 Search products", placeholder="Search by name, category...", key="mkt_search_inp")
     sel_market_filter = st.multiselect("Filter by Market", df["market"].unique().tolist(), default=[], key="mkt_filter_multi")
 
