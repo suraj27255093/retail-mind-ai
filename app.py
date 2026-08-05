@@ -178,20 +178,22 @@ header[data-testid="stHeader"] { background: transparent; }
 </style>
 """, unsafe_allow_html=True)
 
-# ── LOGIN GATEWAY ───────────────────────────────────
+# ── PUBLIC LANDING PAGE & LOGIN GATEWAY ───────────────
+from page_modules.landing import render_public_landing
+
 if not st.session_state["logged_in"]:
+    # Display Public Landing Showcase
+    render_public_landing()
+    
     st.markdown("""
-    <div style="text-align: center; margin-top: 25px; margin-bottom: 20px;">
-        <div style="font-size: 64px;">🛒</div>
-        <h1 style="font-weight: 900; color: #0F172A; margin-bottom: 4px; font-size: 42px;">RetailMind AI</h1>
-        <p style="color: #64748B; font-size: 16px; margin-bottom: 10px;">Smart Enterprise Retail & Market Intelligence Portal</p>
-        <div style="display: inline-block; background: linear-gradient(135deg, #2563EB, #1D4ED8); color: white; padding: 6px 18px; border-radius: 20px; font-size: 14px; font-weight: 800; box-shadow: 0 4px 12px rgba(37,99,235,0.25);">
-            💻 Developed by Suraj V. Shewale
+    <div style="text-align:center; margin: 30px 0 20px 0;">
+        <div style="display:inline-block; background:linear-gradient(135deg, #0F172A, #1E293B); padding:10px 28px; border-radius:30px; border:1px solid #334155;">
+            <h2 style="margin:0; color:#FFFFFF; font-size:22px; font-weight:800;">🔐 RetailMind AI Portal Login</h2>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    col_l1, col_l2, col_l3 = st.columns([1, 1.2, 1])
+
+    col_l1, col_l2, col_l3 = st.columns([1, 1.3, 1])
     
     with col_l2:
         st.markdown("### ⚡ Quick Demo Login (One-Click)")
