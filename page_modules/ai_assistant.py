@@ -15,38 +15,12 @@ import re
 # DATABASE HELPER
 # =====================================================
 
-@st.cache_data(ttl=60)
+from database.db_manager import DatabaseManager
+from services.ai_engine import AIEngine
+
+@st.cache_data(ttl=30)
 def get_products_data():
-    conn = sqlite3.connect("retailmind.db")
-    df = pd.read_sql_query("SELECT * FROM products", conn)
-    conn.close()
-
-    if 'selling_price' not in df.columns and 'price' in df.columns:
-        df['selling_price'] = df['price']
-    elif 'selling_price' in df.columns and 'price' not in df.columns:
-        df['price'] = df['selling_price']
-
-    df['selling_price'] = pd.to_numeric(df.get('selling_price', df.get('price', 0)), errors='coerce').fillna(0)
-
-    if 'purchase_price' not in df.columns:
-        df['purchase_price'] = df['selling_price'] * 0.85
-    df['purchase_price'] = pd.to_numeric(df['purchase_price'], errors='coerce').fillna(0)
-
-    if 'stock' not in df.columns:
-        df['stock'] = 50
-    df['stock'] = pd.to_numeric(df['stock'], errors='coerce').fillna(50)
-
-    if 'min_stock' not in df.columns:
-        df['min_stock'] = 10
-    df['min_stock'] = pd.to_numeric(df['min_stock'], errors='coerce').fillna(10)
-
-    if 'unit' not in df.columns:
-        df['unit'] = 'kg'
-
-    df['profit_margin'] = df['selling_price'] - df['purchase_price']
-    df['margin_pct'] = (df['profit_margin'] / df['selling_price'].replace(0, 1)) * 100
-
-    return df
+    return DatabaseManager.get_products_dataframe()
 
 df = get_products_data()
 

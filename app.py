@@ -7,6 +7,10 @@ from datetime import datetime
 import json
 import re
 
+# Enterprise Architecture & DAL Services
+from database.db_manager import DatabaseManager
+from services.auth_service import AuthService
+
 # =====================================================
 # 🛒 RETAILMIND AI — MASTER ENTERPRISE APP ENGINE
 # =====================================================
@@ -14,79 +18,48 @@ import re
 st.set_page_config(
     page_title="RetailMind AI — Smart Enterprise Retail System",
     page_icon="🛒",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# ── DATABASE AUTO-INITIALIZER ────────────────────────
-def init_db():
-    conn = sqlite3.connect("retailmind.db")
-    c = conn.cursor()
-    
-    # Products Table
-    c.execute("""
-    CREATE TABLE IF NOT EXISTS products (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        product_name TEXT NOT NULL,
-        name TEXT,
-        brand TEXT,
-        category TEXT,
-        unit TEXT DEFAULT 'pcs',
-        purchase_price REAL DEFAULT 0,
-        selling_price REAL DEFAULT 0,
-        price REAL DEFAULT 0,
-        stock INTEGER DEFAULT 50,
-        min_stock INTEGER DEFAULT 10,
-        stock_status TEXT DEFAULT '🟢 Healthy',
-        market TEXT DEFAULT 'Nashik Mandi',
-        supplier TEXT DEFAULT 'Standard Supplier',
-        gst REAL DEFAULT 5
-    )
-    """)
-    
-    # Seed Products if empty
-    c.execute("SELECT COUNT(*) FROM products")
-    if c.fetchone()[0] == 0:
-        sample_products = [
-            ("Aashirvaad Shuddh Chakki Atta 5kg", "Aashirvaad Atta", "Aashirvaad", "Grocery & Staples", "kg", 210.0, 250.0, 250.0, 80, 15, "🟢 Healthy", "Nashik Mandi", "ITC Wholesalers", 5),
-            ("Fortune Sunlite Sunflower Oil 1L", "Fortune Oil", "Fortune", "Grocery & Staples", "litre", 115.0, 140.0, 140.0, 45, 10, "🟢 Healthy", "Pune Mandi", "Adani Wilmar Dist.", 5),
-            ("Tata Salt Vacuum Evaporated 1kg", "Tata Salt", "Tata", "Grocery & Staples", "kg", 20.0, 28.0, 28.0, 120, 20, "🟢 Healthy", "Nashik Mandi", "Tata Consumer Products", 5),
-            ("Amul Butter Pasteurised 500g", "Amul Butter", "Amul", "Dairy & Frozen", "pcs", 235.0, 275.0, 275.0, 8, 10, "🔴 Critical", "Malegaon Mandi", "Amul Dairy Corp", 5),
-            ("Sugar M-30 Premium Grade 1kg", "Sugar M-30", "Local Wholesale", "Grocery & Staples", "kg", 36.0, 44.0, 44.0, 200, 30, "🟢 Healthy", "Nashik Mandi", "Sahakar Sugar Mill", 5)
-        ]
-        c.executemany("""
-        INSERT INTO products (product_name, name, brand, category, unit, purchase_price, selling_price, price, stock, min_stock, stock_status, market, supplier, gst)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, sample_products)
-        conn.commit()
-    conn.close()
-
+# Initialize Database Schema & Data Seeding safely on boot
 try:
-    init_db()
+    DatabaseManager.init_database()
 except Exception as e:
     pass
 
+# Initialize Session Authentication & Theme Settings
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
+
+if "username" not in st.session_state:
+    st.session_state["username"] = "admin"
+
+if "role" not in st.session_state:
+    st.session_state["role"] = "Admin"
+
+if "dark_mode" not in st.session_state:
+    st.session_state["dark_mode"] = False
+
 # ── GLOBAL MASTER CSS DESIGN SYSTEM ────────────────────
+if st.session_state.get("dark_mode", False):
+    st.markdown("""
+    <style>
+    .stApp { background-color: #0F172A !important; color: #F8FAFC !important; }
+    [data-testid="stMetric"] { background: #1E293B !important; border-color: #334155 !important; }
+    [data-testid="stMetricValue"] { color: #F8FAFC !important; }
+    [data-testid="stMetricLabel"] { color: #94A3B8 !important; }
+    [data-testid="stForm"] { background: #1E293B !important; border-color: #334155 !important; }
+    header[data-testid="stHeader"] { background: transparent !important; }
+    </style>
+    """, unsafe_allow_html=True)
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-:root {
-    --primary-bg: #F8FAFC;
-    --card-bg: #FFFFFF;
-    --text-main: #0F172A;
-    --text-muted: #64748B;
-    --border-color: #E2E8F0;
-    --accent-blue: #2563EB;
-    --accent-gradient: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #2563EB 100%);
-}
-
 * {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.stApp {
-    background: #F8FAFC !important;
-    color: #0F172A !important;
 }
 
 .block-container {
@@ -95,10 +68,10 @@ st.markdown("""
     padding-bottom: 3rem;
 }
 
-/* Master Metric Container Redesign */
+/* Master Metric Container Styling */
 [data-testid="stMetric"] {
-    background: #FFFFFF !important;
-    border: 1px solid #E2E8F0 !important;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
     border-left: 5px solid #2563EB !important;
     border-radius: 16px !important;
     padding: 14px 18px !important;
@@ -114,7 +87,6 @@ st.markdown("""
 [data-testid="stMetricValue"] {
     font-size: clamp(16px, 1.6vw, 24px) !important;
     font-weight: 800 !important;
-    color: #0F172A !important;
     white-space: nowrap !important;
     overflow: visible !important;
 }
@@ -122,7 +94,6 @@ st.markdown("""
 [data-testid="stMetricLabel"] {
     font-size: clamp(11px, 1vw, 13px) !important;
     font-weight: 700 !important;
-    color: #64748B !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
 }
@@ -193,35 +164,11 @@ section[data-testid="stSidebar"] .stRadio label:hover {
     box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3) !important;
 }
 
-/* Tabs Styling */
-button[data-baseweb="tab"] {
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    padding: 10px 20px !important;
-    border-radius: 10px !important;
-}
-
 /* Dataframe & Tables Styling */
 [data-testid="stDataFrame"] {
     border-radius: 18px !important;
     overflow: hidden !important;
     border: 1px solid #E2E8F0 !important;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.02) !important;
-}
-
-/* Input Fields */
-div[data-baseweb="input"] > div {
-    border-radius: 12px !important;
-    border: 1px solid #CBD5E1 !important;
-}
-
-/* Form Container */
-[data-testid="stForm"] {
-    background: #FFFFFF !important;
-    border: 1px solid #E2E8F0 !important;
-    border-radius: 20px !important;
-    padding: 24px !important;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04) !important;
 }
 
 #MainMenu { visibility: hidden; }
@@ -230,16 +177,6 @@ header[data-testid="stHeader"] { background: transparent; }
 [data-testid="stSidebarNav"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
-
-# ── AUTHENTICATION SESSION STATE ─────────────────────
-if "logged_in" not in st.session_state:
-    st.session_state["logged_in"] = False
-
-if "username" not in st.session_state:
-    st.session_state["username"] = "admin"
-
-if "role" not in st.session_state:
-    st.session_state["role"] = "Admin"
 
 # ── LOGIN GATEWAY ───────────────────────────────────
 if not st.session_state["logged_in"]:
@@ -261,25 +198,31 @@ if not st.session_state["logged_in"]:
         d_col1, d_col2, d_col3 = st.columns(3)
         with d_col1:
             if st.button("👑 Admin Demo", use_container_width=True, key="demo_admin_btn"):
-                st.session_state["logged_in"] = True
-                st.session_state["username"] = "admin"
-                st.session_state["role"] = "Admin"
-                st.toast("Welcome Admin!", icon="👑")
-                st.rerun()
+                user_info = AuthService.authenticate_user("admin", "admin123")
+                if user_info:
+                    st.session_state["logged_in"] = True
+                    st.session_state["username"] = user_info["username"]
+                    st.session_state["role"] = user_info["role"]
+                    st.toast("Welcome Admin!", icon="👑")
+                    st.rerun()
         with d_col2:
             if st.button("👔 Manager Demo", use_container_width=True, key="demo_mgr_btn"):
-                st.session_state["logged_in"] = True
-                st.session_state["username"] = "manager"
-                st.session_state["role"] = "Store Manager"
-                st.toast("Welcome Manager!", icon="👔")
-                st.rerun()
+                user_info = AuthService.authenticate_user("manager", "admin123")
+                if user_info:
+                    st.session_state["logged_in"] = True
+                    st.session_state["username"] = user_info["username"]
+                    st.session_state["role"] = user_info["role"]
+                    st.toast("Welcome Manager!", icon="👔")
+                    st.rerun()
         with d_col3:
             if st.button("🧑‍💼 Staff Demo", use_container_width=True, key="demo_staff_btn"):
-                st.session_state["logged_in"] = True
-                st.session_state["username"] = "staff"
-                st.session_state["role"] = "Staff Account"
-                st.toast("Welcome Staff!", icon="🧑‍💼")
-                st.rerun()
+                user_info = AuthService.authenticate_user("staff", "admin123")
+                if user_info:
+                    st.session_state["logged_in"] = True
+                    st.session_state["username"] = user_info["username"]
+                    st.session_state["role"] = user_info["role"]
+                    st.toast("Welcome Staff!", icon="🧑‍💼")
+                    st.rerun()
 
         st.divider()
         st.info("💡 **Manual Credentials:** Username: `admin` | Password: `admin123`")
@@ -288,30 +231,24 @@ if not st.session_state["logged_in"]:
             st.subheader("🔐 Secure Sign In")
             user_input = st.text_input("Username", placeholder="e.g. admin")
             pass_input = st.text_input("Password", type="password", placeholder="••••••••")
-            role_input = st.selectbox("Role", ["Admin", "Store Manager", "Staff Account"])
             
             submit_login = st.form_submit_button("🚀 Sign In to RetailMind AI", use_container_width=True)
             
             if submit_login:
-                if user_input.strip() == "admin" and pass_input.strip() == "admin123":
+                user_info = AuthService.authenticate_user(user_input, pass_input)
+                if user_info:
                     st.session_state["logged_in"] = True
-                    st.session_state["username"] = user_input
-                    st.session_state["role"] = role_input
-                    st.success("✅ Login successful!")
-                    st.rerun()
-                elif user_input.strip() != "" and pass_input.strip() != "":
-                    st.session_state["logged_in"] = True
-                    st.session_state["username"] = user_input
-                    st.session_state["role"] = role_input
+                    st.session_state["username"] = user_info["username"]
+                    st.session_state["role"] = user_info["role"]
                     st.success("✅ Login successful!")
                     st.rerun()
                 else:
-                    st.error("Please enter valid username and password.")
+                    st.error("Invalid username or password. Please try again.")
                     
     st.stop()
 
 # ── ROUTER UTILITY ──────────────────────────────────
-def run_page(module_filename):
+def run_page(module_filename: str) -> None:
     filepath = f"page_modules/{module_filename}"
     with open(filepath, "r", encoding="utf-8") as f:
         code = f.read()
@@ -324,6 +261,7 @@ def run_page(module_filename):
         "datetime": datetime,
         "json": json,
         "re": re,
+        "DatabaseManager": DatabaseManager,
         "__file__": filepath,
         "__name__": "__main__"
     }
@@ -334,16 +272,23 @@ st.sidebar.markdown(f"""
 <div style="text-align:center; padding:15px 5px 15px 5px;">
     <div style="font-size:38px;">🛒</div>
     <div style="font-size:20px; font-weight:800; color:#FFFFFF;">RetailMind AI</div>
-    <div style="font-size:12px; color:#94A3B8; margin-top:2px;">Smart Retail Intelligence v2.0</div>
+    <div style="font-size:12px; color:#94A3B8; margin-top:2px;">Smart Retail Enterprise Platform v3.0</div>
     <div style="margin-top:10px; padding:6px 12px; background:rgba(37,99,235,0.2); border-radius:20px; font-size:12px; font-weight:600; color:#93C5FD;">
         👤 {st.session_state['username']} ({st.session_state['role']})
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-if st.sidebar.button("🚪 Sign Out / Logout", use_container_width=True):
-    st.session_state["logged_in"] = False
-    st.rerun()
+sb_col1, sb_col2 = st.sidebar.columns(2)
+with sb_col1:
+    if st.button("🚪 Sign Out", use_container_width=True):
+        st.session_state["logged_in"] = False
+        st.rerun()
+with sb_col2:
+    mode_label = "☀️ Light" if st.session_state.get("dark_mode", False) else "🌙 Dark"
+    if st.button(mode_label, use_container_width=True, key="sidebar_theme_toggle"):
+        st.session_state["dark_mode"] = not st.session_state.get("dark_mode", False)
+        st.rerun()
 
 st.sidebar.divider()
 
@@ -366,9 +311,9 @@ menu = st.sidebar.radio(
 st.sidebar.divider()
 st.sidebar.markdown("""
 <div style="padding:12px; background:rgba(255,255,255,0.06); border-radius:14px; font-size:12px; color:#94A3B8; border: 1px solid rgba(255,255,255,0.1);">
-    🟢 <b>System Status:</b> Online<br>
-    💾 <b>Database:</b> Connected<br>
-    🤖 <b>AI Engine:</b> Active
+    🟢 <b>System Status:</b> Operational<br>
+    💾 <b>Database:</b> DAL Connected<br>
+    🤖 <b>AI Engine:</b> NLP & ML Active
     <hr style="margin:8px 0; border-color:rgba(255,255,255,0.1);">
     <div style="font-weight:700; color:#60A5FA; text-align:center;">💻 Developed by Suraj V. Shewale</div>
 </div>
@@ -399,5 +344,5 @@ elif menu == "ℹ️ About & Developer":
 # ── MASTER FOOTER ───────────────────────────────────
 st.write("")
 st.markdown("""<div style="margin-top:40px; padding:12px; background:linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border-radius:12px; text-align:center; color:#94A3B8; font-size:12px;">
-    🛒 <b>RetailMind AI v2.0</b> &nbsp;|&nbsp; Developed with ❤️ by <b style="color:#60A5FA;">Suraj V. Shewale</b>
+    🛒 <b>RetailMind AI v3.0 Enterprise Platform</b> &nbsp;|&nbsp; Developed with ❤️ by <b style="color:#60A5FA;">Suraj V. Shewale</b>
 </div>""", unsafe_allow_html=True)

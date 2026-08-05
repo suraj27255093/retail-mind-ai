@@ -7,24 +7,12 @@ import plotly.express as px
 # INVENTORY PAGE — loaded as module from app.py
 # =========================================================
 
+from database.db_manager import DatabaseManager
+from services.ml_forecasting import MLForecastingEngine
+
 @st.cache_data(ttl=30)
 def load_inventory():
-    conn = sqlite3.connect("retailmind.db")
-    df = pd.read_sql_query("SELECT * FROM products", conn)
-    conn.close()
-    if "selling_price" in df.columns and ("price" not in df.columns or df["price"].isnull().all()):
-        df["price"] = df["selling_price"]
-    elif "price" in df.columns and ("selling_price" not in df.columns or df["selling_price"].isnull().all()):
-        df["selling_price"] = df["price"]
-    df["selling_price"] = pd.to_numeric(df["selling_price"], errors="coerce").fillna(0)
-    df["purchase_price"] = pd.to_numeric(df.get("purchase_price", df["selling_price"] * 0.85), errors="coerce").fillna(0)
-    if "stock" not in df.columns:
-        df["stock"] = 50
-    if "min_stock" not in df.columns:
-        df["min_stock"] = 10
-    df["stock"] = pd.to_numeric(df["stock"], errors="coerce").fillna(50)
-    df["min_stock"] = pd.to_numeric(df["min_stock"], errors="coerce").fillna(10)
-    df["profit_margin"] = df["selling_price"] - df["purchase_price"]
+    df = DatabaseManager.get_products_dataframe()
     df["stock_status"] = df.apply(lambda r: "🔴 Critical" if r["stock"] <= r["min_stock"] else ("🟡 Low" if r["stock"] <= r["min_stock"] * 1.5 else "🟢 Healthy"), axis=1)
     return df
 
@@ -55,6 +43,41 @@ with c4:
     st.metric("💰 Total Stock Value", f"₹{total_stock_val:,.0f}")
 with c5:
     st.metric("📊 Avg Stock Level", f"{avg_stock:.0f} units")
+
+st.write("")
+
+# 🔮 ML DEMAND & EXPIRY PREDICTION RADAR
+ml_insights = MLForecastingEngine.analyze_inventory_health(df)
+with st.expander("🔮 ML Demand Forecasting & Stock Expiry Radar (v3.0 Engine)", expanded=True):
+    st.markdown("""
+    <div style="background:linear-gradient(135deg, #0F172A 0%, #1E293B 100%); padding:18px; border-radius:16px; color:white; margin-bottom:15px;">
+        <h4 style="margin:0 0 4px 0; color:#60A5FA;">⚡ Machine Learning Inventory Radar</h4>
+        <p style="font-size:12px; color:#94A3B8; margin:0;">AI calculating Reorder Points ROP = (Daily Demand × Lead Time) + Safety Stock</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    m_col1, m_col2, m_col3 = st.columns(3)
+    with m_col1:
+        st.markdown("**🚨 High Risk Stockouts Next 7 Days:**")
+        if ml_insights["stockout_risk"]:
+            for item in ml_insights["stockout_risk"]:
+                st.error(f"• **{item['product']}**: Est. {item['est_days']} days left (Suggested ROP: {item['suggested_reorder']} units)")
+        else:
+            st.success("No immediate stockout risks detected.")
+
+    with m_col2:
+        st.markdown("**⏰ Expiry Watchlist (Next 45 Days):**")
+        if ml_insights["expiry_watchlist"]:
+            for item in ml_insights["expiry_watchlist"]:
+                st.warning(f"• **{item['product']}**: Expiring {item['expiry_date']} ({item['days_remaining']} days left)")
+        else:
+            st.info("No items near expiration.")
+
+    with m_col3:
+        st.markdown("**📈 Demand Surge Radar:**")
+        if ml_insights["demand_surges"]:
+            for item in ml_insights["demand_surges"]:
+                st.success(f"• **{item['product']}**: +{item['predicted_surge_pct']}% expected ({item['reason']})")
 
 st.write("")
 
