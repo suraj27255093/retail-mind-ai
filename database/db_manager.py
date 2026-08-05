@@ -150,13 +150,13 @@ class DatabaseManager:
             c.execute("SELECT COUNT(*) FROM products")
             if c.fetchone()[0] == 0:
                 products = [
-                    ("RM-BAR-101", "Aashirvaad Shuddh Chakki Atta 5kg", "Aashirvaad Atta", "Aashirvaad", "Grocery & Staples", "kg", 210.0, 250.0, 250.0, 85, 15, "🟢 Healthy", "Nashik Mandi", "ITC Wholesalers", 5, "1101", "2026-12-31", "A-12"),
-                    ("RM-BAR-102", "Fortune Sunlite Sunflower Oil 1L", "Fortune Oil", "Fortune", "Grocery & Staples", "litre", 115.0, 140.0, 140.0, 45, 10, "🟢 Healthy", "Pune Mandi", "Adani Wilmar Dist.", 5, "1512", "2026-11-15", "B-04"),
-                    ("RM-BAR-103", "Tata Salt Vacuum Evaporated 1kg", "Tata Salt", "Tata", "Grocery & Staples", "kg", 20.0, 28.0, 28.0, 140, 20, "🟢 Healthy", "Nashik Mandi", "Tata Consumer Products", 5, "2501", "2027-05-20", "A-02"),
-                    ("RM-BAR-104", "Amul Butter Pasteurised 500g", "Amul Butter", "Amul", "Dairy & Frozen", "pcs", 235.0, 275.0, 275.0, 8, 12, "🔴 Critical", "Malegaon Mandi", "Amul Dairy Corp", 5, "0405", "2026-08-28", "C-01"),
-                    ("RM-BAR-105", "Sugar M-30 Premium Grade 1kg", "Sugar M-30", "Local Wholesale", "Grocery & Staples", "kg", 36.0, 44.0, 44.0, 220, 30, "🟢 Healthy", "Nashik Mandi", "Sahakar Sugar Mill", 5, "1701", "2027-01-10", "A-08"),
-                    ("RM-BAR-106", "Nestle Everyday Dairy Whitener 1kg", "Nestle Milk Powder", "Nestle", "Dairy & Frozen", "kg", 380.0, 440.0, 440.0, 18, 10, "🟡 Low", "Pune Mandi", "Nestle India Supplies", 12, "0402", "2026-09-15", "C-03"),
-                    ("RM-BAR-107", "Cadbury Dairy Milk Silk 150g", "Dairy Milk Silk", "Cadbury", "Confectionery", "pcs", 140.0, 175.0, 175.0, 60, 15, "🟢 Healthy", "Nashik Mandi", "Mondelez India", 18, "1806", "2026-10-30", "D-05")
+                    ("RM-BAR-101", "Aashirvaad Shuddh Chakki Atta 5kg", "Aashirvaad Atta", "Aashirvaad", "Grocery & Staples", "kg", 205.0, 245.0, 245.0, 85, 15, "🟢 Healthy", "Nashik Mandi", "ITC Wholesalers", 5, "1101", "2026-12-31", "A-12"),
+                    ("RM-BAR-102", "Fortune Sunlite Sunflower Oil 1L", "Fortune Oil", "Fortune", "Edible Oils", "litre", 122.0, 145.0, 145.0, 45, 10, "🟢 Healthy", "Pune Mandi", "Adani Wilmar Dist.", 5, "1512", "2026-11-15", "B-04"),
+                    ("RM-BAR-103", "Tata Salt Vacuum Evaporated 1kg", "Tata Salt", "Tata", "Grocery & Staples", "kg", 21.5, 28.0, 28.0, 140, 20, "🟢 Healthy", "Nashik Mandi", "Tata Consumer Products", 5, "2501", "2027-05-20", "A-02"),
+                    ("RM-BAR-104", "Amul Butter Pasteurised 500g", "Amul Butter", "Amul", "Dairy & Frozen", "pcs", 240.0, 275.0, 275.0, 8, 12, "🔴 Critical", "Malegaon Mandi", "Amul Dairy Corp", 5, "0405", "2026-08-28", "C-01"),
+                    ("RM-BAR-105", "Sugar M-30 Premium Grade 1kg", "Sugar M-30", "Local Wholesale", "Grocery & Staples", "kg", 38.5, 44.0, 44.0, 220, 30, "🟢 Healthy", "Nashik Mandi", "Sahakar Sugar Mill", 5, "1701", "2027-01-10", "A-08"),
+                    ("RM-BAR-106", "Nestle Everyday Dairy Whitener 1kg", "Nestle Milk Powder", "Nestle", "Dairy & Frozen", "kg", 385.0, 445.0, 445.0, 18, 10, "🟡 Low", "Pune Mandi", "Nestle India Supplies", 12, "0402", "2026-09-15", "C-03"),
+                    ("RM-BAR-107", "Cadbury Dairy Milk Silk 150g", "Dairy Milk Silk", "Cadbury", "Confectionery", "pcs", 142.0, 175.0, 175.0, 60, 15, "🟢 Healthy", "Nashik Mandi", "Mondelez India", 18, "1806", "2026-10-30", "D-05")
                 ]
                 c.executemany("""
                 INSERT INTO products (barcode, product_name, name, brand, category, unit, purchase_price, selling_price, price, stock, min_stock, stock_status, market, supplier, gst, hsn_code, expiry_date, rack_no)
