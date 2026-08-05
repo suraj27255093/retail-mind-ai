@@ -246,7 +246,19 @@ def run_page(module_filename):
     filepath = f"page_modules/{module_filename}"
     with open(filepath, "r", encoding="utf-8") as f:
         code = f.read()
-    exec(code, globals())
+    exec_scope = {
+        "st": st,
+        "sqlite3": sqlite3,
+        "pd": pd,
+        "px": px,
+        "go": go,
+        "datetime": datetime,
+        "json": json,
+        "re": re,
+        "__file__": filepath,
+        "__name__": "__main__"
+    }
+    exec(code, exec_scope)
 
 # ── SIDEBAR NAVIGATION ──────────────────────────────
 st.sidebar.markdown(f"""
