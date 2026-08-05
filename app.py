@@ -190,17 +190,29 @@ if not st.session_state["logged_in"]:
         # Render Pure Commercial Landing Page
         render_public_landing()
         
-        # Central Single CTA Button
-        c_l1, c_l2, c_l3 = st.columns([1, 1.2, 1])
-        with c_l2:
-            st.markdown("""
-            <div style="text-align: center; margin-top: 10px; margin-bottom: 25px;">
-                <p style="font-size: 16px; color: #64748B; font-weight: 600;">Ready to transform your retail business?</p>
-            </div>
-            """, unsafe_allow_html=True)
-            if st.button("🚀 Sign In / Enter RetailMind Portal", use_container_width=True, key="landing_signin_cta_btn"):
+        # ── STRONG HERO CTA BUTTONS ─────────────────────────
+        cta_col1, cta_col2, cta_col3 = st.columns([1, 1, 1])
+        with cta_col1:
+            if st.button("⚡ Try Demo Now", use_container_width=True, key="hero_try_demo_btn"):
                 st.session_state["show_login"] = True
                 st.rerun()
+        with cta_col2:
+            if st.button("📅 Book 1-on-1 Demo", use_container_width=True, key="hero_book_demo_btn"):
+                st.session_state["show_book_demo"] = True
+        with cta_col3:
+            if st.button("🔍 View Platform Features", use_container_width=True, key="hero_view_features_btn"):
+                st.session_state["show_book_demo"] = False
+                st.toast("📜 Scroll down to explore all 6 RetailMind AI modules!", icon="✨")
+
+        # Book Demo Modal / Banner
+        if st.session_state.get("show_book_demo", False):
+            st.success("🎉 **Book a Personal Live Demo with Founder Suraj V. Shewale!**")
+            st.info("📲 **Direct WhatsApp / Call:** +91 9876543210  |  📧 **Email:** contact@retailmind.ai\n\nGet custom enterprise onboarding for your grocery store or retail chain!")
+            if st.button("❌ Close Booking Info", key="close_book_demo"):
+                st.session_state["show_book_demo"] = False
+                st.rerun()
+
+        st.write("")
         st.stop()
     else:
         # Render Dedicated Login Screen

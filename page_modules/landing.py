@@ -7,18 +7,18 @@ def render_public_landing():
     """
     # ── HERO BANNER ─────────────────────────────────────
     st.markdown("""
-    <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 45%, #2563EB 100%); padding: 45px 40px; border-radius: 28px; color: white; text-align: center; margin-bottom: 35px; box-shadow: 0 20px 40px rgba(37,99,235,0.22); border: 1px solid rgba(255,255,255,0.12);">
-        <div style="font-size: 64px; margin-bottom: 12px;">🛒</div>
+    <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 45%, #2563EB 100%); padding: 48px 40px 38px 40px; border-radius: 28px; color: white; text-align: center; margin-bottom: 30px; box-shadow: 0 20px 45px rgba(37,99,235,0.22); border: 1px solid rgba(255,255,255,0.12);">
+        <div style="font-size: 64px; margin-bottom: 10px;">🛒</div>
         <h1 style="font-size: 46px; font-weight: 900; letter-spacing: -1px; margin-bottom: 12px; color: #FFFFFF;">RetailMind AI</h1>
-        <p style="font-size: 19px; color: #93C5FD; max-width: 800px; margin: 0 auto 24px auto; line-height: 1.5;">
+        <p style="font-size: 19px; color: #93C5FD; max-width: 820px; margin: 0 auto 20px auto; line-height: 1.5;">
             The World's Most Intelligent AI-Powered Retail Management & Mandi Intelligence Platform for Grocery Stores, Supermarkets & Wholesalers.
         </p>
-        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 8px 22px; border-radius: 30px; font-size: 14px; font-weight: 700; color: #E0F2FE;">
+        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 7px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; color: #E0F2FE;">
                 ⚡ Built by Suraj V. Shewale
             </div>
-            <div style="background: rgba(16,185,129,0.2); border: 1px solid #10B981; padding: 8px 22px; border-radius: 30px; font-size: 14px; font-weight: 700; color: #6EE7B7;">
-                🟢 Enterprise Platform Active
+            <div style="background: rgba(16,185,129,0.2); border: 1px solid #10B981; padding: 7px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; color: #6EE7B7;">
+                🟢 Enterprise v3.0 Active
             </div>
         </div>
     </div>
