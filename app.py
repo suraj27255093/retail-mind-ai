@@ -6,20 +6,66 @@ import plotly.graph_objects as go
 from datetime import datetime
 import json
 import re
-import importlib
-
 
 # =====================================================
-# 🎨 RETAILMIND AI — MASTER APP & AUTH SYSTEM
+# 🛒 RETAILMIND AI — MASTER ENTERPRISE APP ENGINE
 # =====================================================
 
 st.set_page_config(
-    page_title="RetailMind AI — Smart Retail System",
+    page_title="RetailMind AI — Smart Enterprise Retail System",
     page_icon="🛒",
     layout="wide"
 )
 
-# Inject Global Modern CSS Design System
+# ── DATABASE AUTO-INITIALIZER ────────────────────────
+def init_db():
+    conn = sqlite3.connect("retailmind.db")
+    c = conn.cursor()
+    
+    # Products Table
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        product_name TEXT NOT NULL,
+        name TEXT,
+        brand TEXT,
+        category TEXT,
+        unit TEXT DEFAULT 'pcs',
+        purchase_price REAL DEFAULT 0,
+        selling_price REAL DEFAULT 0,
+        price REAL DEFAULT 0,
+        stock INTEGER DEFAULT 50,
+        min_stock INTEGER DEFAULT 10,
+        stock_status TEXT DEFAULT '🟢 Healthy',
+        market TEXT DEFAULT 'Nashik Mandi',
+        supplier TEXT DEFAULT 'Standard Supplier',
+        gst REAL DEFAULT 5
+    )
+    """)
+    
+    # Seed Products if empty
+    c.execute("SELECT COUNT(*) FROM products")
+    if c.fetchone()[0] == 0:
+        sample_products = [
+            ("Aashirvaad Shuddh Chakki Atta 5kg", "Aashirvaad Atta", "Aashirvaad", "Grocery & Staples", "kg", 210.0, 250.0, 250.0, 80, 15, "🟢 Healthy", "Nashik Mandi", "ITC Wholesalers", 5),
+            ("Fortune Sunlite Sunflower Oil 1L", "Fortune Oil", "Fortune", "Grocery & Staples", "litre", 115.0, 140.0, 140.0, 45, 10, "🟢 Healthy", "Pune Mandi", "Adani Wilmar Dist.", 5),
+            ("Tata Salt Vacuum Evaporated 1kg", "Tata Salt", "Tata", "Grocery & Staples", "kg", 20.0, 28.0, 28.0, 120, 20, "🟢 Healthy", "Nashik Mandi", "Tata Consumer Products", 5),
+            ("Amul Butter Pasteurised 500g", "Amul Butter", "Amul", "Dairy & Frozen", "pcs", 235.0, 275.0, 275.0, 8, 10, "🔴 Critical", "Malegaon Mandi", "Amul Dairy Corp", 5),
+            ("Sugar M-30 Premium Grade 1kg", "Sugar M-30", "Local Wholesale", "Grocery & Staples", "kg", 36.0, 44.0, 44.0, 200, 30, "🟢 Healthy", "Nashik Mandi", "Sahakar Sugar Mill", 5)
+        ]
+        c.executemany("""
+        INSERT INTO products (product_name, name, brand, category, unit, purchase_price, selling_price, price, stock, min_stock, stock_status, market, supplier, gst)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, sample_products)
+        conn.commit()
+    conn.close()
+
+try:
+    init_db()
+except Exception as e:
+    pass
+
+# ── GLOBAL CSS DESIGN SYSTEM ─────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -38,7 +84,28 @@ st.markdown("""
     padding-bottom: 3rem;
 }
 
-/* Sidebar Styling */
+/* Responsive Metric Styling Fix */
+[data-testid="stMetricValue"] {
+    font-size: clamp(15px, 1.5vw, 22px) !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+}
+
+[data-testid="stMetricLabel"] {
+    font-size: clamp(11px, 1vw, 13px) !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+}
+
+[data-testid="stMetric"] {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 14px !important;
+    padding: 10px 14px !important;
+}
+
+/* Sidebar Design */
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%) !important;
     border-right: 1px solid #334155;
@@ -48,119 +115,44 @@ section[data-testid="stSidebar"] * {
     color: #F8FAFC !important;
 }
 
-section[data-testid="stSidebar"] .stRadio label {
-    padding: 10px 14px !important;
-    border-radius: 12px !important;
-    font-weight: 600 !important;
-    transition: all 0.2s ease !important;
-}
-
-/* Login Hero Card */
-.login-card {
-    background: #FFFFFF;
-    padding: 40px;
-    border-radius: 24px;
-    border: 1px solid #E2E8F0;
-    box-shadow: 0 20px 40px rgba(15,23,42,0.08);
-    max-width: 480px;
-    margin: 40px auto;
-    text-align: center;
-}
-
-.login-card h2 {
-    font-weight: 800;
-    color: #0F172A;
-    margin-bottom: 8px;
-}
-
-/* Custom Hero Cards */
+/* Custom Hero Section */
 .rm-hero {
     background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #2563EB 100%);
-    padding: 30px 35px;
-    border-radius: 22px;
+    padding: 28px 32px;
+    border-radius: 20px;
     color: white;
     margin-bottom: 25px;
-    box-shadow: 0 12px 30px rgba(37,99,235,0.18);
-    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 10px 25px rgba(37,99,235,0.15);
 }
 
 .rm-hero h1 {
     color: #FFFFFF !important;
-    font-size: 34px !important;
+    font-size: 32px !important;
     font-weight: 800 !important;
-    letter-spacing: -0.5px;
-    margin-bottom: 6px !important;
+    margin-bottom: 4px !important;
 }
 
 .rm-hero p {
     color: #93C5FD !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
     margin: 0 !important;
 }
 
-/* Metric Cards Responsive Mobile Styling */
-[data-testid="stMetric"] {
-    background: #FFFFFF !important;
-    padding: 14px 16px !important;
-    border-radius: 16px !important;
-    border: 1px solid #E2E8F0 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
-    min-width: 110px !important;
-}
-
-[data-testid="stMetricValue"] {
-    font-weight: 800 !important;
-    font-size: clamp(16px, 4vw, 24px) !important;
-    color: #0F172A !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-}
-
-[data-testid="stMetricLabel"] {
-    font-weight: 600 !important;
-    font-size: clamp(11px, 2.8vw, 13px) !important;
-    color: #64748B !important;
-    white-space: normal !important;
-    word-break: break-word !important;
-    line-height: 1.2 !important;
-}
-
-/* Allow horizontal metric blocks to wrap nicely on narrow screens */
-@media (max-width: 768px) {
-    [data-testid="stHorizontalBlock"] {
-        flex-wrap: wrap !important;
-        gap: 10px !important;
-    }
-    [data-testid="stColumn"] {
-        min-width: calc(48% - 6px) !important;
-        flex: 1 1 calc(48% - 6px) !important;
-    }
-}
-
-
-/* Buttons */
+/* Primary Button Styling */
 .stButton > button, .stFormSubmitButton > button {
     border-radius: 12px !important;
     border: none !important;
     background: linear-gradient(135deg, #2563EB, #1D4ED8) !important;
     color: white !important;
     font-weight: 600 !important;
-    padding: 0.65rem 1.3rem !important;
+    padding: 0.6rem 1.2rem !important;
     transition: all 0.2s ease !important;
 }
 
 .stButton > button:hover, .stFormSubmitButton > button:hover {
     background: linear-gradient(135deg, #1D4ED8, #1E40AF) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 18px rgba(37,99,235,0.25) !important;
-}
-
-/* Dataframe & Tables */
-[data-testid="stDataFrame"] {
-    border-radius: 16px !important;
-    overflow: hidden !important;
-    border: 1px solid #E2E8F0 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.2) !important;
 }
 
 #MainMenu { visibility: hidden; }
@@ -170,7 +162,7 @@ header[data-testid="stHeader"] { background: transparent; }
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize Session Auth
+# ── AUTHENTICATION SESSION STATE ─────────────────────
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
@@ -180,10 +172,7 @@ if "username" not in st.session_state:
 if "role" not in st.session_state:
     st.session_state["role"] = "Admin"
 
-# =====================================================
-# 🔐 AUTHENTICATION MANDATORY LOGIN GATEWAY
-# =====================================================
-
+# ── LOGIN GATEWAY ───────────────────────────────────
 if not st.session_state["logged_in"]:
     st.markdown("""
     <div style="text-align: center; margin-top: 25px; margin-bottom: 20px;">
@@ -232,7 +221,6 @@ if not st.session_state["logged_in"]:
             pass_input = st.text_input("Password", type="password", placeholder="••••••••")
             role_input = st.selectbox("Role", ["Admin", "Store Manager", "Staff Account"])
             
-            remember_me = st.checkbox("Remember session", value=True)
             submit_login = st.form_submit_button("🚀 Sign In to RetailMind AI", use_container_width=True)
             
             if submit_login:
@@ -240,7 +228,7 @@ if not st.session_state["logged_in"]:
                     st.session_state["logged_in"] = True
                     st.session_state["username"] = user_input
                     st.session_state["role"] = role_input
-                    st.success("✅ Login successful! Loading dashboard...")
+                    st.success("✅ Login successful!")
                     st.rerun()
                 elif user_input.strip() != "" and pass_input.strip() != "":
                     st.session_state["logged_in"] = True
@@ -251,49 +239,16 @@ if not st.session_state["logged_in"]:
                 else:
                     st.error("Please enter valid username and password.")
                     
-    st.stop() # Stop execution here so no app page is shown until logged in!
+    st.stop()
 
-# =====================================================
-# DATABASE & ROUTER UTILITIES
-# =====================================================
-
+# ── ROUTER UTILITY ──────────────────────────────────
 def run_page(module_filename):
     filepath = f"page_modules/{module_filename}"
     with open(filepath, "r", encoding="utf-8") as f:
         code = f.read()
     exec(code, globals())
 
-@st.cache_data(ttl=30)
-def load_db_data():
-    conn = sqlite3.connect("retailmind.db")
-    products_df = pd.read_sql_query("SELECT * FROM products", conn)
-    
-    if 'selling_price' not in products_df.columns and 'price' in products_df.columns:
-        products_df['selling_price'] = products_df['price']
-    elif 'selling_price' in products_df.columns and 'price' not in products_df.columns:
-        products_df['price'] = products_df['selling_price']
-        
-    if 'purchase_price' not in products_df.columns:
-        products_df['purchase_price'] = products_df['selling_price'] * 0.85
-        
-    if 'stock' not in products_df.columns:
-        products_df['stock'] = 50
-        
-    if 'min_stock' not in products_df.columns:
-        products_df['min_stock'] = 10
-
-    products_df['profit_margin'] = products_df['selling_price'] - products_df['purchase_price']
-    products_df['margin_pct'] = (products_df['profit_margin'] / products_df['selling_price'].replace(0,1)) * 100
-
-    conn.close()
-    return products_df
-
-df = load_db_data()
-
-# =====================================================
-# SIDEBAR NAVIGATION & LOGOUT
-# =====================================================
-
+# ── SIDEBAR NAVIGATION ──────────────────────────────
 st.sidebar.markdown(f"""
 <div style="text-align:center; padding:15px 5px 15px 5px;">
     <div style="font-size:38px;">🛒</div>
@@ -338,157 +293,30 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================================
-# 1. 🏠 EXECUTIVE DASHBOARD
-# =====================================================
+# ── DYNAMIC PAGE ROUTER ─────────────────────────────
 if menu == "🏠 Executive Dashboard":
-    st.markdown("""
-    <div class="rm-hero">
-        <h1>🛒 RetailMind AI — Executive Dashboard</h1>
-        <p>Real-Time Overview of Grocery Business, Inventory Health, & Market Intelligence</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    c1, c2, c3, c4, c5 = st.columns(5)
-    total_products = len(df)
-    total_categories = df["category"].nunique()
-    total_markets = df["market"].nunique()
-    avg_price = df["selling_price"].mean()
-    low_stock_count = len(df[df['stock'] <= df['min_stock']])
-    
-    with c1:
-        st.metric("📦 Total Products", f"{total_products:,}")
-    with c2:
-        st.metric("📂 Categories", total_categories)
-    with c3:
-        st.metric("🏪 Markets", total_markets)
-    with c4:
-        st.metric("💰 Avg Selling Price", f"₹{avg_price:.2f}")
-    with c5:
-        st.metric("⚠️ Low Stock Items", low_stock_count, delta=f"{low_stock_count} Need Reorder" if low_stock_count>0 else "Healthy Stock", delta_color="inverse")
-        
-    st.write("")
-    
-    # Action Buttons Row
-    st.markdown("**⚡ Quick Actions:**")
-    ac1, ac2, ac3, ac4 = st.columns(4)
-    with ac1:
-        if st.button("📊 Refresh Catalog Stats", use_container_width=True):
-            st.cache_data.clear()
-            st.success("Refreshed!")
-            st.rerun()
-    with ac2:
-        if st.button("🚨 View Low Stock Items", use_container_width=True):
-            st.info(f"{low_stock_count} items need replenishment.")
-    with ac3:
-        if st.button("📥 Download Catalog CSV", use_container_width=True):
-            csv = df.to_csv(index=False).encode('utf-8')
-            st.download_button("Download CSV", csv, "Catalog_Export.csv", "text/csv")
-    with ac4:
-        if st.button("🤖 Launch AI Assistant", use_container_width=True):
-            st.info("Switching to AI Assistant...")
-            
-    st.write("")
-    left_col, right_col = st.columns([1.5, 1])
-    
-    with left_col:
-        st.subheader("📊 Category Stock & Price Distribution")
-        cat_fig = px.bar(
-            df.groupby("category").agg(AvgPrice=("selling_price","mean"), Count=("id","count")).reset_index(),
-            x="category",
-            y="AvgPrice",
-            color="Count",
-            labels={"AvgPrice": "Average Price (₹)", "Count": "Items Count"},
-            title="Category Average Selling Price (₹) & Product Count",
-            color_continuous_scale="Blues"
-        )
-        st.plotly_chart(cat_fig, use_container_width=True)
-        
-    with right_col:
-        st.subheader("🏪 Market Sourcing Share")
-        mkt_fig = px.pie(
-            df,
-            names="market",
-            title="Products Sourced per Market Location",
-            hole=0.4,
-            color_discrete_sequence=px.colors.qualitative.Set2
-        )
-        st.plotly_chart(mkt_fig, use_container_width=True)
-
-    st.divider()
-    st.subheader("📋 Top Catalog Highlights")
-    st.dataframe(
-        df[['id', 'product_name', 'brand', 'category', 'unit', 'purchase_price', 'selling_price', 'stock', 'market', 'supplier']].head(12),
-        use_container_width=True,
-        hide_index=True
-    )
-
-# =====================================================
-# 2. 🤖 AI ASSISTANT
-# =====================================================
+    run_page("dashboard.py")
 elif menu == "🤖 AI Assistant":
     run_page("ai_assistant.py")
-
-# =====================================================
-# 3. 📦 INVENTORY MANAGER
-# =====================================================
 elif menu == "📦 Inventory Manager":
     run_page("inventory.py")
-
-# =====================================================
-# 4. 🌾 MARKET RATES
-# =====================================================
 elif menu == "🌾 Market Rates":
     run_page("market_rates.py")
-
-# =====================================================
-# 5. 🏢 SUPPLIERS DIRECTORY
-# =====================================================
 elif menu == "🏢 Suppliers Directory":
     run_page("suppliers.py")
-
-# =====================================================
-# 6. 🧾 BILLING & POS
-# =====================================================
 elif menu == "🧾 Billing & POS":
     run_page("billing.py")
-
-# =====================================================
-# 7. 👥 CUSTOMERS & CRM
-# =====================================================
 elif menu == "👥 Customers & CRM":
     run_page("customers.py")
-
-# =====================================================
-# 8. 📈 BUSINESS ANALYTICS
-# =====================================================
 elif menu == "📈 Business Analytics":
     run_page("analytics.py")
-
-# =====================================================
-# 9. 📄 REPORTS & EXPORT
-# =====================================================
-elif menu == "📄 Reports & Export":
-    run_page("reports.py")
-
-# =====================================================
-# 10. ⚙️ SYSTEM SETTINGS
-# =====================================================
 elif menu == "⚙️ System Settings":
     run_page("settings.py")
-
-# =====================================================
-# 11. ℹ️ ABOUT & DEVELOPER
-# =====================================================
 elif menu == "ℹ️ About & Developer":
     run_page("about.py")
 
-# =====================================================
-# 🌐 GLOBAL MASTER FOOTER (ACROSS ALL PAGES)
-# =====================================================
+# ── MASTER FOOTER ───────────────────────────────────
 st.write("")
 st.markdown("""<div style="margin-top:40px; padding:12px; background:linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border-radius:12px; text-align:center; color:#94A3B8; font-size:12px;">
     🛒 <b>RetailMind AI v2.0</b> &nbsp;|&nbsp; Developed with ❤️ by <b style="color:#60A5FA;">Suraj V. Shewale</b>
 </div>""", unsafe_allow_html=True)
-
-
