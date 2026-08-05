@@ -41,8 +41,8 @@ if df.empty:
 
 st.markdown("""
 <div class="rm-hero">
-    <h1>🛒 RetailMind AI — Executive Dashboard</h1>
-    <p>AI Powered Retail & Market Intelligence Dashboard</p>
+    <h1>🛒 RetailMind AI — Executive Control Center</h1>
+    <p>Real-Time Retail Analytics • Mandi Rate Benchmark • Inventory Health & AI Sales Insights</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -58,16 +58,16 @@ avg_price = df["selling_price"].mean()
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
-    st.metric("📦 Total Products", f"{total_products:,}")
+    st.metric("📦 Total Active SKU Catalog", f"{total_products:,}")
 
 with c2:
-    st.metric("📂 Categories", total_categories)
+    st.metric("📂 Retail Categories", f"{total_categories}")
 
 with c3:
-    st.metric("🏪 Markets", total_markets)
+    st.metric("🏪 Benchmark Mandi Markets", f"{total_markets}")
 
 with c4:
-    st.metric("💰 Avg Selling Price", f"₹{avg_price:,.2f}")
+    st.metric("💰 Avg Selling Rate", f"₹{avg_price:,.2f}")
 
 st.write("")
 
@@ -75,17 +75,37 @@ st.write("")
 # VISUAL CHARTS
 # =========================================================
 
-l_col, r_col = st.columns([1.5, 1])
+l_col, r_col = st.columns([1.6, 1])
 
 with l_col:
-    st.subheader("📊 Category Average Selling Prices")
+    st.subheader("📊 Category Average Selling Prices (₹)")
     cat_df = df.groupby("category")["selling_price"].mean().reset_index()
-    fig1 = px.bar(cat_df, x="category", y="selling_price", color="selling_price", title="Category Avg Price (₹)", color_continuous_scale="Blues")
+    fig1 = px.bar(
+        cat_df, x="category", y="selling_price", color="selling_price",
+        title="Category Benchmark Price Comparison",
+        color_continuous_scale="Viridis"
+    )
+    fig1.update_layout(
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(248,250,252,0.6)",
+        font=dict(family="Inter", color="#0F172A"),
+        margin=dict(l=20, r=20, t=40, b=20)
+    )
     st.plotly_chart(fig1, use_container_width=True)
 
 with r_col:
-    st.subheader("🏪 Products per Market")
-    fig2 = px.pie(df, names="market", title="Market Distribution", hole=0.4)
+    st.subheader("🏪 Product Sourcing Breakdown")
+    fig2 = px.pie(
+        df, names="market",
+        title="Market Sourcing Distribution",
+        hole=0.45,
+        color_discrete_sequence=px.colors.qualitative.Bold
+    )
+    fig2.update_layout(
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Inter", color="#0F172A"),
+        margin=dict(l=20, r=20, t=40, b=20)
+    )
     st.plotly_chart(fig2, use_container_width=True)
 
 st.divider()
@@ -94,5 +114,7 @@ st.divider()
 # RECENT PRODUCTS TABLE
 # =========================================================
 
-st.subheader("📋 Product Catalog Highlights")
-st.dataframe(df[['id', 'product_name', 'brand', 'category', 'unit', 'purchase_price', 'selling_price', 'market', 'supplier']].head(10), use_container_width=True, hide_index=True)
+st.subheader("📋 Top Stock Catalog Highlights")
+display_cols = ['id', 'product_name', 'brand', 'category', 'unit', 'purchase_price', 'selling_price', 'market', 'supplier']
+display_cols = [col for col in display_cols if col in df.columns]
+st.dataframe(df[display_cols].head(10), use_container_width=True, hide_index=True)

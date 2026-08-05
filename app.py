@@ -65,29 +65,56 @@ try:
 except Exception as e:
     pass
 
-# ── GLOBAL CSS DESIGN SYSTEM ─────────────────────────
+# ── GLOBAL MASTER CSS DESIGN SYSTEM ────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --primary-bg: #F8FAFC;
+    --card-bg: #FFFFFF;
+    --text-main: #0F172A;
+    --text-muted: #64748B;
+    --border-color: #E2E8F0;
+    --accent-blue: #2563EB;
+    --accent-gradient: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #2563EB 100%);
+}
 
 * {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .stApp {
-    background: #F8FAFC;
+    background: #F8FAFC !important;
+    color: #0F172A !important;
 }
 
 .block-container {
-    max-width: 1450px;
-    padding-top: 1.5rem;
+    max-width: 1480px;
+    padding-top: 1.2rem;
     padding-bottom: 3rem;
 }
 
-/* Responsive Metric Styling Fix */
+/* Master Metric Container Redesign */
+[data-testid="stMetric"] {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-left: 5px solid #2563EB !important;
+    border-radius: 16px !important;
+    padding: 14px 18px !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03) !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08) !important;
+}
+
 [data-testid="stMetricValue"] {
-    font-size: clamp(15px, 1.5vw, 22px) !important;
+    font-size: clamp(16px, 1.6vw, 24px) !important;
     font-weight: 800 !important;
+    color: #0F172A !important;
     white-space: nowrap !important;
     overflow: visible !important;
 }
@@ -95,64 +122,106 @@ st.markdown("""
 [data-testid="stMetricLabel"] {
     font-size: clamp(11px, 1vw, 13px) !important;
     font-weight: 700 !important;
-    white-space: nowrap !important;
+    color: #64748B !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
 }
 
-[data-testid="stMetric"] {
-    background: #FFFFFF !important;
-    border: 1px solid #E2E8F0 !important;
-    border-radius: 14px !important;
-    padding: 10px 14px !important;
-}
-
-/* Sidebar Design */
+/* Sidebar Custom Styling */
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%) !important;
-    border-right: 1px solid #334155;
+    border-right: 1px solid #334155 !important;
 }
 
 section[data-testid="stSidebar"] * {
     color: #F8FAFC !important;
 }
 
-/* Custom Hero Section */
+section[data-testid="stSidebar"] .stRadio label {
+    padding: 10px 16px !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    transition: all 0.2s ease !important;
+}
+
+section[data-testid="stSidebar"] .stRadio label:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Hero Banners */
 .rm-hero {
-    background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #2563EB 100%);
-    padding: 28px 32px;
-    border-radius: 20px;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 45%, #2563EB 100%);
+    padding: 32px 38px;
+    border-radius: 24px;
     color: white;
-    margin-bottom: 25px;
-    box-shadow: 0 10px 25px rgba(37,99,235,0.15);
+    margin-bottom: 28px;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .rm-hero h1 {
     color: #FFFFFF !important;
-    font-size: 32px !important;
-    font-weight: 800 !important;
-    margin-bottom: 4px !important;
+    font-size: 34px !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.5px !important;
+    margin-bottom: 6px !important;
 }
 
 .rm-hero p {
     color: #93C5FD !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     margin: 0 !important;
 }
 
-/* Primary Button Styling */
+/* Button Design System */
 .stButton > button, .stFormSubmitButton > button {
     border-radius: 12px !important;
     border: none !important;
     background: linear-gradient(135deg, #2563EB, #1D4ED8) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    padding: 0.6rem 1.2rem !important;
-    transition: all 0.2s ease !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    padding: 0.65rem 1.4rem !important;
+    transition: all 0.2s ease-in-out !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
 }
 
 .stButton > button:hover, .stFormSubmitButton > button:hover {
     background: linear-gradient(135deg, #1D4ED8, #1E40AF) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 14px rgba(37,99,235,0.2) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3) !important;
+}
+
+/* Tabs Styling */
+button[data-baseweb="tab"] {
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+}
+
+/* Dataframe & Tables Styling */
+[data-testid="stDataFrame"] {
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    border: 1px solid #E2E8F0 !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.02) !important;
+}
+
+/* Input Fields */
+div[data-baseweb="input"] > div {
+    border-radius: 12px !important;
+    border: 1px solid #CBD5E1 !important;
+}
+
+/* Form Container */
+[data-testid="stForm"] {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 20px !important;
+    padding: 24px !important;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04) !important;
 }
 
 #MainMenu { visibility: hidden; }
