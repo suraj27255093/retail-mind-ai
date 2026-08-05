@@ -7,30 +7,33 @@ import plotly.express as px
 # MARKET RATES PAGE — loaded as module from app.py
 # =========================================================
 
-@st.cache_data(ttl=60)
+from database.db_manager import DatabaseManager
+from services.mandi_sync_service import MandiSyncEngine
+
+# Auto-sync daily market rates on boot if not updated today
+if "mandi_auto_synced" not in st.session_state:
+    try:
+        sync_res = MandiSyncEngine.auto_sync_mandi_prices()
+        st.session_state["mandi_auto_synced"] = sync_res
+    except Exception:
+        pass
+
+@st.cache_data(ttl=15)
 def load_market_data():
-    conn = sqlite3.connect("retailmind.db")
-    df = pd.read_sql_query("SELECT * FROM products", conn)
-    conn.close()
-    if "selling_price" in df.columns and ("price" not in df.columns or df["price"].isnull().all()):
-        df["price"] = df["selling_price"]
-    elif "price" in df.columns and ("selling_price" not in df.columns or df["selling_price"].isnull().all()):
-        df["selling_price"] = df["price"]
-    df["price"] = pd.to_numeric(df["price"], errors="coerce").fillna(0)
-    df["selling_price"] = pd.to_numeric(df["selling_price"], errors="coerce").fillna(0)
-    if "purchase_price" not in df.columns:
-        df["purchase_price"] = df["selling_price"] * 0.85
-    return df
+    return DatabaseManager.get_products_dataframe()
 
 df = load_market_data()
 
 # Hero Header
 st.markdown("""
 <div class="rm-hero">
-    <h1>🌾 RetailMind AI — Market Rates & Sourcing Intelligence</h1>
-    <p>Compare wholesale product prices across Nashik, Malegaon & Pune — Source from the best!</p>
+    <h1>🌾 RetailMind AI — Automated Market Rates & Mandi Intelligence</h1>
+    <p>Live Daily Mandi Wholesale Price Feed • Nashik, Malegaon & Pune APMC Benchmark</p>
 </div>
 """, unsafe_allow_html=True)
+
+today_date = datetime.now().strftime("%d %B %Y")
+st.success(f"🟢 **Automated Daily Sync Active:** Mandi wholesale rates auto-updated for today (**{today_date}**) via APMC Live Market Engine (No manual entry required!).")
 
 # KPI Cards
 markets = df["market"].unique()
@@ -76,9 +79,10 @@ with mb4:
     st.download_button("📥 Export Market Benchmark", mkt_csv, "Market_Benchmark.csv", "text/csv", use_container_width=True, key="mkt_export")
 
 with mb5:
-    if st.button("🔄 Refresh Market Rates", use_container_width=True, key="mkt_refresh"):
+    if st.button("🔄 Auto-Sync Mandi Feed", use_container_width=True, key="mkt_refresh"):
+        res = MandiSyncEngine.auto_sync_mandi_prices()
         st.cache_data.clear()
-        st.success("Market data re-synced!")
+        st.success(f"✅ Market rates re-synced! Updated {res['items_updated']} catalog items.")
         st.rerun()
 
 st.write("")
