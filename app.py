@@ -197,13 +197,12 @@ if not st.session_state["logged_in"]:
                 st.session_state["show_login"] = True
                 st.rerun()
         with cta_col2:
-            st.markdown("""
-            <a href="https://wa.me/919876543210?text=Hi%20Suraj!%20I%20want%20a%20free%20demo%20of%20RetailMind%20AI" target="_blank" style="text-decoration:none;">
-                <div style="background: linear-gradient(135deg, #10B981, #059669); color: white; padding: 10px 18px; border-radius: 12px; font-weight: 700; text-align: center; box-shadow: 0 4px 12px rgba(16,185,129,0.25); font-size: 14px;">
-                    💬 WhatsApp Founder (+91 9876543210)
-                </div>
-            </a>
-            """, unsafe_allow_html=True)
+            if st.button("📩 Contact Us", use_container_width=True, key="hero_contact_us_btn"):
+                st.session_state["show_contact_modal"] = not st.session_state.get("show_contact_modal", False)
+
+        # Contact Us Modal / Drawer
+        if st.session_state.get("show_contact_modal", False):
+            st.info("💼 **Enterprise Support & Live Demo Onboarding**\n\n💬 **WhatsApp / Call:** +91 9876543210\n\n📧 **Direct Email:** contact@retailmind.ai")
 
         st.write("")
         st.stop()
