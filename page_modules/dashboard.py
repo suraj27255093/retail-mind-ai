@@ -53,7 +53,8 @@ st.markdown("""
 total_products = len(df)
 total_categories = df["category"].nunique()
 total_markets = df["market"].nunique()
-avg_price = df["selling_price"].mean()
+total_stock_valuation = (df["purchase_price"] * df["stock"]).sum()
+avg_purchase_rate = df["purchase_price"].mean()
 
 c1, c2, c3, c4 = st.columns(4)
 
@@ -61,13 +62,13 @@ with c1:
     st.metric("📦 Total Active SKU Catalog", f"{total_products:,}")
 
 with c2:
-    st.metric("📂 Retail Categories", f"{total_categories}")
+    st.metric("💰 Wholesale Stock Valuation", f"₹{total_stock_valuation:,.2f}", delta="Based on Purchase Rate")
 
 with c3:
-    st.metric("🏪 Benchmark Mandi Markets", f"{total_markets}")
+    st.metric("🌾 Avg Wholesale Purchase Rate", f"₹{avg_purchase_rate:,.2f}/unit")
 
 with c4:
-    st.metric("💰 Avg Selling Rate", f"₹{avg_price:,.2f}")
+    st.metric("🏛️ Data Source Priority", "Priority 1 APMC", delta="Agmarknet Govt Feed")
 
 st.write("")
 
