@@ -122,42 +122,71 @@ def process_ai_query(user_query, df):
     found_product_kw = next((kw for kw in PRODUCT_KEYWORDS if kw in q), None)
 
     # =========================================================
-    # PRIORITY 0: Product + Market COMBO
+    # PRIORITY 0: Product + Market COMBO (Strict Filtering)
     # "sugar ka rate malegaon mai" / "kolam chawal nashik mein"
     # =========================================================
     if found_product_kw and matched_market:
         search_kw = KW_MAP.get(found_product_kw, found_product_kw)
 
+        # STRICT FILTERING: Match ONLY the specific product and specific market
         combo_df = df[
-            (df['market'].str.lower() == matched_market.lower()) &
+            (df['market'].str.lower().str.contains(matched_market.lower())) &
             (
                 df['product_name'].str.contains(search_kw, case=False, na=False) |
+                df['name'].str.contains(search_kw, case=False, na=False) |
                 df['category'].str.contains(search_kw, case=False, na=False)
             )
-        ].sort_values("selling_price").reset_index(drop=True)
+        ].sort_values("purchase_price").reset_index(drop=True)
 
         if combo_df.empty:
-            ans = (
-                f"🔍 **{matched_market}** mein **'{search_kw.title()}'** koi bhi product nahi mila.\n"
-                f"Dusra market ({', '.join([m for m in df['market'].unique() if m != matched_market])}) ya keyword try karein."
-            )
+            ans = f"🔍 **{matched_market}** market mein **'{search_kw.title()}'** ka koi exact product data nahi mila."
             return ans, None, None
 
-        cheapest = combo_df.iloc[0]
-        ans = (
-            f"🔍 **{matched_market}** mein **'{search_kw.title()}'** ke **{len(combo_df)} products** mile:\n"
-            f"- **Sabse Sasta:** {cheapest['product_name']} — **₹{cheapest['selling_price']}**/{cheapest['unit']}\n"
-            f"- **Price Range:** ₹{combo_df['selling_price'].min()} – ₹{combo_df['selling_price'].max()}\n"
-            f"- **Total Stock Available:** {combo_df['stock'].sum()} units"
-        )
+        # Build Card HTML Responses
+        card_htmls = []
+        now_date = datetime.now().strftime("%d %B %Y")
+
+        for _, r in combo_df.iterrows():
+            pur_p = float(r.get('purchase_price', r.get('selling_price', 0)))
+            mrp_p = float(r.get('retail_mrp', r.get('selling_price', 0)))
+            stock_u = int(r.get('stock', 0))
+            unit_u = r.get('unit', 'kg')
+            mkt_name = r.get('market', matched_market)
+            supp_name = r.get('supplier', 'Standard Wholesale Supplier')
+            last_dt = r.get('last_updated_date', now_date)
+            status_st = r.get('stock_status', '🟢 Healthy')
+
+            card_html = f"""
+            <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-left:6px solid #2563EB; padding:20px; border-radius:18px; box-shadow:0 6px 20px rgba(15,23,42,0.04); margin-bottom:16px;">
+                <div style="font-size:11px; font-weight:800; color:#2563EB; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">
+                    🤖 AI MATCHED PRODUCT CARD
+                </div>
+                <div style="font-size:20px; font-weight:900; color:#0F172A; margin-bottom:12px;">
+                    🍬 {r['product_name']}
+                </div>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:10px; background:#F8FAFC; padding:12px 16px; border-radius:14px; border:1px solid #E2E8F0; font-size:13px;">
+                    <div><b style="color:#64748B;">🏪 Market:</b><br><span style="color:#2563EB; font-weight:700;">{mkt_name}</span></div>
+                    <div><b style="color:#64748B;">💰 Purchase Rate:</b><br><span style="color:#059669; font-weight:800;">₹{pur_p:.2f} / {unit_u}</span></div>
+                    <div><b style="color:#64748B;">🏷️ Retail MRP:</b><br><span style="color:#1E293B; font-weight:800;">₹{mrp_p:.2f} / {unit_u}</span></div>
+                    <div><b style="color:#64748B;">📦 Stock:</b><br><span style="color:#0F172A; font-weight:700;">{stock_u} {unit_u} ({status_st})</span></div>
+                    <div><b style="color:#64748B;">🏢 Supplier:</b><br><span style="color:#475569; font-weight:600;">{supp_name}</span></div>
+                    <div><b style="color:#64748B;">📅 Last Updated:</b><br><span style="color:#64748B; font-size:12px;">{last_dt}</span></div>
+                </div>
+            </div>
+            """
+            card_htmls.append(card_html)
+
+        ans_text = "\n".join(card_htmls)
+
         chart = px.bar(
-            combo_df, x="product_name", y="selling_price",
-            color="selling_price", color_continuous_scale="Blues",
-            title=f"📊 '{search_kw.title()}' Rates in {matched_market} Market (₹)",
-            labels={"selling_price": "Price (₹)", "product_name": "Product"}
+            combo_df, x="product_name", y="purchase_price",
+            color="purchase_price", color_continuous_scale="Viridis",
+            title=f"📊 '{search_kw.title()}' Wholesale Purchase Rates in {matched_market} (₹)",
+            labels={"purchase_price": "Purchase Rate (₹)", "product_name": "Product"}
         )
-        chart.update_layout(xaxis_tickangle=-30, paper_bgcolor="#FFFFFF")
-        return ans, combo_df[['product_name', 'category', 'selling_price', 'stock', 'unit', 'supplier']], chart
+        chart.update_layout(paper_bgcolor="#FFFFFF", plot_bgcolor="#F8FAFC", font=dict(family="Inter"))
+
+        return ans_text, combo_df[['product_name', 'market', 'purchase_price', 'retail_mrp', 'stock', 'unit', 'supplier']], chart
 
     # 1. Low stock / Reorder
     elif any(k in q for k in ["low stock", "khatam", "stock alert", "reorder", "kam stock", "shortage", "out of stock"]):
@@ -328,7 +357,7 @@ with tab1:
     # Display history
     for msg in st.session_state.messages:
         with st.chat_message("user" if msg["role"] == "user" else "assistant"):
-            st.markdown(msg["content"])
+            st.markdown(msg["content"], unsafe_allow_html=True)
 
     # Quick action buttons
     st.write("")
@@ -356,12 +385,12 @@ with tab1:
         with st.chat_message("user"):
             st.markdown(user_input)
 
-        with st.spinner("🤖 Analyzing..."):
+        with st.spinner("🤖 RetailMind AI is analyzing market intelligence..."):
             ans, result_df, chart = process_ai_query(user_input, df)
 
         st.session_state.messages.append({"role": "assistant", "content": ans})
         with st.chat_message("assistant"):
-            st.markdown(ans)
+            st.markdown(ans, unsafe_allow_html=True)
             if chart:
                 st.plotly_chart(chart, use_container_width=True)
             if result_df is not None and not result_df.empty:
