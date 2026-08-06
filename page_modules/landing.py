@@ -92,41 +92,22 @@ def render_public_landing():
     <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); padding: 36px 32px; border-radius: 24px; color: white; border: 1px solid rgba(255,255,255,0.12); margin-top: 20px; margin-bottom: 25px; box-shadow: 0 12px 32px rgba(15,23,42,0.18);">
         <div style="text-align: center; max-width: 800px; margin: 0 auto;">
             <div style="display: inline-block; background: rgba(37,99,235,0.2); border: 1px solid #3B82F6; color: #93C5FD; padding: 5px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; margin-bottom: 12px;">
-                💼 CUSTOM ENTERPRISE ADAPTATION
+                💼 ENTERPRISE ONBOARDING & CONSULTATION
             </div>
             <h3 style="color: #FFFFFF; font-size: 28px; font-weight: 800; margin-bottom: 10px;">Need a Custom AI Retail Solution?</h3>
             <p style="color: #94A3B8; font-size: 16px; margin-bottom: 22px; line-height: 1.6;">
-                Contact us for a <b>Free Product Demo & Custom Store Setup</b>. We tailor inventory algorithms, POS workflows, and Mandi intelligence for single stores, supermarkets, and wholesale chains.
+                Contact us for a <b>Free Live Demo & Custom Store Onboarding</b>. We tailor inventory algorithms, POS workflows, and Mandi intelligence for single stores, supermarkets, and wholesale chains.
             </p>
-            <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; font-size: 15px; font-weight: 700; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08);">
-                <div style="color: #60A5FA;">📞 Call / WhatsApp: <span style="color:#FFFFFF;">+91 9876543210</span></div>
-                <div style="color: #34D399;">📧 Direct Email: <span style="color:#FFFFFF;">contact@retailmind.ai</span></div>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 15px; font-weight: 700; padding: 14px; background: rgba(255,255,255,0.05); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08);">
+                <a href="https://wa.me/919876543210?text=Hi%20Suraj!%20I%20want%20a%20free%20demo%20of%20RetailMind%20AI" target="_blank" style="color: #34D399; text-decoration: none;">
+                    💬 <b>Call / WhatsApp:</b> +91 9876543210
+                </a>
+                <span style="color:#475569;">|</span>
+                <a href="mailto:contact@retailmind.ai?subject=RetailMind%20AI%20Demo%20Request" style="color: #60A5FA; text-decoration: none;">
+                    📧 <b>Direct Email:</b> contact@retailmind.ai
+                </a>
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-
-    # Trust Action Buttons
-    tb_col1, tb_col2, tb_col3 = st.columns(3)
-    with tb_col1:
-        st.markdown("""
-        <a href="https://wa.me/919876543210?text=Hi%20Suraj!%20I%20want%20a%20free%20demo%20of%20RetailMind%20AI" target="_blank" style="text-decoration:none;">
-            <div style="background: linear-gradient(135deg, #10B981, #059669); color: white; padding: 12px 18px; border-radius: 12px; font-weight: 700; text-align: center; box-shadow: 0 4px 12px rgba(16,185,129,0.25);">
-                🟢 WhatsApp Now
-            </div>
-        </a>
-        """, unsafe_allow_html=True)
-
-    with tb_col2:
-        if st.button("📅 Book a Demo", use_container_width=True, key="landing_trust_book_demo"):
-            st.session_state["show_book_demo"] = True
-
-    with tb_col3:
-        st.markdown("""
-        <a href="mailto:contact@retailmind.ai?subject=RetailMind%20AI%20Demo%20Request" style="text-decoration:none;">
-            <div style="background: linear-gradient(135deg, #2563EB, #1D4ED8); color: white; padding: 12px 18px; border-radius: 12px; font-weight: 700; text-align: center; box-shadow: 0 4px 12px rgba(37,99,235,0.25);">
-                📧 Email Us
-            </div>
-        </a>
-        """, unsafe_allow_html=True)
 

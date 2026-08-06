@@ -190,27 +190,20 @@ if not st.session_state["logged_in"]:
         # Render Pure Commercial Landing Page
         render_public_landing()
         
-        # ── STRONG HERO CTA BUTTONS ─────────────────────────
-        cta_col1, cta_col2, cta_col3 = st.columns([1, 1, 1])
+        # ── CLEAN & PROFESSIONAL CTA BUTTONS ─────────────────
+        cta_col1, cta_col2 = st.columns([1.5, 1])
         with cta_col1:
-            if st.button("⚡ Try Demo Now", use_container_width=True, key="hero_try_demo_btn"):
+            if st.button("🚀 Launch Live Platform Portal", use_container_width=True, key="hero_try_demo_btn"):
                 st.session_state["show_login"] = True
                 st.rerun()
         with cta_col2:
-            if st.button("📅 Book 1-on-1 Demo", use_container_width=True, key="hero_book_demo_btn"):
-                st.session_state["show_book_demo"] = True
-        with cta_col3:
-            if st.button("🔍 View Platform Features", use_container_width=True, key="hero_view_features_btn"):
-                st.session_state["show_book_demo"] = False
-                st.toast("📜 Scroll down to explore all 6 RetailMind AI modules!", icon="✨")
-
-        # Book Demo Modal / Banner
-        if st.session_state.get("show_book_demo", False):
-            st.success("🎉 **Book a Personal Live Demo with Founder Suraj V. Shewale!**")
-            st.info("📲 **Direct WhatsApp / Call:** +91 9876543210  |  📧 **Email:** contact@retailmind.ai\n\nGet custom enterprise onboarding for your grocery store or retail chain!")
-            if st.button("❌ Close Booking Info", key="close_book_demo"):
-                st.session_state["show_book_demo"] = False
-                st.rerun()
+            st.markdown("""
+            <a href="https://wa.me/919876543210?text=Hi%20Suraj!%20I%20want%20a%20free%20demo%20of%20RetailMind%20AI" target="_blank" style="text-decoration:none;">
+                <div style="background: linear-gradient(135deg, #10B981, #059669); color: white; padding: 10px 18px; border-radius: 12px; font-weight: 700; text-align: center; box-shadow: 0 4px 12px rgba(16,185,129,0.25); font-size: 14px;">
+                    💬 WhatsApp Founder (+91 9876543210)
+                </div>
+            </a>
+            """, unsafe_allow_html=True)
 
         st.write("")
         st.stop()
