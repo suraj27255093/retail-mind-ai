@@ -3,7 +3,7 @@ import sqlite3
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import re
 
@@ -290,6 +290,7 @@ def run_page(module_filename: str) -> None:
         "px": px,
         "go": go,
         "datetime": datetime,
+        "timedelta": timedelta,
         "json": json,
         "re": re,
         "DatabaseManager": DatabaseManager,

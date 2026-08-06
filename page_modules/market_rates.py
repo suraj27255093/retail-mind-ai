@@ -2,6 +2,7 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 import plotly.express as px
+from datetime import datetime, timedelta
 
 # =========================================================
 # MARKET RATES PAGE — loaded as module from app.py
