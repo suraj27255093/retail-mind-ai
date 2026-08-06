@@ -102,8 +102,9 @@ with tab_7d:
     history_df = MandiSyncEngine.get_7day_market_history(df)
 
     if not history_df.empty:
-        # Display 7-Day Matrix Table
-        display_cols = ["Product Name", "Category", "Mandi Market", "Unit", "6-Day Ago", "4-Day Ago", "2-Day Ago", "Yesterday", "Today (Live)", "7-Day Net Change", "7-Day Trend"]
+        # Display 7-Day Matrix Table safely
+        target_cols = ["Product Name", "Category", "Mandi Market", "Unit", "Purchase Rate (Wholesale)", "Wholesale Avg", "Retail MRP", "6-Day Ago", "4-Day Ago", "2-Day Ago", "Yesterday", "Today (Live)", "7-Day Net Change", "7-Day Trend", "Official Source", "Confidence"]
+        display_cols = [c for c in target_cols if c in history_df.columns]
         st.dataframe(history_df[display_cols], use_container_width=True, hide_index=True)
 
         st.write("")
