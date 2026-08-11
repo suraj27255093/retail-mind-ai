@@ -56,10 +56,8 @@ if st.session_state.get("dark_mode", False):
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
 * {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .block-container {
@@ -187,7 +185,13 @@ components.html("""
     try {
         var doc = window.top.document || window.parent.document || document;
         
-        // 1. Optimized Title Tag (52 chars - Optimal)
+        // 1. Preconnect & DNS-Prefetch Resource Hints (Eliminates Render-Blocking Bottlenecks)
+        setLink('dns-prefetch', 'https://fonts.googleapis.com');
+        setLink('dns-prefetch', 'https://fonts.gstatic.com');
+        setLink('preconnect', 'https://fonts.googleapis.com');
+        setLink('preconnect', 'https://fonts.gstatic.com');
+        
+        // 2. Title Tag (52 chars)
         doc.title = "RetailMind AI | Retail & Mandi Price Intelligence";
         
         // 2. Viewport Zoom Fix (WCAG 1.4.4)
