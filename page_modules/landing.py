@@ -100,5 +100,32 @@ def render_public_landing():
             </p>
         </div>
     </div>
+
+    <!-- ── UX4G & DIGITAL INDIA COMPLIANT ENTERPRISE FOOTER ── -->
+    <footer style="margin-top: 35px; padding: 28px 32px; background: #0F172A; border-radius: 24px; color: #94A3B8; font-size: 13px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(15,23,42,0.12);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 18px;">
+            <div>
+                <div style="font-weight: 900; font-size: 18px; color: #FFFFFF; letter-spacing: -0.3px;">
+                    🛒 RetailMind AI <span style="font-size: 12px; font-weight: 600; color: #60A5FA; background: rgba(37,99,235,0.2); padding: 3px 10px; border-radius: 12px; margin-left: 8px;">Enterprise v3.0</span>
+                </div>
+                <div style="font-size: 12px; color: #64748B; margin-top: 4px;">AI-Powered Retail & APMC Mandi Wholesale Intelligence Platform</div>
+            </div>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; font-weight: 700; color: #E2E8F0;">
+                <span style="background: rgba(255,255,255,0.06); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">🛡️ 256-Bit SSL Secured</span>
+                <span style="background: rgba(16,185,129,0.15); color: #6EE7B7; padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">🏛️ Agmarknet Govt Mandi Data</span>
+                <span style="background: rgba(255,255,255,0.06); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">📱 Mobile First Layout</span>
+                <span style="background: rgba(255,255,255,0.06); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">🔒 Data Consent Compliant</span>
+            </div>
+        </div>
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 16px 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12px;">
+            <div>
+                © 2026 <b>RetailMind AI</b>. Architected & Maintained by <b>Suraj V. Shewale</b>. All Rights Reserved.
+            </div>
+            <div>
+                <b>Contact & Grievance Support:</b> <a href="mailto:contact@retailmind.ai" style="color: #60A5FA; text-decoration: none; font-weight: 700;">contact@retailmind.ai</a> | Nashik, Pune & Malegaon, MH, India
+            </div>
+        </div>
+    </footer>
     """, unsafe_allow_html=True)
 
