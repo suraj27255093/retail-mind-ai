@@ -102,31 +102,3 @@ def render_public_landing():
     </div>
     """, unsafe_allow_html=True)
 
-    # ── SEO CRAWLABLE DEEP EXPLANATORY CONTENT ─────────────
-    st.markdown("""
-    <section style="margin-top: 35px; padding: 28px; background: #FFFFFF; border-radius: 20px; border: 1px solid #E2E8F0; color: #1E293B;">
-        <h2 style="font-size: 24px; font-weight: 800; color: #0F172A; margin-bottom: 14px;">Next-Generation AI Retail Management for Modern Indian Supermarkets</h2>
-        <p style="font-size: 15px; color: #475569; line-height: 1.7; margin-bottom: 16px;">
-            <b>RetailMind AI</b> is an enterprise-grade artificial intelligence platform designed specifically for grocery store owners, supermarkets, wholesalers, distributors, and retail chains in India. By combining official Priority 1 Government Mandi market feeds (Agmarknet, eNAM, APMC portals) with machine learning inventory forecasting and natural language Hinglish query support, RetailMind AI eliminates manual price tracking and stockouts.
-        </p>
-        
-        <h3 style="font-size: 20px; font-weight: 700; color: #1E293B; margin-top: 20px; margin-bottom: 10px;">Core Platform Capabilities & Enterprise Modules:</h3>
-        <ul style="font-size: 15px; color: #334155; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
-            <li><b>🌾 Automated APMC Mandi Rates:</b> Real-time daily wholesale purchase rate tracking from Nashik, Pune, and Malegaon APMC markets with 7-day rolling trend analysis.</li>
-            <li><b>📦 ML Demand & Inventory Radar:</b> Automated Reorder Point calculation (<i>ROP = d × L + SS</i>) to prevent stockouts and flag expiry items 45 days in advance.</li>
-            <li><b>🤖 Hinglish Conversational AI Assistant:</b> Natural language query engine capable of parsing queries like <i>"Sugar ka rate Malegaon mein"</i> or <i>"Atta stock status"</i> into instant structured cards.</li>
-            <li><b>🧾 Ultra-Fast Point of Sale (POS):</b> Instant barcode billing, automatic GST calculation, custom discount applying, and 1-click WhatsApp digital receipt generation.</li>
-            <li><b>👥 Customer CRM & Loyalty Rewards:</b> Mobile-linked customer tracking with automated loyalty point calculation and purchase history logs.</li>
-        </ul>
-
-        <h3 style="font-size: 20px; font-weight: 700; color: #1E293B; margin-top: 22px; margin-bottom: 12px;">Frequently Asked Questions (FAQ)</h3>
-        <div style="font-size: 14px; color: #475569; line-height: 1.6;">
-            <p><b>Q: How are Mandi prices updated in RetailMind AI?</b><br>
-            A: RetailMind AI features an automated synchronization engine connected to Priority 1 Government Agricultural Portals (Agmarknet APMC Feeds & MSAMB). Rates automatically update every morning without manual intervention.</p>
-
-            <p style="margin-top: 12px;"><b>Q: Can RetailMind AI handle multi-store retail chains?</b><br>
-            A: Yes, RetailMind AI supports role-based access control (Admin, Store Manager, Staff Account) with unified inventory valuation based on wholesale purchase cost.</p>
-        </div>
-    </section>
-    """, unsafe_allow_html=True)
-
