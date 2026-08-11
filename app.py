@@ -16,7 +16,7 @@ from services.auth_service import AuthService
 # =====================================================
 
 st.set_page_config(
-    page_title="RetailMind AI — Smart Enterprise Retail System",
+    page_title="RetailMind AI | Retail & Mandi Price Intelligence",
     page_icon="🛒",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -187,8 +187,8 @@ components.html("""
     try {
         var doc = window.top.document || window.parent.document || document;
         
-        // 1. Title Tag
-        doc.title = "RetailMind AI — Enterprise Retail Management & Mandi Intelligence System";
+        // 1. Optimized Title Tag (52 chars - Optimal)
+        doc.title = "RetailMind AI | Retail & Mandi Price Intelligence";
         
         // 2. Viewport Zoom Fix (WCAG 1.4.4)
         var vp = doc.querySelector('meta[name="viewport"]');
@@ -219,21 +219,22 @@ components.html("""
             el.setAttribute('href', href);
         }
         
-        // Essential Meta & Canonical
-        setMeta('description', 'RetailMind AI is India’s premier AI-powered retail management & Mandi wholesale price intelligence platform for grocery stores, supermarkets, and distributors. Features real-time Agmarknet APMC mandi prices, ML stock forecasting, NLP query assistant, and instant POS billing.');
+        // Essential Meta (148 chars - Optimal) & Canonical URL
+        setMeta('description', 'RetailMind AI helps Indian grocers and supermarkets track APMC mandi prices, forecast inventory stock, and manage instant billing in one platform.');
         setLink('canonical', 'https://retailmind-ai-by-suraj.streamlit.app/');
         
         // OpenGraph Social Share Meta
-        setMeta('og:title', 'RetailMind AI — Smart Enterprise Retail System', true);
-        setMeta('og:description', 'India’s premier AI-powered retail management & APMC Mandi wholesale price intelligence platform for grocery stores and supermarkets.', true);
+        setMeta('og:title', 'RetailMind AI | Retail & Mandi Price Intelligence', true);
+        setMeta('og:description', 'Track APMC mandi prices, forecast stock, and manage instant retail billing in one platform.', true);
         setMeta('og:url', 'https://retailmind-ai-by-suraj.streamlit.app/', true);
         setMeta('og:type', 'website', true);
-        setMeta('og:image', 'https://retailmind-ai-by-suraj.streamlit.app/og-preview.png', true);
+        setMeta('og:image', 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?q=80&w=1200&auto=format&fit=crop', true);
         
         // Twitter Card Meta
         setMeta('twitter:card', 'summary_large_image');
-        setMeta('twitter:title', 'RetailMind AI — Smart Enterprise Retail System');
-        setMeta('twitter:description', 'AI-powered retail management & Mandi wholesale price intelligence platform for grocery stores, supermarkets, and distributors.');
+        setMeta('twitter:title', 'RetailMind AI | Retail & Mandi Price Intelligence');
+        setMeta('twitter:description', 'Track APMC mandi prices, forecast stock, and manage instant retail billing in one platform.');
+        setMeta('twitter:image', 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?q=80&w=1200&auto=format&fit=crop');
         
         // JSON-LD Schema Insertion
         var existingJsonLd = doc.querySelector('script[id="jsonld-retailmind"]');

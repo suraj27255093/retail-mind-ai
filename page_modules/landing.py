@@ -5,13 +5,13 @@ def render_public_landing():
     Renders the Commercial Landing Page for RetailMind AI
     before entering the login portal.
     """
-    # ── HERO BANNER ─────────────────────────────────────
+    # ── NATIVE CRAWLABLE H1 & H2 HEADINGS FOR SEO ──────
     st.markdown("""
     <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 45%, #2563EB 100%); padding: 48px 40px 38px 40px; border-radius: 28px; color: white; text-align: center; margin-bottom: 30px; box-shadow: 0 20px 45px rgba(37,99,235,0.22); border: 1px solid rgba(255,255,255,0.12);">
         <div style="font-size: 64px; margin-bottom: 10px;">🛒</div>
-        <h1 style="font-size: 46px; font-weight: 900; letter-spacing: -1px; margin-bottom: 12px; color: #FFFFFF;">RetailMind AI</h1>
-        <p style="font-size: 19px; color: #93C5FD; max-width: 820px; margin: 0 auto 20px auto; line-height: 1.5;">
-            The World's Most Intelligent AI-Powered Retail Management & Mandi Intelligence Platform for Grocery Stores, Supermarkets & Wholesalers.
+        <h1 style="font-size: 42px; font-weight: 900; letter-spacing: -1px; margin-bottom: 12px; color: #FFFFFF;">RetailMind AI — Retail & Mandi Price Intelligence</h1>
+        <p style="font-size: 18px; color: #93C5FD; max-width: 820px; margin: 0 auto 20px auto; line-height: 1.5;">
+            The World's Most Intelligent AI-Powered Retail Management & APMC Mandi Intelligence Platform for Grocery Stores, Supermarkets & Wholesalers.
         </p>
         <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
             <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 7px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; color: #E0F2FE;">
@@ -25,7 +25,7 @@ def render_public_landing():
     """, unsafe_allow_html=True)
 
     # ── METRIC STATS BAR ────────────────────────────────
-    st.markdown("### 📊 Platform At A Glance")
+    st.header("📊 Platform At A Glance")
     m1, m2, m3, m4 = st.columns(4)
     with m1:
         st.metric("📦 Active Product SKUs", "300+", delta="Live Catalog")
@@ -34,13 +34,13 @@ def render_public_landing():
     with m3:
         st.metric("🤖 AI Query Processing", "Hinglish NLU", delta="0.2s Response")
     with m4:
-        st.metric("🧾 POS Invoice Speed", "< 1 Second", delta="WhatsApp & Print")
+        st.metric("Receipt Speed", "< 1 Second", delta="WhatsApp & Print")
 
     st.write("")
     st.divider()
 
     # ── FEATURE SHOWCASE GRID ───────────────────────────
-    st.markdown("### 🌟 Why RetailMind AI?")
+    st.header("🌟 Why RetailMind AI?")
     
     col_f1, col_f2, col_f3 = st.columns(3)
     
