@@ -179,92 +179,91 @@ header[data-testid="stHeader"] { background: transparent; }
 """, unsafe_allow_html=True)
 
 # ── SEO METADATA, OPENGRAPH & WCAG ZOOM FIX INJECTION ────
-st.markdown("""
+import streamlit.components.v1 as components
+
+components.html("""
 <script>
-// WCAG 1.4.4: Unblock Viewport Pinch-to-Zoom
-try {
-    var vp = window.parent.document.querySelector('meta[name="viewport"]');
-    if (vp) {
-        vp.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');
-    }
-} catch(e) {}
-
-// Dynamic Head Tag Setter
-function setMetaTag(name, content, attr) {
-    attr = attr || 'name';
+(function() {
     try {
-        var elem = window.parent.document.querySelector('meta[' + attr + '="' + name + '"]');
-        if (!elem) {
-            elem = window.parent.document.createElement('meta');
-            elem.setAttribute(attr, name);
-            window.parent.document.head.appendChild(elem);
+        var doc = window.top.document || window.parent.document || document;
+        
+        // 1. Title Tag
+        doc.title = "RetailMind AI — Enterprise Retail Management & Mandi Intelligence System";
+        
+        // 2. Viewport Zoom Fix (WCAG 1.4.4)
+        var vp = doc.querySelector('meta[name="viewport"]');
+        if (vp) {
+            vp.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');
         }
-        elem.setAttribute('content', content);
-    } catch(e) {}
-}
-
-function setLinkTag(rel, href) {
-    try {
-        var elem = window.parent.document.querySelector('link[rel="' + rel + '"]');
-        if (!elem) {
-            elem = window.parent.document.createElement('link');
-            elem.setAttribute('rel', rel);
-            window.parent.document.head.appendChild(elem);
-        }
-        elem.setAttribute('href', href);
-    } catch(e) {}
-}
-
-// Title Tag Update
-try {
-    window.parent.document.title = "RetailMind AI — Enterprise Retail Management & Mandi Intelligence System";
-} catch(e) {}
-
-// Essential SEO Meta Description & Canonical URL
-setMetaTag('description', 'RetailMind AI is India’s premier AI-powered retail management & Mandi wholesale price intelligence platform for grocery stores, supermarkets, and distributors. Features real-time Agmarknet APMC mandi prices, ML stock forecasting, NLP query assistant, and instant POS billing.');
-setLinkTag('canonical', 'https://retailmind-ai-by-suraj.streamlit.app/');
-
-// OpenGraph Social Share Preview Metadata
-setMetaTag('og:title', 'RetailMind AI — Smart Enterprise Retail System', 'property');
-setMetaTag('og:description', 'India’s premier AI-powered retail management & APMC Mandi wholesale price intelligence platform for grocery stores and supermarkets.', 'property');
-setMetaTag('og:url', 'https://retailmind-ai-by-suraj.streamlit.app/', 'property');
-setMetaTag('og:type', 'website', 'property');
-setMetaTag('og:image', 'https://retailmind-ai-by-suraj.streamlit.app/og-preview.png', 'property');
-
-// Twitter Card Metadata
-setMetaTag('twitter:card', 'summary_large_image');
-setMetaTag('twitter:title', 'RetailMind AI — Smart Enterprise Retail System');
-setMetaTag('twitter:description', 'AI-powered retail management & Mandi wholesale price intelligence platform for grocery stores, supermarkets, and distributors.');
-
-// Schema.org JSON-LD Structured Data
-try {
-    var existingJsonLd = window.parent.document.querySelector('script[id="jsonld-retailmind"]');
-    if (!existingJsonLd) {
-        var script = window.parent.document.createElement('script');
-        script.id = 'jsonld-retailmind';
-        script.type = 'application/ld+json';
-        script.text = JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "RetailMind AI",
-            "applicationCategory": "BusinessApplication",
-            "operatingSystem": "Web, Cloud, Windows, Android, iOS",
-            "offers": {
-                "@type": "Offer",
-                "price": "0.00",
-                "priceCurrency": "INR"
-            },
-            "description": "RetailMind AI is an AI-powered retail management platform for grocery stores, supermarkets, and distributors featuring live Agmarknet APMC wholesale Mandi intelligence.",
-            "author": {
-                "@type": "Person",
-                "name": "Suraj V. Shewale"
+        
+        // 3. Helper to set Meta
+        function setMeta(name, val, isProp) {
+            var attr = isProp ? 'property' : 'name';
+            var el = doc.querySelector('meta[' + attr + '="' + name + '"]');
+            if (!el) {
+                el = doc.createElement('meta');
+                el.setAttribute(attr, name);
+                doc.head.appendChild(el);
             }
-        });
-        window.parent.document.head.appendChild(script);
-    }
-} catch(e) {}
+            el.setAttribute('content', val);
+        }
+        
+        // 4. Helper to set Link
+        function setLink(rel, href) {
+            var el = doc.querySelector('link[rel="' + rel + '"]');
+            if (!el) {
+                el = doc.createElement('link');
+                el.setAttribute('rel', rel);
+                doc.head.appendChild(el);
+            }
+            el.setAttribute('href', href);
+        }
+        
+        // Essential Meta & Canonical
+        setMeta('description', 'RetailMind AI is India’s premier AI-powered retail management & Mandi wholesale price intelligence platform for grocery stores, supermarkets, and distributors. Features real-time Agmarknet APMC mandi prices, ML stock forecasting, NLP query assistant, and instant POS billing.');
+        setLink('canonical', 'https://retailmind-ai-by-suraj.streamlit.app/');
+        
+        // OpenGraph Social Share Meta
+        setMeta('og:title', 'RetailMind AI — Smart Enterprise Retail System', true);
+        setMeta('og:description', 'India’s premier AI-powered retail management & APMC Mandi wholesale price intelligence platform for grocery stores and supermarkets.', true);
+        setMeta('og:url', 'https://retailmind-ai-by-suraj.streamlit.app/', true);
+        setMeta('og:type', 'website', true);
+        setMeta('og:image', 'https://retailmind-ai-by-suraj.streamlit.app/og-preview.png', true);
+        
+        // Twitter Card Meta
+        setMeta('twitter:card', 'summary_large_image');
+        setMeta('twitter:title', 'RetailMind AI — Smart Enterprise Retail System');
+        setMeta('twitter:description', 'AI-powered retail management & Mandi wholesale price intelligence platform for grocery stores, supermarkets, and distributors.');
+        
+        // JSON-LD Schema Insertion
+        var existingJsonLd = doc.querySelector('script[id="jsonld-retailmind"]');
+        if (!existingJsonLd) {
+            var script = doc.createElement('script');
+            script.id = 'jsonld-retailmind';
+            script.type = 'application/ld+json';
+            script.text = JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "name": "RetailMind AI",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Web, Cloud, Windows, Android, iOS",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0.00",
+                    "priceCurrency": "INR"
+                },
+                "description": "RetailMind AI is an AI-powered retail management platform for grocery stores, supermarkets, and distributors featuring live Agmarknet APMC wholesale Mandi intelligence.",
+                "author": {
+                    "@type": "Person",
+                    "name": "Suraj V. Shewale"
+                }
+            });
+            doc.head.appendChild(script);
+        }
+    } catch(e) {}
+})();
 </script>
-""", unsafe_allow_html=True)
+""", height=0, width=0)
 
 # Initialize Landing Page / Login Toggle State
 if "show_login" not in st.session_state:
