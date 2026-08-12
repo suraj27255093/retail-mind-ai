@@ -224,6 +224,7 @@ components.html("""
         }
         
         // Essential Meta (148 chars - Optimal) & Canonical URL
+        setMeta('google-site-verification', 'googlebd6698be2dd95070');
         setMeta('description', 'RetailMind AI helps Indian grocers and supermarkets track APMC mandi prices, forecast inventory stock, and manage instant billing in one platform.');
         setLink('canonical', 'https://retailmind-ai-by-suraj.streamlit.app/');
         
