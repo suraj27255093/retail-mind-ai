@@ -55,7 +55,6 @@ if st.session_state.get("dark_mode", False):
     """, unsafe_allow_html=True)
 
 st.markdown("""
-<meta name="google-site-verification" content="googlebd6698be2dd95070" />
 <style>
 * {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
