@@ -421,15 +421,10 @@ menu = st.sidebar.radio(
     "Navigation Menu",
     [
         "🏠 Executive Dashboard",
-        "🤖 AI Assistant",
-        "📦 Inventory Manager",
-        "🌾 Market Rates",
-        "🏢 Suppliers Directory",
-        "🧾 Billing & POS",
-        "👥 Customers & CRM",
-        "📈 Business Analytics",
-        "⚙️ System Settings",
-        "ℹ️ About & Developer"
+        "📦 Inventory & Suppliers",
+        "🌾 Mandi Market Intelligence",
+        "🧾 Point of Sale & CRM",
+        "🤖 Hinglish AI Assistant"
     ]
 )
 
@@ -447,24 +442,14 @@ st.sidebar.markdown("""
 # ── DYNAMIC PAGE ROUTER ─────────────────────────────
 if menu == "🏠 Executive Dashboard":
     run_page("dashboard.py")
-elif menu == "🤖 AI Assistant":
-    run_page("ai_assistant.py")
-elif menu == "📦 Inventory Manager":
+elif menu == "📦 Inventory & Suppliers":
     run_page("inventory.py")
-elif menu == "🌾 Market Rates":
+elif menu == "🌾 Mandi Market Intelligence":
     run_page("market_rates.py")
-elif menu == "🏢 Suppliers Directory":
-    run_page("suppliers.py")
-elif menu == "🧾 Billing & POS":
+elif menu == "🧾 Point of Sale & CRM":
     run_page("billing.py")
-elif menu == "👥 Customers & CRM":
-    run_page("customers.py")
-elif menu == "📈 Business Analytics":
-    run_page("analytics.py")
-elif menu == "⚙️ System Settings":
-    run_page("settings.py")
-elif menu == "ℹ️ About & Developer":
-    run_page("about.py")
+elif menu == "🤖 Hinglish AI Assistant":
+    run_page("ai_assistant.py")
 
 # ── MASTER FOOTER ───────────────────────────────────
 st.write("")
