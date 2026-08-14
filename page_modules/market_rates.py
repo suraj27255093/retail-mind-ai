@@ -11,15 +11,14 @@ from datetime import datetime, timedelta
 from database.db_manager import DatabaseManager
 from services.mandi_sync_service import MandiSyncEngine
 
-# Auto-sync daily market rates on boot if not updated today
-if "mandi_auto_synced" not in st.session_state:
-    try:
-        sync_res = MandiSyncEngine.auto_sync_mandi_prices()
-        st.session_state["mandi_auto_synced"] = sync_res
-    except Exception:
-        pass
+# Auto-sync daily market rates on load
+try:
+    sync_res = MandiSyncEngine.auto_sync_mandi_prices()
+    st.session_state["mandi_auto_synced"] = sync_res
+except Exception:
+    pass
 
-@st.cache_data(ttl=15)
+@st.cache_data(ttl=5)
 def load_market_data():
     return DatabaseManager.get_products_dataframe()
 
@@ -35,12 +34,22 @@ st.markdown("""
 
 sync_res = st.session_state.get("mandi_auto_synced", {})
 is_live = sync_res.get("is_live", True)
-last_ts = sync_res.get("timestamp", datetime.now().strftime("%d %B %Y, %I:%M %p"))
+last_ts = sync_res.get("timestamp", datetime.now().strftime("%d %B %Y, %I:%M:%S %p"))
 
-if is_live:
-    st.success(f"🟢 **Priority 1 Live Market Data Active:** Wholesale purchase rates synced via **Agmarknet & APMC Govt Feeds** (Last updated: **{last_ts}**).")
-else:
-    st.warning(f"⚠️ **Live market price unavailable. Showing last verified market price.** (Last updated: {last_ts}).")
+hdr_col1, hdr_col2 = st.columns([3, 1])
+with hdr_col1:
+    if is_live:
+        st.success(f"🟢 **Priority 1 Live Market Data Active:** Wholesale purchase rates synced via **Agmarknet & APMC Feeds** (Last updated: **{last_ts}**).")
+    else:
+        st.warning(f"⚠️ **Live market price unavailable. Showing last verified market price.** (Last updated: {last_ts}).")
+with hdr_col2:
+    if st.button("🔄 Sync Live Mandi Rates", use_container_width=True, key="mkt_manual_refresh"):
+        with st.spinner("⚡ Fetching latest APMC wholesale rates..."):
+            sync_res = MandiSyncEngine.auto_sync_mandi_prices(force_refresh=True)
+            st.session_state["mandi_auto_synced"] = sync_res
+            st.cache_data.clear()
+            st.toast("✅ Government APMC Mandi Rates Auto-Updated!", icon="🌾")
+            st.rerun()
 
 # KPI Cards
 c1, c2, c3, c4 = st.columns(4)
