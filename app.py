@@ -284,12 +284,19 @@ if not st.session_state["logged_in"]:
         render_public_landing()
         
         # ── CLEAN & PROFESSIONAL CTA BUTTONS ─────────────────
-        cta_col1, cta_col2 = st.columns([1.5, 1])
+        cta_col1, cta_col2, cta_col3 = st.columns([1.5, 1, 1])
         with cta_col1:
-            if st.button("🚀 Launch Live Platform Portal", use_container_width=True, key="hero_try_demo_btn"):
-                st.session_state["show_login"] = True
+            if st.button("🚀 Enter RetailMind Portal (Admin)", use_container_width=True, key="hero_try_demo_btn"):
+                st.session_state["logged_in"] = True
+                st.session_state["username"] = "admin"
+                st.session_state["role"] = "Admin"
+                st.toast("Welcome to RetailMind AI Portal!", icon="🚀")
                 st.rerun()
         with cta_col2:
+            if st.button("🔐 Login Screen", use_container_width=True, key="hero_login_screen_btn"):
+                st.session_state["show_login"] = True
+                st.rerun()
+        with cta_col3:
             if st.button("📩 Contact Us", use_container_width=True, key="hero_contact_us_btn"):
                 st.session_state["show_contact_modal"] = not st.session_state.get("show_contact_modal", False)
 
@@ -421,10 +428,15 @@ menu = st.sidebar.radio(
     "Navigation Menu",
     [
         "🏠 Executive Dashboard",
-        "📦 Inventory & Suppliers",
-        "🌾 Mandi Market Intelligence",
-        "🧾 Point of Sale & CRM",
-        "🤖 Hinglish AI Assistant"
+        "🤖 AI Assistant",
+        "📦 Inventory Manager",
+        "🌾 Market Rates",
+        "🏢 Suppliers Directory",
+        "🧾 Billing & POS",
+        "👥 Customers & CRM",
+        "📈 Business Analytics",
+        "⚙️ System Settings",
+        "ℹ️ About & Developer"
     ]
 )
 
@@ -442,14 +454,24 @@ st.sidebar.markdown("""
 # ── DYNAMIC PAGE ROUTER ─────────────────────────────
 if menu == "🏠 Executive Dashboard":
     run_page("dashboard.py")
-elif menu == "📦 Inventory & Suppliers":
-    run_page("inventory.py")
-elif menu == "🌾 Mandi Market Intelligence":
-    run_page("market_rates.py")
-elif menu == "🧾 Point of Sale & CRM":
-    run_page("billing.py")
-elif menu == "🤖 Hinglish AI Assistant":
+elif menu == "🤖 AI Assistant":
     run_page("ai_assistant.py")
+elif menu == "📦 Inventory Manager":
+    run_page("inventory.py")
+elif menu == "🌾 Market Rates":
+    run_page("market_rates.py")
+elif menu == "🏢 Suppliers Directory":
+    run_page("suppliers.py")
+elif menu == "🧾 Billing & POS":
+    run_page("billing.py")
+elif menu == "👥 Customers & CRM":
+    run_page("customers.py")
+elif menu == "📈 Business Analytics":
+    run_page("analytics.py")
+elif menu == "⚙️ System Settings":
+    run_page("settings.py")
+elif menu == "ℹ️ About & Developer":
+    run_page("about.py")
 
 # ── MASTER FOOTER ───────────────────────────────────
 st.write("")
