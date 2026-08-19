@@ -284,7 +284,7 @@ if not st.session_state["logged_in"]:
         render_public_landing()
         
         # ── CLEAN & PROFESSIONAL CTA BUTTONS ─────────────────
-        cta_col1, cta_col2, cta_col3 = st.columns([1.5, 1, 1])
+        cta_col1, cta_col2, cta_col3, cta_col4 = st.columns([1.5, 1, 1, 1.2])
         with cta_col1:
             if st.button("🚀 Enter RetailMind Portal (Admin)", use_container_width=True, key="hero_try_demo_btn"):
                 st.session_state["logged_in"] = True
@@ -299,6 +299,20 @@ if not st.session_state["logged_in"]:
         with cta_col3:
             if st.button("📩 Contact Us", use_container_width=True, key="hero_contact_us_btn"):
                 st.session_state["show_contact_modal"] = not st.session_state.get("show_contact_modal", False)
+        with cta_col4:
+            try:
+                with open("RetailMind_AI_Presentation.pptx", "rb") as f:
+                    ppt_data = f.read()
+                st.download_button(
+                    label="📊 Download PPT (.pptx)",
+                    data=ppt_data,
+                    file_name="RetailMind_AI_Presentation.pptx",
+                    mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    use_container_width=True,
+                    key="hero_ppt_dl_btn"
+                )
+            except Exception:
+                pass
 
         # Contact Us Modal / Drawer
         if st.session_state.get("show_contact_modal", False):
