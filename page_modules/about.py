@@ -44,21 +44,6 @@ with col_a2:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    st.write("")
-    try:
-        with open("RetailMind_AI_Presentation.pptx", "rb") as f:
-            ppt_bytes = f.read()
-        st.download_button(
-            label="📊 Download Presentation PPT (.pptx)",
-            data=ppt_bytes,
-            file_name="RetailMind_AI_Presentation.pptx",
-            mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            use_container_width=True,
-            key="about_ppt_dl_btn"
-        )
-    except Exception:
-        pass
 
 
 # =========================================================
