@@ -313,7 +313,7 @@ if not st.session_state["logged_in"]:
 
         # Contact Us Modal / Drawer
         if st.session_state.get("show_contact_modal", False):
-            st.info("💼 **Enterprise Support & Live Demo Onboarding**\n\n💬 **WhatsApp / Call:** +91 9876543210\n\n📧 **Direct Email:** contact@retailmind.ai")
+            st.info("💼 **Enterprise Support & Live Demo Onboarding**\n\n💬 **WhatsApp / Call:** +91 8261941723\n\n📧 **Direct Email:** surajshewale2725@gmail.com")
 
         # Render Commercial Landing Page
         render_public_landing()

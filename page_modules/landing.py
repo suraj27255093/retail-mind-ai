@@ -128,7 +128,7 @@ def render_public_landing():
                 © 2026 <b>RetailMind AI</b>. Architected & Maintained by <b>Suraj V. Shewale</b>. All Rights Reserved.
             </div>
             <div>
-                <b>Contact Support:</b> <a href="mailto:contact@retailmind.ai" style="color: #60A5FA; text-decoration: none; font-weight: 700;">contact@retailmind.ai</a> | Nashik, Pune & Malegaon, MH, India
+                <b>Contact Support:</b> <a href="mailto:surajshewale2725@gmail.com" style="color: #60A5FA; text-decoration: none; font-weight: 700;">surajshewale2725@gmail.com</a> | 📱 <b>+91 8261941723</b> | Nashik, Pune & Malegaon, MH, India
             </div>
         </div>
     </footer>
