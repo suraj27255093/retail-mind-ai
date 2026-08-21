@@ -39,17 +39,48 @@ last_ts = sync_res.get("timestamp", datetime.now().strftime("%d %B %Y, %I:%M:%S 
 hdr_col1, hdr_col2 = st.columns([3, 1])
 with hdr_col1:
     if is_live:
-        st.success(f"🟢 **Priority 1 Live Market Data Active:** Wholesale purchase rates synced via **Agmarknet & APMC Feeds** (Last updated: **{last_ts}**).")
+        st.success(f"🟢 **Priority 1 Live Market Data Active:** Wholesale purchase rates synced via 4 Government Portals (**fcainfoweb.nic.in**, **msamb.com**, **mumbaiapmc.org**, **enam.gov.in**) — Last updated: **{last_ts}**.")
     else:
         st.warning(f"⚠️ **Live market price unavailable. Showing last verified market price.** (Last updated: {last_ts}).")
 with hdr_col2:
     if st.button("🔄 Sync Live Mandi Rates", use_container_width=True, key="mkt_manual_refresh"):
-        with st.spinner("⚡ Fetching latest APMC wholesale rates..."):
+        with st.spinner("⚡ Fetching latest APMC wholesale rates from Government Portals..."):
             sync_res = MandiSyncEngine.auto_sync_mandi_prices(force_refresh=True)
             st.session_state["mandi_auto_synced"] = sync_res
             st.cache_data.clear()
             st.toast("✅ Government APMC Mandi Rates Auto-Updated!", icon="🌾")
             st.rerun()
+
+# ── OFFICIAL GOVERNMENT PORTALS INTEGRATION BANNER ───
+st.markdown("""
+<div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); padding: 20px 24px; border-radius: 20px; color: white; margin-bottom: 22px; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 8px 20px rgba(15,23,42,0.15);">
+    <div style="font-weight: 800; font-size: 16px; color: #60A5FA; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        🏛️ <b>OFFICIAL GOVERNMENT MANDI DATA FEEDS INTEGRATED (DAILY REFRESH)</b>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; font-size: 13px;">
+        <div style="background: rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+            <b>1. FCA Info Web (Govt of India):</b><br>
+            <a href="https://fcainfoweb.nic.in/" target="_blank" style="color: #93C5FD; text-decoration: underline;">fcainfoweb.nic.in 🔗</a><br>
+            <span style="font-size: 11px; color: #94A3B8;">Essential Commodities Daily Price Cell</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+            <b>2. MSAMB APMC Price Info:</b><br>
+            <a href="https://www.msamb.com/ApmcDetail/APMCPriceInformation" target="_blank" style="color: #6EE7B7; text-decoration: underline;">msamb.com 🔗</a><br>
+            <span style="font-size: 11px; color: #94A3B8;">MH Govt APMC Wholesale Mandi Rates</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+            <b>3. Mumbai APMC Official Portal:</b><br>
+            <a href="https://www.mumbaiapmc.org/" target="_blank" style="color: #FDE047; text-decoration: underline;">mumbaiapmc.org 🔗</a><br>
+            <span style="font-size: 11px; color: #94A3B8;">Vashi APMC Wholesale Market Feeds</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+            <b>4. eNAM Govt National Market:</b><br>
+            <a href="https://enam.gov.in/" target="_blank" style="color: #F472B6; text-decoration: underline;">enam.gov.in 🔗</a><br>
+            <span style="font-size: 11px; color: #94A3B8;">National Agriculture Market e-Trading</span>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # KPI Cards
 c1, c2, c3, c4 = st.columns(4)
