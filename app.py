@@ -295,7 +295,7 @@ if not st.session_state["logged_in"]:
             """, unsafe_allow_html=True)
 
         with top_actions:
-            h1, h2, h3, h4 = st.columns([1, 1, 1.4, 0.4])
+            h1, h2, h3 = st.columns([1, 1, 1.4])
             with h1:
                 if st.button("📩 Contact Us", use_container_width=True, key="top_header_contact_btn"):
                     st.session_state["show_contact_modal"] = not st.session_state.get("show_contact_modal", False)
@@ -310,14 +310,6 @@ if not st.session_state["logged_in"]:
                     st.session_state["role"] = "Admin"
                     st.toast("Welcome to RetailMind AI Portal!", icon="🚀")
                     st.rerun()
-            with h4:
-                st.markdown("""
-                <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                    <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; border: 2.5px solid #10B981; box-shadow: 0 4px 10px rgba(239,68,68,0.3);" title="Suraj V. Shewale (Admin Account)">
-                        S
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
 
         # Contact Us Modal / Drawer
         if st.session_state.get("show_contact_modal", False):
