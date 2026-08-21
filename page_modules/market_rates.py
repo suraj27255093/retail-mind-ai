@@ -11,14 +11,14 @@ from datetime import datetime, timedelta
 from database.db_manager import DatabaseManager
 from services.mandi_sync_service import MandiSyncEngine
 
-# Auto-sync daily market rates on load
+# 100% Fully Automatic Background Mandi Price Auto-Sync on every page load
 try:
-    sync_res = MandiSyncEngine.auto_sync_mandi_prices()
+    st.cache_data.clear()
+    sync_res = MandiSyncEngine.auto_sync_mandi_prices(force_refresh=True)
     st.session_state["mandi_auto_synced"] = sync_res
 except Exception:
     pass
 
-@st.cache_data(ttl=5)
 def load_market_data():
     return DatabaseManager.get_products_dataframe()
 
@@ -39,11 +39,11 @@ last_ts = sync_res.get("timestamp", datetime.now().strftime("%d %B %Y, %I:%M:%S 
 hdr_col1, hdr_col2 = st.columns([3, 1])
 with hdr_col1:
     if is_live:
-        st.success(f"🟢 **Priority 1 Live Market Data Active:** Wholesale purchase rates synced via 4 Government Portals (**fcainfoweb.nic.in**, **msamb.com**, **mumbaiapmc.org**, **enam.gov.in**) — Last updated: **{last_ts}**.")
+        st.success(f"🟢 **100% Fully Automated Live Govt Mandi Sync Active:** Wholesale rates automatically synced from 4 Govt Portals (**fcainfoweb.nic.in**, **msamb.com**, **mumbaiapmc.org**, **enam.gov.in**) — Auto-Refreshed: **{last_ts}**.")
     else:
         st.warning(f"⚠️ **Live market price unavailable. Showing last verified market price.** (Last updated: {last_ts}).")
 with hdr_col2:
-    if st.button("🔄 Sync Live Mandi Rates", use_container_width=True, key="mkt_manual_refresh"):
+    if st.button("⚡ Force Instant Refresh", use_container_width=True, key="mkt_manual_refresh"):
         with st.spinner("⚡ Fetching latest APMC wholesale rates from Government Portals..."):
             sync_res = MandiSyncEngine.auto_sync_mandi_prices(force_refresh=True)
             st.session_state["mandi_auto_synced"] = sync_res

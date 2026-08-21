@@ -25,6 +25,8 @@ st.set_page_config(
 # Initialize Database Schema & Data Seeding safely on boot
 try:
     DatabaseManager.init_database()
+    from services.mandi_sync_service import MandiSyncEngine
+    MandiSyncEngine.auto_sync_mandi_prices()
 except Exception as e:
     pass
 
