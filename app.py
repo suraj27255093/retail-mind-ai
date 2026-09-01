@@ -68,26 +68,25 @@ st.markdown("""
     padding-bottom: 3rem;
 }
 
-/* Master Metric Container Styling (Vyapar App Inspired) */
+/* Master Metric Container Styling */
 [data-testid="stMetric"] {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    border-left: 5px solid #1E88E5 !important;
+    border-left: 5px solid #2563EB !important;
     border-radius: 16px !important;
     padding: 14px 18px !important;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03) !important;
     transition: all 0.2s ease-in-out !important;
 }
 
 [data-testid="stMetric"]:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 8px 24px rgba(30, 136, 229, 0.12) !important;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08) !important;
 }
 
 [data-testid="stMetricValue"] {
     font-size: clamp(16px, 1.6vw, 24px) !important;
     font-weight: 800 !important;
-    color: #0F172A !important;
     white-space: nowrap !important;
     overflow: visible !important;
 }
@@ -95,12 +94,11 @@ st.markdown("""
 [data-testid="stMetricLabel"] {
     font-size: clamp(11px, 1vw, 13px) !important;
     font-weight: 700 !important;
-    color: #64748B !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
 }
 
-/* Sidebar Custom Styling (Vyapar Dark Blue Drawer) */
+/* Sidebar Custom Styling */
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%) !important;
     border-right: 1px solid #334155 !important;
@@ -119,52 +117,51 @@ section[data-testid="stSidebar"] .stRadio label {
 }
 
 section[data-testid="stSidebar"] .stRadio label:hover {
-    background: rgba(30, 136, 229, 0.2) !important;
-    color: #60A5FA !important;
+    background: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Hero Banners (Vyapar Blue-Red Gradient) */
+/* Hero Banners */
 .rm-hero {
-    background: linear-gradient(135deg, #0F172A 0%, #1E88E5 50%, #1565C0 100%);
-    padding: 30px 36px;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 45%, #2563EB 100%);
+    padding: 32px 38px;
     border-radius: 24px;
     color: white;
-    margin-bottom: 24px;
-    box-shadow: 0 12px 30px rgba(30, 136, 229, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 28px;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .rm-hero h1 {
     color: #FFFFFF !important;
-    font-size: 32px !important;
+    font-size: 34px !important;
     font-weight: 900 !important;
     letter-spacing: -0.5px !important;
     margin-bottom: 6px !important;
 }
 
 .rm-hero p {
-    color: #E0E7FF !important;
-    font-size: 15px !important;
+    color: #93C5FD !important;
+    font-size: 16px !important;
     margin: 0 !important;
 }
 
-/* Button Design System (Vyapar Primary Blue & Action Red) */
+/* Button Design System */
 .stButton > button, .stFormSubmitButton > button {
     border-radius: 12px !important;
     border: none !important;
-    background: linear-gradient(135deg, #1E88E5, #1565C0) !important;
+    background: linear-gradient(135deg, #2563EB, #1D4ED8) !important;
     color: #FFFFFF !important;
     font-weight: 700 !important;
     font-size: 14px !important;
     padding: 0.65rem 1.4rem !important;
     transition: all 0.2s ease-in-out !important;
-    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.25) !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
 }
 
 .stButton > button:hover, .stFormSubmitButton > button:hover {
-    background: linear-gradient(135deg, #1565C0, #0D47A1) !important;
+    background: linear-gradient(135deg, #1D4ED8, #1E40AF) !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 8px 20px rgba(30, 136, 229, 0.35) !important;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3) !important;
 }
 
 /* Dataframe & Tables Styling */

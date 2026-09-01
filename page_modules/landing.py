@@ -28,6 +28,34 @@ def render_public_landing():
     </div>
     """, unsafe_allow_html=True)
 
+    # ── 3-STEP EASY TO USE GUIDED BANNER ────────────────────
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%); padding: 28px 32px; border-radius: 24px; color: white; margin-bottom: 30px; border: 1px solid rgba(37,99,235,0.4); box-shadow: 0 10px 30px rgba(15,23,42,0.12);">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <span style="background: #2563EB; color: #FFFFFF; font-size: 12px; font-weight: 800; padding: 4px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.6px;">✨ SUPER EASY TO USE IN 3 STEPS</span>
+            <h2 style="color: #FFFFFF; font-size: 26px; font-weight: 900; margin: 10px 0 6px 0;">How RetailMind AI Works</h2>
+            <p style="color: #94A3B8; font-size: 14.5px; margin: 0;">Zero training required — designed for single store owners, supermarkets, and distributors.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px;">
+            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 32px; margin-bottom: 8px;">1️⃣ 🌾</div>
+                <div style="font-weight: 800; font-size: 16px; color: #60A5FA; margin-bottom: 4px;">Check Mandi Rates</div>
+                <div style="font-size: 13px; color: #CBD5E1; line-height: 1.5;">View live wholesale purchase rates for Sugar, Rice, Atta, Oil from Nashik, Pune & Malegaon APMCs.</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 32px; margin-bottom: 8px;">2️⃣ 🧾</div>
+                <div style="font-weight: 800; font-size: 16px; color: #34D399; margin-bottom: 4px;">Bill in 10 Seconds</div>
+                <div style="font-size: 13px; color: #CBD5E1; line-height: 1.5;">Select items, enter quantity, auto-calculate GST & send digital invoice receipts directly to WhatsApp.</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 32px; margin-bottom: 8px;">3️⃣ 🤖</div>
+                <div style="font-weight: 800; font-size: 16px; color: #FBBF24; margin-bottom: 4px;">Ask Hinglish AI</div>
+                <div style="font-size: 13px; color: #CBD5E1; line-height: 1.5;">Type or click any question like <i>"Sugar rate Malegaon"</i> or <i>"Rice stock status"</i> for instant insights.</div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
     # ── METRIC STATS BAR ────────────────────────────────
     st.header("📊 Platform At A Glance")
     m1, m2, m3, m4 = st.columns(4)
