@@ -36,34 +36,34 @@ if df.empty:
     st.warning("⚠️ No products found in database.")
     st.stop()
 
-# ── 1. ULTRA-SLEEK GLASSMORPHIC HERO BANNER ───────────
+# ── 1. VYAPAR STYLE HERO BANNER ────────────────────────
 st.markdown("""
-<div style="background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #2563EB 100%); padding: 38px 36px 32px 36px; border-radius: 28px; color: white; margin-bottom: 28px; box-shadow: 0 20px 45px -10px rgba(37,99,235,0.22); border: 1px solid rgba(255,255,255,0.15);">
+<div style="background: linear-gradient(135deg, #0F172A 0%, #1E88E5 50%, #1565C0 100%); padding: 34px 34px 28px 34px; border-radius: 26px; color: white; margin-bottom: 24px; box-shadow: 0 16px 40px -10px rgba(30,136,229,0.25); border: 1px solid rgba(255,255,255,0.18);">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
         <div>
-            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 5px 18px; border-radius: 20px; font-size: 12.5px; font-weight: 800; color: #93C5FD; margin-bottom: 12px; letter-spacing: 0.5px;">
-                ⚡ EXECUTIVE REAL-TIME CONTROL CENTER
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(10px); padding: 5px 18px; border-radius: 20px; font-size: 12.5px; font-weight: 800; color: #E0E7FF; margin-bottom: 10px; letter-spacing: 0.5px;">
+                ⚡ VYAPAR BUSINESS CONTROL CENTER
             </div>
-            <h1 style="font-size: 34px; font-weight: 900; letter-spacing: -0.8px; margin: 0 0 8px 0; color: #FFFFFF; line-height: 1.2;">
-                RetailMind AI — Operations & Mandi Intelligence
+            <h1 style="font-size: 32px; font-weight: 900; letter-spacing: -0.8px; margin: 0 0 6px 0; color: #FFFFFF; line-height: 1.2;">
+                RetailMind AI — Vyapar Business & Mandi OS
             </h1>
-            <p style="font-size: 15.5px; color: #CBD5E1; margin: 0; font-weight: 500;">
-                Live Retail Performance • APMC Govt Mandi Benchmarks • ML Reorder Alerts & Profit Optimization
+            <p style="font-size: 15px; color: #CBD5E1; margin: 0; font-weight: 500;">
+                Easy Retail Accounting • APMC Govt Mandi Benchmarks • Instant Billing & Stock Ledger
             </p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <span style="background: rgba(16,185,129,0.2); border: 1px solid #10B981; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #6EE7B7;">
-                🟢 4 Govt Mandi Feeds
+            <span style="background: rgba(16,185,129,0.25); border: 1px solid #10B981; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #6EE7B7;">
+                🟢 4 Govt Mandi Feeds Active
             </span>
-            <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #F1F5F9;">
-                🤖 ML Engine Active
+            <span style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #F1F5F9;">
+                📱 Vyapar Simple Mode
             </span>
         </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# ── 2. EXECUTIVE KPI CARDS ─────────────────────────────
+# ── 2. VYAPAR LEDGER SUMMARY CARDS ──────────────────────
 total_products = len(df)
 total_categories = df["category"].nunique()
 total_markets = df["market"].nunique()
@@ -77,58 +77,57 @@ kc1, kc2, kc3, kc4 = st.columns(4)
 
 with kc1:
     st.metric(
-        label="📦 Active SKU Catalog",
-        value=f"{total_products:,} SKUs",
-        delta=f"{total_categories} Categories"
+        label="💰 Total Sales & Stock Value (स्टॉक मूल्य)",
+        value=f"₹{total_retail_val:,.2f}",
+        delta=f"{total_products} Active SKUs"
     )
 
 with kc2:
     st.metric(
-        label="💰 Total Inventory Stock Valuation",
+        label="📥 Total Purchase Cost (खरीद लागत)",
         value=f"₹{total_cost_val:,.2f}",
-        delta=f"Retail Value: ₹{total_retail_val:,.2f}"
+        delta="APMC Mandi Base"
     )
 
 with kc3:
     st.metric(
-        label="🔥 Total Profit Pool & Avg Margin",
+        label="🔥 Net Profit Pool (कुल लाभ)",
         value=f"₹{total_profit_pool:,.2f}",
         delta=f"Avg {avg_margin_pct:.1f}% Margin"
     )
 
 with kc4:
     st.metric(
-        label="🌾 Mandi Source Markets",
+        label="🌾 Mandi Sourcing Hubs (मंडी बाजार)",
         value=f"{total_markets} APMC Hubs",
-        delta="Priority 1 Govt Data"
+        delta="Nashik, Pune, Malegaon"
     )
 
 st.write("")
 
-# ── 3. EXECUTIVE QUICK ACTION HUB ───────────────────────
-st.markdown("<div style='font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px;'>⚡ Quick Action Hub</div>", unsafe_allow_html=True)
+# ── 3. VYAPAR QUICK ACTION BAR ─────────────────────────
+st.markdown("<div style='font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px;'>⚡ Vyapar Quick Action Bar</div>", unsafe_allow_html=True)
 q1, q2, q3, q4, q5 = st.columns(5)
 
 with q1:
-    if st.button("🌾 APMC Mandi Rates", use_container_width=True, key="dash_qa_mandi"):
-        st.session_state["menu_selection"] = "🌾 Market Rates"
-        st.info("💡 Navigate to **🌾 Market Rates** in sidebar for full benchmarking!")
+    if st.button("➕ Add Sale (POS Billing)", use_container_width=True, key="dash_qa_pos"):
+        st.info("💡 Open **🧾 Billing & POS** in sidebar for fast billing checkout!")
 
 with q2:
-    if st.button("🧾 Create New POS Bill", use_container_width=True, key="dash_qa_pos"):
-        st.info("💡 Navigate to **🧾 Billing & POS** in sidebar for fast checkout!")
+    if st.button("📥 Purchase Mandi Rates", use_container_width=True, key="dash_qa_mandi"):
+        st.info("💡 Open **🌾 Market Rates** in sidebar for APMC wholesale prices!")
 
 with q3:
-    if st.button("🤖 Ask AI Assistant", use_container_width=True, key="dash_qa_ai"):
-        st.info("💡 Navigate to **🤖 AI Assistant** in sidebar for Hinglish queries!")
+    if st.button("🤖 AI Assistant Search", use_container_width=True, key="dash_qa_ai"):
+        st.info("💡 Open **🤖 AI Assistant** in sidebar for Hinglish queries!")
 
 with q4:
-    if st.button("📦 Low Stock Radar", use_container_width=True, key="dash_qa_stock"):
+    if st.button("📦 Stock Radar & Alerts", use_container_width=True, key="dash_qa_stock"):
         st.warning(f"🚨 **{low_stock_count} Items** have stock below safety reorder threshold!")
 
 with q5:
-    if st.button("📈 Profit Analytics", use_container_width=True, key="dash_qa_analytics"):
-        st.info("💡 Navigate to **📈 Business Analytics** for deep scatter matrices!")
+    if st.button("📈 Profit Reports", use_container_width=True, key="dash_qa_analytics"):
+        st.info("💡 Open **📈 Business Analytics** for category margin reports!")
 
 st.write("")
 st.divider()
