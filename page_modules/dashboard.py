@@ -102,39 +102,7 @@ with kc4:
 
 st.write("")
 
-# ── 3. EXECUTIVE QUICK ACTION HUB ───────────────────────
-st.markdown("<div style='font-size: 15px; font-weight: 800; color: #0F172A; margin-bottom: 10px;'>⚡ Quick Action Hub</div>", unsafe_allow_html=True)
-q1, q2, q3, q4, q5 = st.columns(5)
-
-with q1:
-    if st.button("🌾 Mandi Rates", use_container_width=True, key="dash_qa_mandi"):
-        st.session_state["redirect_page"] = "🌾 Market Rates"
-        st.rerun()
-
-with q2:
-    if st.button("🧾 Fast Billing", use_container_width=True, key="dash_qa_pos"):
-        st.session_state["redirect_page"] = "🧾 Billing & POS"
-        st.rerun()
-
-with q3:
-    if st.button("🤖 Ask AI", use_container_width=True, key="dash_qa_ai"):
-        st.session_state["redirect_page"] = "🤖 AI Assistant"
-        st.rerun()
-
-with q4:
-    if st.button("🚨 Low Stock", use_container_width=True, key="dash_qa_stock"):
-        st.session_state["redirect_page"] = "📦 Inventory Manager"
-        st.rerun()
-
-with q5:
-    if st.button("📈 Profit Report", use_container_width=True, key="dash_qa_analytics"):
-        st.session_state["redirect_page"] = "📈 Business Analytics"
-        st.rerun()
-
-st.write("")
-st.divider()
-
-# ── 4. PROJECT CORE FEATURE MODULE CARDS (HAMARE PROJECT KE MAIN OPTIONS) ──────────
+# ── 3. PROJECT CORE FEATURE MODULE CARDS (HAMARE PROJECT KE MAIN OPTIONS) ──────────
 st.markdown("<div style='font-size: 20px; font-weight: 900; color: #0F172A; margin-top: 10px; margin-bottom: 16px;'>🌟 RetailMind AI — Core Feature Options (प्रोजेक्ट के मुख्य ऑप्शंस)</div>", unsafe_allow_html=True)
 
 fc_col1, fc_col2, fc_col3 = st.columns(3)
