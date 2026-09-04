@@ -148,8 +148,8 @@ with mb5:
 
 st.write("")
 
-# Chart Tabs
-tab_m1, tab_m2, tab_7d, tab_m3 = st.tabs(["📅 7-Day Mandi Price History", "📊 Price Distribution", "🔥 Market Comparison", "📋 Rate Table"])
+# Simple Clean Tabs: 7-Day History & Rate Table
+tab_7d, tab_m3 = st.tabs(["📅 7-Day Mandi Price History", "📋 Live APMC Mandi Rate Table"])
 
 with tab_7d:
     st.subheader("📅 7-Day Historical APMC Mandi Wholesale Rate Tracker")
@@ -182,48 +182,6 @@ with tab_7d:
         fig_7d.update_traces(textposition="top center", line=dict(color="#2563EB", width=3))
         fig_7d.update_layout(paper_bgcolor="#FFFFFF", plot_bgcolor="#F8FAFC", font=dict(family="Inter"))
         st.plotly_chart(fig_7d, use_container_width=True)
-
-with tab_m1:
-    col_m1, col_m2 = st.columns(2)
-    with col_m1:
-        fig1 = px.box(
-            df, x="market", y="selling_price", color="category",
-            title="Wholesale Price Variance Across Sourcing Markets (₹)",
-            labels={"selling_price": "Price (₹)"}
-        )
-        fig1.update_layout(paper_bgcolor="#FFFFFF")
-        st.plotly_chart(fig1, use_container_width=True)
-
-    with col_m2:
-        mkt_cat = df.groupby(["market", "category"])["selling_price"].mean().reset_index()
-        fig2 = px.bar(
-            mkt_cat, x="category", y="selling_price", color="market",
-            barmode="group", title="Category Avg Price by Market (₹)",
-            labels={"selling_price": "Avg Price (₹)"},
-            color_discrete_sequence=px.colors.qualitative.Set2
-        )
-        fig2.update_layout(paper_bgcolor="#FFFFFF")
-        st.plotly_chart(fig2, use_container_width=True)
-
-with tab_m2:
-    market_summary = df.groupby("market").agg(
-        AvgPrice=("selling_price", "mean"),
-        MinPrice=("selling_price", "min"),
-        MaxPrice=("selling_price", "max"),
-        TotalProducts=("id", "count"),
-        AvgPurchasePrice=("purchase_price", "mean")
-    ).reset_index()
-
-    fig3 = px.bar(
-        market_summary, x="market",
-        y=["AvgPrice", "AvgPurchasePrice"],
-        barmode="group",
-        title="🛒 Selling Price vs Purchase Price by Market (₹)",
-        labels={"value": "Price (₹)"},
-        color_discrete_map={"AvgPrice": "#2563EB", "AvgPurchasePrice": "#10B981"}
-    )
-    fig3.update_layout(paper_bgcolor="#FFFFFF")
-    st.plotly_chart(fig3, use_container_width=True)
 
 with tab_m3:
     st.subheader("📋 Multi-Price Type Commodity Catalog (Government APMC Compliant)")
