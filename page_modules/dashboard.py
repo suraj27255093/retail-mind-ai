@@ -134,113 +134,79 @@ with q5:
 st.write("")
 st.divider()
 
-# ── 4. MODERN COLOR-HARMONIZED VISUAL CHARTS ──────────
-st.markdown("<div style='font-size: 18px; font-weight: 900; color: #0F172A; margin-bottom: 16px;'>📊 Strategic Business Performance Analytics</div>", unsafe_allow_html=True)
-chart_col1, chart_col2 = st.columns([1.6, 1])
+# ── 4. PROJECT CORE FEATURE MODULE CARDS (HAMARE PROJECT KE MAIN OPTIONS) ──────────
+st.markdown("<div style='font-size: 20px; font-weight: 900; color: #0F172A; margin-top: 10px; margin-bottom: 16px;'>🌟 RetailMind AI — Core Feature Options (प्रोजेक्ट के मुख्य ऑप्शंस)</div>", unsafe_allow_html=True)
 
-with chart_col1:
-    cat_summary = df.groupby("category").agg(
-        AvgSelling=("selling_price", "mean"),
-        AvgPurchase=("purchase_price", "mean"),
-        AvgMargin=("profit_margin", "mean"),
-        ProductCount=("id", "count")
-    ).reset_index().sort_values("AvgSelling", ascending=False)
+fc_col1, fc_col2, fc_col3 = st.columns(3)
 
-    fig1 = go.Figure()
-    fig1.add_trace(go.Bar(
-        x=cat_summary["category"],
-        y=cat_summary["AvgSelling"],
-        name="Selling Price (₹)",
-        marker_color="#2563EB",
-        text=[f"₹{v:.1f}" for v in cat_summary["AvgSelling"]],
-        textposition="auto"
-    ))
-    fig1.add_trace(go.Bar(
-        x=cat_summary["category"],
-        y=cat_summary["AvgPurchase"],
-        name="Wholesale Purchase Rate (₹)",
-        marker_color="#64748B",
-        text=[f"₹{v:.1f}" for v in cat_summary["AvgPurchase"]],
-        textposition="auto"
-    ))
-    fig1.add_trace(go.Bar(
-        x=cat_summary["category"],
-        y=cat_summary["AvgMargin"],
-        name="Profit Margin (₹)",
-        marker_color="#10B981",
-        text=[f"₹{v:.1f}" for v in cat_summary["AvgMargin"]],
-        textposition="auto"
-    ))
+with fc_col1:
+    st.markdown("""
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 22px; border-radius: 20px; margin-bottom: 20px; border-top: 5px solid #2563EB; box-shadow: 0 8px 20px rgba(15,23,42,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">🌾</div>
+        <div style="font-weight: 900; font-size: 18px; color: #0F172A; margin-bottom: 6px;">1. APMC Mandi Wholesale Rates</div>
+        <div style="font-size: 13.5px; color: #64748B; line-height: 1.5; margin-bottom: 14px;">Live wholesale purchase rates for Sugar, Rice, Atta, Oil from official Govt portals (fcainfoweb, msamb, enam).</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("🌾 Open Mandi Rates", use_container_width=True, key="card_btn_mandi"):
+        st.session_state["redirect_page"] = "🌾 Market Rates"
+        st.rerun()
 
-    fig1.update_layout(
-        title="<b>Category Price & Profit Margin Comparison (₹)</b>",
-        barmode="group",
-        bargap=0.2,
-        bargroupgap=0.08,
-        paper_bgcolor="#FFFFFF",
-        plot_bgcolor="#F8FAFC",
-        font=dict(family="Inter", size=12, color="#0F172A"),
-        margin=dict(l=20, r=20, t=45, b=20),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-        yaxis=dict(gridcolor="#E2E8F0", title="Amount (₹)"),
-        xaxis=dict(gridcolor="#E2E8F0", title="Category")
-    )
-    st.plotly_chart(fig1, use_container_width=True)
+    st.write("")
+    st.markdown("""
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 22px; border-radius: 20px; margin-bottom: 20px; border-top: 5px solid #8B5CF6; box-shadow: 0 8px 20px rgba(15,23,42,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">🤖</div>
+        <div style="font-weight: 900; font-size: 18px; color: #0F172A; margin-bottom: 6px;">2. Hinglish AI Query Assistant</div>
+        <div style="font-size: 13.5px; color: #64748B; line-height: 1.5; margin-bottom: 14px;">Ask any retail query like <i>"Sugar rate Malegaon mein"</i> or <i>"Rice stock status"</i> for instant AI insights.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("🤖 Open AI Assistant", use_container_width=True, key="card_btn_ai"):
+        st.session_state["redirect_page"] = "🤖 AI Assistant"
+        st.rerun()
 
-with chart_col2:
-    mkt_summary = df.groupby("market")["id"].count().reset_index()
-    mkt_summary.columns = ["market", "count"]
+with fc_col2:
+    st.markdown("""
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 22px; border-radius: 20px; margin-bottom: 20px; border-top: 5px solid #10B981; box-shadow: 0 8px 20px rgba(15,23,42,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">🧾</div>
+        <div style="font-weight: 900; font-size: 18px; color: #0F172A; margin-bottom: 6px;">3. Ultra-Fast POS Billing</div>
+        <div style="font-size: 13.5px; color: #64748B; line-height: 1.5; margin-bottom: 14px;">10-Second barcode billing, fast quantity preset buttons, GST auto-calc, and 1-click WhatsApp customer receipts.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("🧾 Open POS Billing", use_container_width=True, key="card_btn_pos"):
+        st.session_state["redirect_page"] = "🧾 Billing & POS"
+        st.rerun()
 
-    fig2 = px.pie(
-        mkt_summary,
-        values="count",
-        names="market",
-        title="<b>Market Sourcing Distribution</b>",
-        hole=0.55,
-        color_discrete_sequence=["#2563EB", "#10B981", "#8B5CF6", "#F59E0B"]
-    )
-    fig2.update_traces(
-        textposition="inside",
-        textinfo="percent+label",
-        hoverinfo="label+value+percent",
-        marker=dict(line=dict(color='#FFFFFF', width=2))
-    )
-    fig2.update_layout(
-        paper_bgcolor="#FFFFFF",
-        font=dict(family="Inter", size=12, color="#0F172A"),
-        margin=dict(l=20, r=20, t=45, b=20),
-        showlegend=False
-    )
-    st.plotly_chart(fig2, use_container_width=True)
+    st.write("")
+    st.markdown("""
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 22px; border-radius: 20px; margin-bottom: 20px; border-top: 5px solid #F59E0B; box-shadow: 0 8px 20px rgba(15,23,42,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">📦</div>
+        <div style="font-weight: 900; font-size: 18px; color: #0F172A; margin-bottom: 6px;">4. Inventory & Stock Radar</div>
+        <div style="font-size: 13.5px; color: #64748B; line-height: 1.5; margin-bottom: 14px;">Track active SKU catalog, automatic low stock reorder alerts, stockout risk radar, and 1-click stock refills.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("📦 Open Inventory", use_container_width=True, key="card_btn_stock"):
+        st.session_state["redirect_page"] = "📦 Inventory Manager"
+        st.rerun()
 
-st.write("")
+with fc_col3:
+    st.markdown("""
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 22px; border-radius: 20px; margin-bottom: 20px; border-top: 5px solid #EC4899; box-shadow: 0 8px 20px rgba(15,23,42,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">👥</div>
+        <div style="font-weight: 900; font-size: 18px; color: #0F172A; margin-bottom: 6px;">5. Customer CRM & Khata Ledger</div>
+        <div style="font-size: 13.5px; color: #64748B; line-height: 1.5; margin-bottom: 14px;">Track customer purchase history, manage credit khata accounts, and auto-reward customer loyalty points.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("👥 Open Customer CRM", use_container_width=True, key="card_btn_crm"):
+        st.session_state["redirect_page"] = "👥 Customers & CRM"
+        st.rerun()
 
-# ── 5. TOP CATALOG HIGHLIGHTS & RISK WATCHLIST ─────────
-st.markdown("<div style='font-size: 18px; font-weight: 900; color: #0F172A; margin-bottom: 14px;'>📋 Executive Catalog & Profit Leaderboard</div>", unsafe_allow_html=True)
-
-table_col1, table_col2 = st.columns([2, 1])
-
-with table_col1:
-    st.subheader("🥇 Top Profit Margin Champions")
-    top_margin_df = df.nlargest(7, "profit_margin")[
-        ["product_name", "category", "selling_price", "purchase_price", "profit_margin", "margin_pct", "market"]
-    ]
-    st.dataframe(
-        top_margin_df.style.format({
-            "selling_price": "₹{:.2f}",
-            "purchase_price": "₹{:.2f}",
-            "profit_margin": "₹{:.2f}",
-            "margin_pct": "{:.1f}%"
-        }),
-        use_container_width=True,
-        hide_index=True
-    )
-
-with table_col2:
-    st.subheader("🚨 Inventory Stock Watchlist")
-    stock_watch = df[["product_name", "stock", "category"]].sort_values("stock", ascending=True).head(7)
-    st.dataframe(
-        stock_watch,
-        use_container_width=True,
-        hide_index=True
-    )
+    st.write("")
+    st.markdown("""
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 22px; border-radius: 20px; margin-bottom: 20px; border-top: 5px solid #0284C7; box-shadow: 0 8px 20px rgba(15,23,42,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">🚚</div>
+        <div style="font-weight: 900; font-size: 18px; color: #0F172A; margin-bottom: 6px;">6. Mandi Supplier Directory</div>
+        <div style="font-size: 13.5px; color: #64748B; line-height: 1.5; margin-bottom: 14px;">Wholesale mandi supplier directory across Nashik, Pune, Malegaon & Mumbai Vashi APMC markets.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("🚚 Open Suppliers", use_container_width=True, key="card_btn_supplier"):
+        st.session_state["redirect_page"] = "🏢 Suppliers Directory"
+        st.rerun()
