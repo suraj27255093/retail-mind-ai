@@ -123,9 +123,15 @@ with left:
         pi4.metric("🏪 Market",       p_data["market"])
         pi5.metric("🔖 GST",          f"{p_data['gst']:.0f}%")
 
-        qty_col, disc_col, btn_col = st.columns([1, 1, 1.2])
+        qty_col, disc_col, btn_col = st.columns([1.2, 1, 1.2])
         with qty_col:
             qty = st.number_input("Quantity", min_value=1, max_value=max(1, int(p_data["stock"])), value=1)
+            # Preset Fast Quantity Chips
+            st.caption("⚡ **Fast Quantity Preset:**")
+            fq1, fq2, fq3 = st.columns(3)
+            if fq1.button("+1", use_container_width=True, key="fast_qty_1"): qty = 1
+            if fq2.button("+5", use_container_width=True, key="fast_qty_5"): qty = 5
+            if fq3.button("+10", use_container_width=True, key="fast_qty_10"): qty = 10
         with disc_col:
             item_disc = st.number_input("Item Discount (%)", min_value=0.0, max_value=50.0, value=0.0, step=0.5)
         with btn_col:

@@ -98,7 +98,22 @@ with c4:
 st.write("")
 
 # Action Buttons
-st.markdown("**⚡ Market Intelligence Actions:**")
+st.markdown("**⚡ Easy Mandi Search & Quick Controls:**")
+
+# Instant Search Bar & Market Filter
+ms1, ms2 = st.columns([2, 1])
+with ms1:
+    mkt_search = st.text_input("🔍 Quick Search Mandi Rates", placeholder="Type commodity name (e.g. Sugar, Rice, Atta, Oil, Onion)...", key="mkt_quick_search")
+with ms2:
+    mkt_city_filter = st.selectbox("🏙️ Filter APMC Mandi", ["All APMC Markets"] + sorted(df["market"].unique().tolist()), key="mkt_city_sel")
+
+# Filter dataset dynamically
+filtered_mkt_df = df.copy()
+if mkt_city_filter != "All APMC Markets":
+    filtered_mkt_df = filtered_mkt_df[filtered_mkt_df["market"] == mkt_city_filter]
+if mkt_search:
+    filtered_mkt_df = filtered_mkt_df[filtered_mkt_df["product_name"].str.contains(mkt_search, case=False, na=False)]
+
 mb1, mb2, mb3, mb4, mb5 = st.columns(5)
 
 with mb1:
