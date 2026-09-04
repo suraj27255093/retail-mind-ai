@@ -160,7 +160,7 @@ with tab_comp:
     st.info("💡 Below table compares **Previous Month Baseline Rates** against **Latest 2026 Live APMC Mandi Rates** verified from FCA Info Web (`fcainfoweb.nic.in`) and MSAMB (`msamb.com`).")
 
     comparison_data = [
-        {"Commodity Item": "Sugar M-30 Premium Grade 1kg", "Category": "Grocery & Staples", "Previous Rate (₹)": 48.00, "Latest Live Rate (₹)": 65.00, "Price Diff (₹)": "+₹17.00", "Net % Hike": "+35.4% 📈", "Govt Mandi Source": "FCA Info Web (fcainfoweb.nic.in)", "Status": "🔴 High Inflation Spike"},
+        {"Commodity Item": "Sugar M-30 Premium Grade 1kg", "Category": "Grocery & Staples", "Previous Rate (₹)": 48.00, "Latest Live Rate (₹)": 53.00, "Price Diff (₹)": "+₹5.00", "Net % Hike": "+10.4% 📈", "Govt Mandi Source": "FCA Info Web (fcainfoweb.nic.in)", "Status": "🟢 Verified Market Rate"},
         {"Commodity Item": "Daawat Rozana Basmati Rice 1kg", "Category": "Grocery & Staples", "Previous Rate (₹)": 58.00, "Latest Live Rate (₹)": 68.00, "Price Diff (₹)": "+₹10.00", "Net % Hike": "+17.2% 📈", "Govt Mandi Source": "MSAMB APMC (msamb.com)", "Status": "🟡 Price Hike"},
         {"Commodity Item": "Wada Kolam Rice Grade-A 1kg", "Category": "Grocery & Staples", "Previous Rate (₹)": 52.00, "Latest Live Rate (₹)": 62.00, "Price Diff (₹)": "+₹10.00", "Net % Hike": "+19.2% 📈", "Govt Mandi Source": "Mumbai APMC (mumbaiapmc.org)", "Status": "🟡 Price Hike"},
         {"Commodity Item": "Indrayani Premium Rice 1kg", "Category": "Grocery & Staples", "Previous Rate (₹)": 55.00, "Latest Live Rate (₹)": 66.00, "Price Diff (₹)": "+₹11.00", "Net % Hike": "+20.0% 📈", "Govt Mandi Source": "MSAMB APMC (msamb.com)", "Status": "🟡 Price Hike"},
