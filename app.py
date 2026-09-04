@@ -442,20 +442,31 @@ with sb_col2:
 
 st.sidebar.divider()
 
+nav_options = [
+    "🏠 Executive Dashboard",
+    "🤖 AI Assistant",
+    "📦 Inventory Manager",
+    "🌾 Market Rates",
+    "🏢 Suppliers Directory",
+    "🧾 Billing & POS",
+    "👥 Customers & CRM",
+    "📈 Business Analytics",
+    "⚙️ System Settings",
+    "ℹ️ About & Developer"
+]
+
+if "nav_menu" not in st.session_state:
+    st.session_state["nav_menu"] = "🏠 Executive Dashboard"
+
+if "redirect_page" in st.session_state and st.session_state["redirect_page"]:
+    target = st.session_state.pop("redirect_page")
+    if target in nav_options:
+        st.session_state["nav_menu"] = target
+
 menu = st.sidebar.radio(
     "Navigation Menu",
-    [
-        "🏠 Executive Dashboard",
-        "🤖 AI Assistant",
-        "📦 Inventory Manager",
-        "🌾 Market Rates",
-        "🏢 Suppliers Directory",
-        "🧾 Billing & POS",
-        "👥 Customers & CRM",
-        "📈 Business Analytics",
-        "⚙️ System Settings",
-        "ℹ️ About & Developer"
-    ]
+    nav_options,
+    key="nav_menu"
 )
 
 st.sidebar.divider()

@@ -108,23 +108,28 @@ q1, q2, q3, q4, q5 = st.columns(5)
 
 with q1:
     if st.button("🌾 Mandi Rates", use_container_width=True, key="dash_qa_mandi"):
-        st.info("💡 Navigate to **🌾 Market Rates** in sidebar for full rates!")
+        st.session_state["redirect_page"] = "🌾 Market Rates"
+        st.rerun()
 
 with q2:
     if st.button("🧾 Fast Billing", use_container_width=True, key="dash_qa_pos"):
-        st.info("💡 Navigate to **🧾 Billing & POS** in sidebar for fast checkout!")
+        st.session_state["redirect_page"] = "🧾 Billing & POS"
+        st.rerun()
 
 with q3:
     if st.button("🤖 Ask AI", use_container_width=True, key="dash_qa_ai"):
-        st.info("💡 Navigate to **🤖 AI Assistant** in sidebar for Hinglish queries!")
+        st.session_state["redirect_page"] = "🤖 AI Assistant"
+        st.rerun()
 
 with q4:
     if st.button("🚨 Low Stock", use_container_width=True, key="dash_qa_stock"):
-        st.warning(f"🚨 **{low_stock_count} Items** need reordering!")
+        st.session_state["redirect_page"] = "📦 Inventory Manager"
+        st.rerun()
 
 with q5:
     if st.button("📈 Profit Report", use_container_width=True, key="dash_qa_analytics"):
-        st.info("💡 Navigate to **📈 Business Analytics** for profit charts!")
+        st.session_state["redirect_page"] = "📈 Business Analytics"
+        st.rerun()
 
 st.write("")
 st.divider()
