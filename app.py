@@ -92,10 +92,15 @@ st.markdown("""
 }
 
 [data-testid="stMetricLabel"] {
-    font-size: clamp(11px, 1vw, 13px) !important;
+    font-size: 12px !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.3px !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    line-height: 1.3 !important;
 }
 
 /* Sidebar Custom Styling */

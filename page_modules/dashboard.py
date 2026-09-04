@@ -36,27 +36,24 @@ if df.empty:
     st.warning("⚠️ No products found in database.")
     st.stop()
 
-# ── 1. ULTRA-SLEEK GLASSMORPHIC HERO BANNER ───────────
+# ── 1. ULTRA-SLEEK HERO BANNER ───────────
 st.markdown("""
-<div style="background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #2563EB 100%); padding: 38px 36px 32px 36px; border-radius: 28px; color: white; margin-bottom: 28px; box-shadow: 0 20px 45px -10px rgba(37,99,235,0.22); border: 1px solid rgba(255,255,255,0.15);">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+<div style="background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #2563EB 100%); padding: 28px 32px; border-radius: 24px; color: white; margin-bottom: 24px; box-shadow: 0 15px 35px -10px rgba(37,99,235,0.22); border: 1px solid rgba(255,255,255,0.15);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
         <div>
-            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 5px 18px; border-radius: 20px; font-size: 12.5px; font-weight: 800; color: #93C5FD; margin-bottom: 12px; letter-spacing: 0.5px;">
-                ⚡ EXECUTIVE REAL-TIME CONTROL CENTER
-            </div>
-            <h1 style="font-size: 34px; font-weight: 900; letter-spacing: -0.8px; margin: 0 0 8px 0; color: #FFFFFF; line-height: 1.2;">
-                RetailMind AI — Operations & Mandi Intelligence
+            <h1 style="font-size: 28px; font-weight: 900; letter-spacing: -0.5px; margin: 0 0 6px 0; color: #FFFFFF;">
+                🛒 RetailMind AI — Store & Mandi Manager
             </h1>
-            <p style="font-size: 15.5px; color: #CBD5E1; margin: 0; font-weight: 500;">
-                Live Retail Performance • APMC Govt Mandi Benchmarks • ML Reorder Alerts & Profit Optimization
+            <p style="font-size: 14.5px; color: #CBD5E1; margin: 0; font-weight: 500;">
+                Live Mandi Rates • 10-Second POS Billing • Inventory Alerts & Profit Optimizer
             </p>
         </div>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <span style="background: rgba(16,185,129,0.2); border: 1px solid #10B981; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #6EE7B7;">
-                🟢 4 Govt Mandi Feeds
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span style="background: rgba(16,185,129,0.2); border: 1px solid #10B981; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #6EE7B7;">
+                🟢 4 Govt Portals Live
             </span>
-            <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #F1F5F9;">
-                🤖 ML Engine Active
+            <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #F1F5F9;">
+                🤖 AI Active
             </span>
         </div>
     </div>
@@ -77,28 +74,28 @@ kc1, kc2, kc3, kc4 = st.columns(4)
 
 with kc1:
     st.metric(
-        label="📦 Active SKU Catalog",
+        label="📦 Total Items",
         value=f"{total_products:,} SKUs",
         delta=f"{total_categories} Categories"
     )
 
 with kc2:
     st.metric(
-        label="💰 Total Inventory Stock Valuation",
-        value=f"₹{total_cost_val:,.2f}",
-        delta=f"Retail Value: ₹{total_retail_val:,.2f}"
+        label="💰 Stock Cost Value",
+        value=f"₹{total_cost_val:,.0f}",
+        delta=f"MRP: ₹{total_retail_val:,.0f}"
     )
 
 with kc3:
     st.metric(
-        label="🔥 Total Profit Pool & Avg Margin",
-        value=f"₹{total_profit_pool:,.2f}",
+        label="🔥 Total Profit Pool",
+        value=f"₹{total_profit_pool:,.0f}",
         delta=f"Avg {avg_margin_pct:.1f}% Margin"
     )
 
 with kc4:
     st.metric(
-        label="🌾 Mandi Source Markets",
+        label="🌾 Mandi Source Hubs",
         value=f"{total_markets} APMC Hubs",
         delta="Priority 1 Govt Data"
     )
@@ -106,29 +103,28 @@ with kc4:
 st.write("")
 
 # ── 3. EXECUTIVE QUICK ACTION HUB ───────────────────────
-st.markdown("<div style='font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px;'>⚡ Quick Action Hub</div>", unsafe_allow_html=True)
+st.markdown("<div style='font-size: 15px; font-weight: 800; color: #0F172A; margin-bottom: 10px;'>⚡ Quick Action Hub</div>", unsafe_allow_html=True)
 q1, q2, q3, q4, q5 = st.columns(5)
 
 with q1:
-    if st.button("🌾 APMC Mandi Rates", use_container_width=True, key="dash_qa_mandi"):
-        st.session_state["menu_selection"] = "🌾 Market Rates"
-        st.info("💡 Navigate to **🌾 Market Rates** in sidebar for full benchmarking!")
+    if st.button("🌾 Mandi Rates", use_container_width=True, key="dash_qa_mandi"):
+        st.info("💡 Navigate to **🌾 Market Rates** in sidebar for full rates!")
 
 with q2:
-    if st.button("🧾 Create New POS Bill", use_container_width=True, key="dash_qa_pos"):
+    if st.button("🧾 Fast Billing", use_container_width=True, key="dash_qa_pos"):
         st.info("💡 Navigate to **🧾 Billing & POS** in sidebar for fast checkout!")
 
 with q3:
-    if st.button("🤖 Ask AI Assistant", use_container_width=True, key="dash_qa_ai"):
+    if st.button("🤖 Ask AI", use_container_width=True, key="dash_qa_ai"):
         st.info("💡 Navigate to **🤖 AI Assistant** in sidebar for Hinglish queries!")
 
 with q4:
-    if st.button("📦 Low Stock Radar", use_container_width=True, key="dash_qa_stock"):
-        st.warning(f"🚨 **{low_stock_count} Items** have stock below safety reorder threshold!")
+    if st.button("🚨 Low Stock", use_container_width=True, key="dash_qa_stock"):
+        st.warning(f"🚨 **{low_stock_count} Items** need reordering!")
 
 with q5:
-    if st.button("📈 Profit Analytics", use_container_width=True, key="dash_qa_analytics"):
-        st.info("💡 Navigate to **📈 Business Analytics** for deep scatter matrices!")
+    if st.button("📈 Profit Report", use_container_width=True, key="dash_qa_analytics"):
+        st.info("💡 Navigate to **📈 Business Analytics** for profit charts!")
 
 st.write("")
 st.divider()
