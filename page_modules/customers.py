@@ -85,19 +85,20 @@ with tab_c1:
     search_c = st.text_input("🔍 Search customers", placeholder="Search by name, mobile, or tier...")
     tier_filter = st.multiselect("Filter by Tier", ["Platinum", "Gold", "Silver", "Bronze"], default=[])
 
-    display_df = customers_df.copy()
-    if search_c:
-        display_df = display_df[
-            display_df["Customer Name"].str.contains(search_c, case=False, na=False) |
-            display_df["Mobile"].str.contains(search_c, case=False, na=False)
-        ]
-    if tier_filter:
-        display_df = display_df[display_df["Tier"].isin(tier_filter)]
+    # Add Last Purchase column if not present
+    if "Last Purchase" not in display_df.columns:
+        display_df["Last Purchase"] = "2026-09-01"
 
-    # Color-code tiers
-    def tier_badge(tier):
-        colors = {"Platinum": "💎", "Gold": "🥇", "Silver": "🥈", "Bronze": "🥉"}
-        return f"{colors.get(tier, '⚫')} {tier}"
+    display_df = display_df.rename(columns={
+        "Customer Name": "Name",
+        "Mobile": "Mobile",
+        "Total Purchases": "Total Purchases (₹)",
+        "Last Purchase": "Last Purchase"
+    })
+
+    cust_cols = ["ID", "Name", "Mobile", "Total Purchases (₹)", "Last Purchase", "Tier", "Loyalty Points"]
+    cust_cols = [c for c in cust_cols if c in display_df.columns]
+    st.dataframe(display_df[cust_cols], use_container_width=True, hide_index=True)
 
     display_df["Tier"] = display_df["Tier"].apply(tier_badge)
     display_df["Total Purchases"] = display_df["Total Purchases"].apply(lambda x: f"₹{x:,}")

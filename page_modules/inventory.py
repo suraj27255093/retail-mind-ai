@@ -114,14 +114,14 @@ st.write("")
 t1, t2, t3 = st.tabs(["📦 Stock Table & Filters", "📊 Stock Health Charts", "➕ Add New Product"])
 
 with t1:
-    search_k = st.text_input("🔍 Search inventory", placeholder="Search by product name, category, brand, or market...")
+    search_k = st.text_input("🔍 Search products...", placeholder="Search by English/Hindi name (e.g. Sugar / Chini), brand, category, subcategory, pack size...", key="inv_search_input")
     col_cat, col_mkt, col_status = st.columns(3)
     with col_cat:
-        sel_cat = st.multiselect("Filter Category", df["category"].unique().tolist(), default=[])
+        sel_cat = st.multiselect("Filter Category", sorted(df["category"].unique().tolist()), default=[], key="inv_cat_filter")
     with col_mkt:
-        sel_mkt = st.multiselect("Filter Market", df["market"].unique().tolist(), default=[])
+        sel_mkt = st.multiselect("Filter Brand / Market", sorted(df["market"].unique().tolist()), default=[], key="inv_mkt_filter")
     with col_status:
-        sel_status = st.multiselect("Stock Status", ["🟢 Healthy", "🟡 Low", "🔴 Critical"], default=[])
+        sel_status = st.multiselect("Stock Status", ["🟢 Healthy", "🟡 Low", "🔴 Critical"], default=[], key="inv_status_filter")
 
     f_df = df.copy()
     if filter_low:
@@ -130,7 +130,9 @@ with t1:
         mask = (
             f_df['product_name'].str.contains(search_k, case=False, na=False) |
             f_df['category'].str.contains(search_k, case=False, na=False) |
-            f_df.get('brand', pd.Series([""] * len(f_df))).str.contains(search_k, case=False, na=False)
+            f_df.get('brand', pd.Series([""] * len(f_df))).str.contains(search_k, case=False, na=False) |
+            f_df.get('subcategory', pd.Series([""] * len(f_df))).str.contains(search_k, case=False, na=False) |
+            f_df.get('unit', pd.Series([""] * len(f_df))).str.contains(search_k, case=False, na=False)
         )
         f_df = f_df[mask]
     if sel_cat:
@@ -141,9 +143,31 @@ with t1:
         f_df = f_df[f_df["stock_status"].isin(sel_status)]
 
     st.markdown(f"**Showing {len(f_df)} of {len(df)} products**")
-    display_cols = ['id', 'product_name', 'brand', 'category', 'unit', 'purchase_price', 'selling_price', 'profit_margin', 'stock', 'min_stock', 'stock_status', 'market', 'supplier']
-    display_cols = [c for c in display_cols if c in f_df.columns]
-    st.dataframe(f_df[display_cols], use_container_width=True, hide_index=True)
+    
+    # User friendly column display mapping
+    user_display_df = f_df.copy()
+    user_display_df = user_display_df.rename(columns={
+        "product_name": "Product Name",
+        "brand": "Brand",
+        "category": "Category",
+        "unit": "Pack Size / Unit",
+        "purchase_price": "Wholesale Price (₹)",
+        "selling_price": "Selling Rate (₹)",
+        "profit_margin": "Profit per Unit (₹)",
+        "stock": "Current Stock",
+        "min_stock": "Min Alert Level",
+        "stock_status": "Status",
+        "market": "Mandi Market",
+        "supplier": "Supplier"
+    })
+    
+    main_cols = ["Product Name", "Brand", "Category", "Pack Size / Unit", "Wholesale Price (₹)", "Selling Rate (₹)", "Current Stock", "Status"]
+    main_cols = [c for c in main_cols if c in user_display_df.columns]
+    st.dataframe(user_display_df[main_cols], use_container_width=True, hide_index=True)
+    
+    with st.expander("⚙️ Advanced Details (विस्तृत जानकारी)", expanded=False):
+        adv_cols = [c for c in user_display_df.columns if c not in ["id", "image_url", "description"]]
+        st.dataframe(user_display_df[adv_cols], use_container_width=True, hide_index=True)
 
 with t2:
     chart_col1, chart_col2 = st.columns(2)

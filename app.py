@@ -451,20 +451,21 @@ with sb_col2:
 st.sidebar.divider()
 
 nav_options = [
-    "🏠 Executive Dashboard",
+    "🏠 Dashboard",
+    "📦 Products & Inventory",
+    "📊 Market Rates",
+    "🛒 Sales / POS Billing",
+    "👥 Customers",
+    "🚚 Suppliers",
+    "📈 Analytics",
+    "📄 Reports",
     "🤖 AI Assistant",
-    "📦 Inventory Manager",
-    "🌾 Market Rates",
-    "🏢 Suppliers Directory",
-    "🧾 Billing & POS",
-    "👥 Customers & CRM",
-    "📈 Business Analytics",
-    "⚙️ System Settings",
-    "ℹ️ About & Developer"
+    "⚙️ Settings",
+    "ℹ️ About Developer"
 ]
 
 if "nav_menu" not in st.session_state:
-    st.session_state["nav_menu"] = "🏠 Executive Dashboard"
+    st.session_state["nav_menu"] = "🏠 Dashboard"
 
 if "redirect_page" in st.session_state and st.session_state["redirect_page"]:
     target = st.session_state.pop("redirect_page")
@@ -489,25 +490,27 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 # ── DYNAMIC PAGE ROUTER ─────────────────────────────
-if menu == "🏠 Executive Dashboard":
+if menu == "🏠 Dashboard":
     run_page("dashboard.py")
+elif menu == "📦 Products & Inventory":
+    run_page("inventory.py")
+elif menu == "📊 Market Rates":
+    run_page("market_rates.py")
+elif menu == "🛒 Sales / POS Billing":
+    run_page("billing.py")
+elif menu == "👥 Customers":
+    run_page("customers.py")
+elif menu == "🚚 Suppliers":
+    run_page("suppliers.py")
+elif menu == "📈 Analytics":
+    run_page("analytics.py")
+elif menu == "📄 Reports":
+    run_page("reports.py")
 elif menu == "🤖 AI Assistant":
     run_page("ai_assistant.py")
-elif menu == "📦 Inventory Manager":
-    run_page("inventory.py")
-elif menu == "🌾 Market Rates":
-    run_page("market_rates.py")
-elif menu == "🏢 Suppliers Directory":
-    run_page("suppliers.py")
-elif menu == "🧾 Billing & POS":
-    run_page("billing.py")
-elif menu == "👥 Customers & CRM":
-    run_page("customers.py")
-elif menu == "📈 Business Analytics":
-    run_page("analytics.py")
-elif menu == "⚙️ System Settings":
+elif menu == "⚙️ Settings":
     run_page("settings.py")
-elif menu == "ℹ️ About & Developer":
+elif menu == "ℹ️ About Developer":
     run_page("about.py")
 
 # ── MASTER FOOTER ───────────────────────────────────

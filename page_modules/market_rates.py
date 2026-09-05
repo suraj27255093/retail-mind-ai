@@ -190,6 +190,30 @@ with tab_7d:
         display_cols = [c for c in target_cols if c in history_df.columns]
         st.dataframe(history_df[display_cols], use_container_width=True, hide_index=True)
 
+        st.subheader("🌾 Wholesale Mandi Rates Directory")
+
+        if df.empty:
+            st.info("No market rates available.")
+        else:
+            mkt_view = df.copy()
+            mkt_view["status_tag"] = "🟢 Fresh" if is_live else "🟡 Latest Available"
+            mkt_view["price_date"] = sync_res.get("timestamp", datetime.now().strftime("%Y-%m-%d"))
+            mkt_view["source_feed"] = "Official APMC Feed"
+            
+            mkt_view = mkt_view.rename(columns={
+                "product_name": "Product Name",
+                "purchase_price": "Wholesale Price (₹)",
+                "selling_price": "Retail Rate (₹)",
+                "market": "Mandi Market",
+                "price_date": "Price Date",
+                "source_feed": "Data Source",
+                "status_tag": "Status"
+            })
+            
+            disp_cols = ["Product Name", "Wholesale Price (₹)", "Retail Rate (₹)", "Mandi Market", "Price Date", "Data Source", "Status"]
+            disp_cols = [c for c in disp_cols if c in mkt_view.columns]
+            st.dataframe(mkt_view[disp_cols], use_container_width=True, hide_index=True)
+
         st.write("")
         st.markdown("#### 📈 7-Day Commodity Price Trend Visualizer")
         

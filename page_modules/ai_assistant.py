@@ -55,6 +55,29 @@ with col5: st.metric("⚠️ Low Stock Alerts", low_stock_count,
                       delta=f"{low_stock_count} Items Needed" if low_stock_count > 0 else "Healthy Stock",
                       delta_color="inverse")
 
+st.markdown("### 💡 Common Kirana Store Questions (क्लिक करके पूछें):")
+preset_q1, preset_q2, preset_q3 = st.columns(3)
+preset_q4, preset_q5, preset_q6 = st.columns(3)
+
+with preset_q1:
+    if st.button("📦 Which products are low in stock?", use_container_width=True, key="ai_p1"):
+        st.session_state["user_query_input"] = "Which products are low in stock?"
+with preset_q2:
+    if st.button("🌾 What are today's market rates?", use_container_width=True, key="ai_p2"):
+        st.session_state["user_query_input"] = "What are today's market rates?"
+with preset_q3:
+    if st.button("🔥 Which products sell the most?", use_container_width=True, key="ai_p3"):
+        st.session_state["user_query_input"] = "Which products have good profit?"
+with preset_q4:
+    if st.button("🛒 What should I purchase?", use_container_width=True, key="ai_p4"):
+        st.session_state["user_query_input"] = "low stock reorder"
+with preset_q5:
+    if st.button("💵 How much did I sell today?", use_container_width=True, key="ai_p5"):
+        st.session_state["user_query_input"] = "today sales summary"
+with preset_q6:
+    if st.button("💰 Which products have good profit?", use_container_width=True, key="ai_p6"):
+        st.session_state["user_query_input"] = "high margin products"
+
 st.write("")
 
 # =====================================================

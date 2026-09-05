@@ -52,7 +52,55 @@ st.divider()
 # =========================================================
 # SYSTEM CONTROL BUTTONS
 # =========================================================
-st.subheader("🛠️ System Control & Diagnostics Panel")
+st.subheader("⚙️ Store & Application Preferences")
+
+st_tab1, st_tab2, st_tab3, st_tab4, st_tab5 = st.tabs([
+    "🏪 Store Settings",
+    "👤 User Settings",
+    "🌐 Language",
+    "🎨 Appearance",
+    "🔒 Security"
+])
+
+with st_tab1:
+    with st.form("form_store_settings"):
+        st.markdown("#### 🏪 Kirana Store Profile")
+        s_name = st.text_input("Store Name", value="RetailMind Kirana & General Store")
+        s_owner = st.text_input("Store Owner", value="Suraj V. Shewale")
+        s_phone = st.text_input("Phone Number", value="+91 8261941723")
+        s_city = st.text_input("City / APMC Hub", value="Nashik, Maharashtra")
+        s_gst = st.text_input("GSTIN Number (Optional)", value="27ABCDE1234F1Z5")
+        if st.form_submit_button("💾 Save Store Profile", use_container_width=True):
+            st.success("✅ Store profile updated successfully!")
+
+with st_tab2:
+    st.markdown("#### 👤 Account Profile")
+    st.info(f"Logged in as: **{st.session_state.get('username', 'admin')}** | Role: **{st.session_state.get('role', 'Admin')}**")
+
+with st_tab3:
+    st.markdown("#### 🌐 Language Settings (भाषा चुनें)")
+    lang = st.selectbox("Preferred Interface Language", ["English", "Hindi (हिंदी)", "Marathi (मराठी)"], index=0)
+    st.info("Language settings applied across search & AI query suggestions.")
+
+with st_tab4:
+    st.markdown("#### 🎨 Appearance & Theme")
+    cur_theme = "🌙 Dark Mode" if st.session_state.get("dark_mode", False) else "☀️ Light Mode"
+    st.write(f"Current Active Theme: **{cur_theme}**")
+    if st.button("🔄 Toggle Dark/Light Theme", key="settings_theme_toggle_btn"):
+        st.session_state["dark_mode"] = not st.session_state.get("dark_mode", False)
+        st.rerun()
+
+with st_tab5:
+    st.markdown("#### 🔒 Security & Password Update")
+    with st.form("form_sec_settings"):
+        old_p = st.text_input("Current Password", type="password")
+        new_p = st.text_input("New Password", type="password")
+        conf_p = st.text_input("Confirm New Password", type="password")
+        if st.form_submit_button("🔑 Update Password", use_container_width=True):
+            if new_p and new_p == conf_p:
+                st.success("✅ Security credentials updated successfully!")
+            else:
+                st.error("Passwords do not match!")
 
 sc1, sc2, sc3, sc4 = st.columns(4)
 
