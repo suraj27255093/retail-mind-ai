@@ -301,9 +301,9 @@ with right:
                 <span style="font-weight:600;">₹{total_gst:,.2f}</span>
             </div>
             <hr style="border:2px solid #2563EB; margin:12px 0;">
-            <div style="display:flex; justify-content:space-between;">
-                <span style="font-size:18px; font-weight:800; color:#0F172A;">💰 GRAND TOTAL</span>
-                <span style="font-size:22px; font-weight:800; color:#2563EB;">₹{grand_total:,.2f}</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#EFF6FF; padding:12px 16px; border-radius:12px; border:1px solid #BFDBFE;">
+                <span style="font-size:20px; font-weight:900; color:#0F172A;">💰 TOTAL AMOUNT:</span>
+                <span style="font-size:32px; font-weight:900; color:#2563EB;">₹{grand_total:,.2f}</span>
             </div>
         </div>
         """, unsafe_allow_html=True)

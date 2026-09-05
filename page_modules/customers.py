@@ -28,27 +28,22 @@ customers_df = pd.DataFrame(st.session_state.customers_db)
 # Hero Header
 st.markdown("""
 <div class="rm-hero">
-    <h1>👥 RetailMind AI — Customers & CRM Loyalty Hub</h1>
-    <p>Customer relationship management, purchase histories, loyalty tiers & reward point vouchers</p>
+    <h1>👥 Customers & Purchase History</h1>
+    <p>Manage store customers, track purchase history, Khata credit ledger & loyalty points</p>
 </div>
 """, unsafe_allow_html=True)
 
 # KPI Metrics
-total_points = customers_df["Loyalty Points"].sum()
-avg_purchase = customers_df["Total Purchases"].mean()
-platinum_count = len(customers_df[customers_df["Tier"] == "Platinum"])
+total_purchases_val = customers_df["Total Purchases"].sum()
+top_cust_name = customers_df.loc[customers_df["Total Purchases"].idxmax(), "Customer Name"]
 
-c1, c2, c3, c4, c5 = st.columns(5)
+c1, c2, c3 = st.columns(3)
 with c1:
-    st.metric("👥 Total Customers", len(customers_df))
+    st.metric("👥 Total Customers", f"{len(customers_df):,} Customers")
 with c2:
-    st.metric("🏆 Top Customer", customers_df.loc[customers_df["Total Purchases"].idxmax(), "Customer Name"])
+    st.metric("💰 Total Customer Purchases", f"₹{total_purchases_val:,.0f}")
 with c3:
-    st.metric("⭐ Total Loyalty Points", f"{total_points:,}")
-with c4:
-    st.metric("💰 Avg Purchase Value", f"₹{avg_purchase:,.0f}")
-with c5:
-    st.metric("💎 Platinum Members", platinum_count, delta="+2 this month")
+    st.metric("🏆 Top Customer", top_cust_name)
 
 st.write("")
 
@@ -76,14 +71,21 @@ with cb5:
     if st.button("🔄 Refresh CRM", use_container_width=True, key="crm_refresh"):
         st.rerun()
 
-st.write("")
-
 # Tabs
 tab_c1, tab_c2, tab_c3 = st.tabs(["👥 Customer Directory", "📊 Loyalty Analytics", "➕ Register New Customer"])
 
 with tab_c1:
-    search_c = st.text_input("🔍 Search customers", placeholder="Search by name, mobile, or tier...")
-    tier_filter = st.multiselect("Filter by Tier", ["Platinum", "Gold", "Silver", "Bronze"], default=[])
+    search_c = st.text_input("🔍 Search customers", placeholder="Search by name, mobile, or tier...", key="cust_search_inp")
+    tier_filter = st.multiselect("Filter by Tier", ["Platinum", "Gold", "Silver", "Bronze"], default=[], key="cust_tier_flt")
+
+    display_df = customers_df.copy()
+    if search_c:
+        display_df = display_df[
+            display_df["Customer Name"].str.contains(search_c, case=False, na=False) |
+            display_df["Mobile"].str.contains(search_c, case=False, na=False)
+        ]
+    if tier_filter:
+        display_df = display_df[display_df["Tier"].isin(tier_filter)]
 
     # Add Last Purchase column if not present
     if "Last Purchase" not in display_df.columns:
@@ -98,13 +100,8 @@ with tab_c1:
 
     cust_cols = ["ID", "Name", "Mobile", "Total Purchases (₹)", "Last Purchase", "Tier", "Loyalty Points"]
     cust_cols = [c for c in cust_cols if c in display_df.columns]
-    st.dataframe(display_df[cust_cols], use_container_width=True, hide_index=True)
-
-    display_df["Tier"] = display_df["Tier"].apply(tier_badge)
-    display_df["Total Purchases"] = display_df["Total Purchases"].apply(lambda x: f"₹{x:,}")
-
     st.markdown(f"**{len(display_df)} customers found**")
-    st.dataframe(display_df, use_container_width=True, hide_index=True)
+    st.dataframe(display_df[cust_cols], use_container_width=True, hide_index=True)
 
     # Quick customer action
     st.write("")

@@ -60,6 +60,7 @@ st.markdown("""
 <style>
 * {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 15px;
 }
 
 .block-container {
@@ -74,7 +75,7 @@ st.markdown("""
     border: 1px solid #E2E8F0;
     border-left: 5px solid #2563EB !important;
     border-radius: 16px !important;
-    padding: 14px 18px !important;
+    padding: 16px 20px !important;
     box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03) !important;
     transition: all 0.2s ease-in-out !important;
 }
@@ -85,17 +86,17 @@ st.markdown("""
 }
 
 [data-testid="stMetricValue"] {
-    font-size: clamp(16px, 1.6vw, 24px) !important;
+    font-size: clamp(22px, 2vw, 30px) !important;
     font-weight: 800 !important;
     white-space: nowrap !important;
     overflow: visible !important;
 }
 
 [data-testid="stMetricLabel"] {
-    font-size: 12px !important;
+    font-size: 13px !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.3px !important;
+    letter-spacing: 0.4px !important;
     white-space: normal !important;
     word-break: break-word !important;
     overflow: visible !important;
@@ -117,7 +118,7 @@ section[data-testid="stSidebar"] .stRadio label {
     padding: 10px 16px !important;
     border-radius: 12px !important;
     font-weight: 600 !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     transition: all 0.2s ease !important;
 }
 
@@ -128,16 +129,21 @@ section[data-testid="stSidebar"] .stRadio label:hover {
 /* Hero Banners */
 .rm-hero {
     background: linear-gradient(135deg, #0F172A 0%, #1E293B 45%, #2563EB 100%);
-    padding: 32px 38px;
-    border-radius: 24px;
+    padding: 28px 34px;
+    border-radius: 20px;
     color: white;
-    margin-bottom: 28px;
-    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.18);
+    margin-bottom: 24px;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .rm-hero h1 {
     color: #FFFFFF !important;
+    font-size: 28px !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.5px !important;
+    margin-bottom: 6px !important;
+}
     font-size: 34px !important;
     font-weight: 900 !important;
     letter-spacing: -0.5px !important;
@@ -404,26 +410,31 @@ if not st.session_state["logged_in"]:
                         
         st.stop()
 
-# ── ROUTER UTILITY ──────────────────────────────────
 def run_page(module_filename: str) -> None:
     filepath = f"page_modules/{module_filename}"
-    with open(filepath, "r", encoding="utf-8") as f:
-        code = f.read()
-    exec_scope = {
-        "st": st,
-        "sqlite3": sqlite3,
-        "pd": pd,
-        "px": px,
-        "go": go,
-        "datetime": datetime,
-        "timedelta": timedelta,
-        "json": json,
-        "re": re,
-        "DatabaseManager": DatabaseManager,
-        "__file__": filepath,
-        "__name__": "__main__"
-    }
-    exec(code, exec_scope)
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            code = f.read()
+        exec_scope = {
+            "st": st,
+            "sqlite3": sqlite3,
+            "pd": pd,
+            "px": px,
+            "go": go,
+            "datetime": datetime,
+            "timedelta": timedelta,
+            "json": json,
+            "re": re,
+            "DatabaseManager": DatabaseManager,
+            "__file__": filepath,
+            "__name__": "__main__"
+        }
+        exec(code, exec_scope)
+    except Exception as err:
+        # Internal logging for developer investigation
+        import logging
+        logging.error(f"Error executing module '{module_filename}': {err}", exc_info=True)
+        st.error("⚠️ Something went wrong while loading this page. Please try again.")
 
 # ── SIDEBAR NAVIGATION ──────────────────────────────
 st.sidebar.markdown(f"""

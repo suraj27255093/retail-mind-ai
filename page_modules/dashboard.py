@@ -31,13 +31,14 @@ def load_dashboard_data():
 df, bills_df = load_dashboard_data()
 
 # ── 1. CLEAN HERO BANNER ─────────────────────────────────
-st.markdown("""
+user_disp = st.session_state.get("username", "Store Owner").capitalize()
+st.markdown(f"""
 <div style="background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #2563EB 100%); padding: 24px 28px; border-radius: 20px; color: white; margin-bottom: 22px; box-shadow: 0 10px 25px -5px rgba(37,99,235,0.18);">
     <h1 style="font-size: 26px; font-weight: 900; margin: 0 0 6px 0; color: #FFFFFF;">
-        🏠 Kirana Store Dashboard
+        Welcome, {user_disp} 👋
     </h1>
-    <p style="font-size: 14px; color: #CBD5E1; margin: 0; font-weight: 500;">
-        Real-time Overview • Quick Actions • Stock Alerts • APMC Mandi Rates
+    <p style="font-size: 14.5px; color: #CBD5E1; margin: 0; font-weight: 500;">
+        Here's what's happening in your store today.
     </p>
 </div>
 """, unsafe_allow_html=True)
