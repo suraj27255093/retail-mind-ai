@@ -467,12 +467,12 @@ st.sidebar.divider()
 
 nav_options = [
     "🏠 Dashboard",
-    "📦 Products & Inventory",
+    "📦 Products",
+    "🛒 Billing",
     "📊 Market Rates",
-    "🛒 Sales / POS Billing",
+    "📋 Stock",
     "👥 Customers",
     "🚚 Suppliers",
-    "📈 Analytics",
     "📄 Reports",
     "🤖 AI Assistant",
     "⚙️ Settings",
@@ -507,18 +507,18 @@ st.sidebar.markdown("""
 # ── DYNAMIC PAGE ROUTER ─────────────────────────────
 if menu == "🏠 Dashboard":
     run_page("dashboard.py")
-elif menu == "📦 Products & Inventory":
+elif menu == "📦 Products":
     run_page("inventory.py")
+elif menu == "🛒 Billing":
+    run_page("billing.py")
 elif menu == "📊 Market Rates":
     run_page("market_rates.py")
-elif menu == "🛒 Sales / POS Billing":
-    run_page("billing.py")
+elif menu == "📋 Stock":
+    run_page("inventory.py")
 elif menu == "👥 Customers":
     run_page("customers.py")
 elif menu == "🚚 Suppliers":
     run_page("suppliers.py")
-elif menu == "📈 Analytics":
-    run_page("analytics.py")
 elif menu == "📄 Reports":
     run_page("reports.py")
 elif menu == "🤖 AI Assistant":
