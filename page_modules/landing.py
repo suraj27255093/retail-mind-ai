@@ -22,7 +22,7 @@ def render_public_landing():
                 👨‍💻 Architect: <b>Suraj V. Shewale</b>
             </div>
             <div style="background: rgba(16,185,129,0.2); border: 1px solid #10B981; backdrop-filter: blur(14px); padding: 8px 22px; border-radius: 30px; font-size: 13.5px; font-weight: 800; color: #6EE7B7;">
-                🟢 Priority 1 Agmarknet Live Feeds Active
+                🟢 Latest Available Government Data Feeds Active
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@ def render_public_landing():
             <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1);">
                 <div style="font-size: 32px; margin-bottom: 8px;">1️⃣ 🌾</div>
                 <div style="font-weight: 800; font-size: 16px; color: #60A5FA; margin-bottom: 4px;">Check Mandi Rates</div>
-                <div style="font-size: 13px; color: #CBD5E1; line-height: 1.5;">View live wholesale purchase rates for Sugar, Rice, Atta, Oil from Nashik, Pune & Malegaon APMCs.</div>
+                <div style="font-size: 13px; color: #CBD5E1; line-height: 1.5;">View latest available government wholesale purchase rates for Sugar, Rice, Atta, Oil from Nashik, Pune & Malegaon APMCs.</div>
             </div>
             <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1);">
                 <div style="font-size: 32px; margin-bottom: 8px;">2️⃣ 🧾</div>
