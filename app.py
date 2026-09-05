@@ -343,11 +343,18 @@ if not st.session_state["logged_in"]:
         col_l1, col_l2, col_l3 = st.columns([1, 1.2, 1])
         
         with col_l2:
-            st.markdown("### ⚡ Quick Demo Login (One-Click)")
+            st.markdown("""
+            <div style="background: #FFFFFF; padding: 24px; border-radius: 18px; border: 1px solid #E2E8F0; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+                <h3 style="margin-top: 0; font-size: 18px; color: #0F172A; text-align: center;">⚡ Quick Demo Login</h3>
+                <p style="font-size: 12px; color: #64748B; text-align: center; margin-bottom: 14px;">Select a role below for 1-click evaluation & testing</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
             d_col1, d_col2, d_col3 = st.columns(3)
             with d_col1:
-                if st.button("👑 Admin", use_container_width=True, key="demo_admin_btn"):
-                    user_info = AuthService.authenticate_user("admin", "admin123")
+                if st.button("👑 Admin (Demo)", use_container_width=True, key="demo_admin_btn"):
+                    admin_p = os.environ.get("ADMIN_PASSWORD", "admin123")
+                    user_info = AuthService.authenticate_user("admin", admin_p)
                     if user_info:
                         st.session_state["logged_in"] = True
                         st.session_state["username"] = user_info["username"]
@@ -355,8 +362,9 @@ if not st.session_state["logged_in"]:
                         st.toast("Welcome Admin!", icon="👑")
                         st.rerun()
             with d_col2:
-                if st.button("👔 Manager", use_container_width=True, key="demo_mgr_btn"):
-                    user_info = AuthService.authenticate_user("manager", "admin123")
+                if st.button("👔 Manager (Demo)", use_container_width=True, key="demo_mgr_btn"):
+                    admin_p = os.environ.get("ADMIN_PASSWORD", "admin123")
+                    user_info = AuthService.authenticate_user("manager", admin_p)
                     if user_info:
                         st.session_state["logged_in"] = True
                         st.session_state["username"] = user_info["username"]
@@ -364,8 +372,9 @@ if not st.session_state["logged_in"]:
                         st.toast("Welcome Manager!", icon="👔")
                         st.rerun()
             with d_col3:
-                if st.button("🧑‍💼 Staff", use_container_width=True, key="demo_staff_btn"):
-                    user_info = AuthService.authenticate_user("staff", "admin123")
+                if st.button("🧑‍💼 Staff (Demo)", use_container_width=True, key="demo_staff_btn"):
+                    admin_p = os.environ.get("ADMIN_PASSWORD", "admin123")
+                    user_info = AuthService.authenticate_user("staff", admin_p)
                     if user_info:
                         st.session_state["logged_in"] = True
                         st.session_state["username"] = user_info["username"]
@@ -374,11 +383,10 @@ if not st.session_state["logged_in"]:
                         st.rerun()
 
             st.divider()
-            st.info("💡 **Manual Credentials:** Username: `admin` | Password: `admin123`")
             
             with st.form("login_form"):
-                st.subheader("🔐 Secure Sign In")
-                user_input = st.text_input("Username", placeholder="e.g. admin")
+                st.subheader("🔐 Store Owner Sign In")
+                user_input = st.text_input("Username / Shop ID", placeholder="e.g. admin or your username")
                 pass_input = st.text_input("Password", type="password", placeholder="••••••••")
                 
                 submit_login = st.form_submit_button("🚀 Sign In to RetailMind AI", use_container_width=True)

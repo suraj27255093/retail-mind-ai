@@ -45,7 +45,8 @@ streamlit run app.py
 
 ---
 
-## 🔑 Demo Access Credentials
+## 🔑 Access & Configuration Guide
 
-- **Admin Login:** Username: `admin` | Password: `admin123`
-- Or use the **1-Click Quick Demo Login** buttons on the login screen.
+- **Roles Supported:** Admin (Full Access), Store Manager (Inventory & Billing), Staff Account (POS Billing).
+- **Environment Variables / Secrets:** Production credentials can be set via `.env` file or Streamlit `secrets.toml`.
+- **Quick Demo Access:** Use the **1-Click Quick Demo Login** buttons on the login screen for testing and evaluation.

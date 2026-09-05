@@ -170,13 +170,14 @@ with col_sec1:
                 st.error("❌ Passwords do not match!")
             else:
                 try:
+                    hashed_pw, salt = AuthService.hash_password(new_pass)
                     conn = sqlite3.connect("retailmind.db")
-                    conn.execute("UPDATE users SET password = ? WHERE username = ?", (new_pass, curr_user))
+                    conn.execute("UPDATE users SET password_hash = ?, salt = ? WHERE username = ?", (hashed_pw, salt, curr_user))
                     conn.commit()
                     conn.close()
-                    st.success("✅ Password updated successfully!")
-                except Exception:
-                    st.success("✅ Password updated in session (DB users table not available).")
+                    st.success("✅ Password updated securely!")
+                except Exception as e:
+                    st.error(f"Failed to update password: {e}")
 
 with col_sec2:
     st.subheader("👤 User Management Panel")

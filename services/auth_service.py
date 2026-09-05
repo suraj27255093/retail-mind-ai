@@ -31,12 +31,23 @@ class AuthService:
         if not username_clean or not password:
             return None
 
-        # Hardcoded fallback for default admin demo
-        if username_clean == "admin" and password == "admin123":
+        # Dynamic credential check via environment variable or Streamlit secrets
+        admin_pass = os.environ.get("ADMIN_PASSWORD")
+        if not admin_pass:
+            try:
+                import streamlit as st
+                admin_pass = st.secrets.get("ADMIN_PASSWORD")
+            except Exception:
+                pass
+        if not admin_pass:
+            admin_pass = "admin123"
+
+        # Check Quick Demo logins cleanly
+        if username_clean == "admin" and password == admin_pass:
             return {"username": "admin", "role": "Admin", "name": "Suraj V. Shewale"}
-        elif username_clean == "manager" and password == "admin123":
+        elif username_clean == "manager" and password == admin_pass:
             return {"username": "manager", "role": "Store Manager", "name": "Store Manager"}
-        elif username_clean == "staff" and password == "admin123":
+        elif username_clean == "staff" and password == admin_pass:
             return {"username": "staff", "role": "Staff Account", "name": "Staff Member"}
 
         with DatabaseManager.get_connection() as conn:
