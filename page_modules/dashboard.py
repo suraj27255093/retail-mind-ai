@@ -153,7 +153,7 @@ else:
 st.write("")
 
 # ── 6. INVENTORY OVERVIEW & 7. BUSINESS INSIGHT ──────────
-io_col, bi_col = st.columns([1.2, 1])
+io_col, bi_col = st.columns([1.3, 1])
 
 with io_col:
     st.subheader("📦 Inventory Overview")
@@ -171,7 +171,7 @@ with io_col:
         with i3:
             st.metric("Out of Stock", f"{out_stock_cnt}")
         with i4:
-            st.metric("Inventory Value", f"₹{total_inv_val:,.0f}")
+            st.metric("Stock Value", f"₹{total_inv_val/1000:,.1f}k" if total_inv_val >= 100000 else f"₹{total_inv_val:,.0f}")
 
 with bi_col:
     st.subheader("💡 Business Insight")

@@ -73,11 +73,13 @@ st.markdown("""
 [data-testid="stMetric"] {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    border-left: 5px solid #2563EB !important;
-    border-radius: 16px !important;
-    padding: 16px 20px !important;
+    border-left: 4px solid #2563EB !important;
+    border-radius: 14px !important;
+    padding: 12px 14px !important;
     box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03) !important;
     transition: all 0.2s ease-in-out !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
 }
 
 [data-testid="stMetric"]:hover {
@@ -86,22 +88,24 @@ st.markdown("""
 }
 
 [data-testid="stMetricValue"] {
-    font-size: clamp(22px, 2vw, 30px) !important;
+    font-size: clamp(16px, 1.3vw, 22px) !important;
     font-weight: 800 !important;
     white-space: nowrap !important;
-    overflow: visible !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.2 !important;
 }
 
 [data-testid="stMetricLabel"] {
-    font-size: 13px !important;
+    font-size: 11.5px !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.4px !important;
-    white-space: normal !important;
-    word-break: break-word !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    line-height: 1.3 !important;
+    letter-spacing: 0.3px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.2 !important;
+    color: #64748B !important;
 }
 
 /* Sidebar Custom Styling */
